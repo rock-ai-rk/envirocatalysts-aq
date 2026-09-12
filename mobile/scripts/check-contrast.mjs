@@ -1,7 +1,7 @@
 // Checks every colour pairing the app uses against WCAG 2.1 AA and exits non-zero on failure.
 // Run with `npm run check:contrast` (Node 22.18+ loads the TypeScript sources directly).
 
-import { palette, aqiColors } from '../src/constants/palette.ts';
+import { palette, aqiColors, pollutantColors } from '../src/constants/palette.ts';
 import { contrastRatio, readableTextOn } from '../src/lib/contrast.ts';
 
 const TEXT = 4.5; // WCAG 1.4.3, normal text
@@ -26,6 +26,9 @@ for (const [theme, c] of Object.entries(palette)) {
 
 for (const [category, color] of Object.entries(aqiColors)) {
   add('aqi', `label on ${category}`, readableTextOn(color), color, TEXT);
+}
+for (const [pollutant, color] of Object.entries(pollutantColors)) {
+  add('pol', `label on ${pollutant}`, readableTextOn(color), color, TEXT);
 }
 
 let failures = 0;

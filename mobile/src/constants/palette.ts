@@ -36,6 +36,20 @@ export const palette = {
 
 export type PaletteName = keyof typeof palette;
 
+/**
+ * Colours for the dominant-pollutant chart: the Okabe-Ito palette, designed to stay
+ * distinguishable with colour-vision deficiencies. It has exactly seven colours, one per pollutant.
+ */
+export const pollutantColors = {
+  'PM2.5': '#D55E00',
+  PM10: '#E69F00',
+  NO2: '#0072B2',
+  O3: '#009E73',
+  CO: '#56B4E9',
+  SO2: '#CC79A7',
+  NH3: '#F0E442',
+} as const;
+
 /** CPCB AQI category colours, unchanged from the source dashboard so users recognise them. */
 export const aqiColors = {
   good: '#00B050',
