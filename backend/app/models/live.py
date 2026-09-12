@@ -12,13 +12,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db import Base, UTCDateTime, utcnow
+from app.db import Base, UTCDateTime, check_in, utcnow
 from app.domain import POLLUTANTS
 
 # SQLite only auto-increments INTEGER PRIMARY KEY columns, so BIGINT ids become INTEGER there.
 BigId = BigInteger().with_variant(Integer, "sqlite")
-
-_POLLUTANT_LIST = ", ".join(f"'{p}'" for p in POLLUTANTS)
 
 
 class LiveStation(Base):
@@ -44,7 +42,7 @@ class LiveReading(Base):
     __tablename__ = "live_readings"
     __table_args__ = (
         UniqueConstraint("station_id", "pollutant", "observed_at"),
-        CheckConstraint(f"pollutant IN ({_POLLUTANT_LIST})", name="pollutant"),
+        CheckConstraint(check_in("pollutant", POLLUTANTS), name="pollutant"),
         Index("ix_live_readings_observed_at", "observed_at"),
     )
 
@@ -67,9 +65,7 @@ class ScrapeRun(Base):
     """Audit row for every scraper execution: scheduled, CLI or admin-triggered."""
 
     __tablename__ = "scrape_runs"
-    __table_args__ = (
-        CheckConstraint("status IN ('running', 'success', 'failed')", name="status"),
-    )
+    __table_args__ = (CheckConstraint("status IN ('running', 'success', 'failed')", name="status"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     source: Mapped[str] = mapped_column(String(50))

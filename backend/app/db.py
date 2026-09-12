@@ -1,6 +1,6 @@
 """Engine, sessions, and the small layer that lets the same code run on SQLite and PostgreSQL."""
 
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -52,6 +52,11 @@ class UTCDateTime(TypeDecorator):
 
 def utcnow() -> datetime:
     return datetime.now(UTC)
+
+
+def check_in(column: str, values: Iterable[str]) -> str:
+    """SQL for a CHECK constraint that limits `column` to `values`."""
+    return f"{column} IN ({', '.join(f"'{value}'" for value in values)})"
 
 
 def insert_for(session: Session, model):

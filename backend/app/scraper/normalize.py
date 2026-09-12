@@ -9,11 +9,11 @@ import logging
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime
-from zoneinfo import ZoneInfo
+
+from app.domain import IST
 
 logger = logging.getLogger(__name__)
 
-IST = ZoneInfo("Asia/Kolkata")
 TIMESTAMP_FORMATS = ("%d-%m-%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S")
 POLLUTANT_ALIASES = {
     "PM2.5": "PM2.5",
