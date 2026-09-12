@@ -1,25 +1,31 @@
 /**
- * Filters for the Overview screen, shared with the filters sheet. Only filters that change which
- * cities are listed live here; the period view and metric tab are local to the screen.
+ * Filters for the Overview screen, shared with the filters sheet and the coverage sheet. Only
+ * filters that change which cities are listed live here; the period view and metric tab are local
+ * to the screen.
  */
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
-export type CityGroup = 'NCAP' | 'MPC' | 'IGP' | 'DELHI_NCR' | 'STATE_CAPITALS';
-export type RankMetric = 'good_days' | 'PM2.5' | 'PM10' | 'NO2' | 'O3' | 'CO';
-export type RankDirection = 'best' | 'worst';
+import type { OverviewParams } from '@/api/history';
+import type { CityGroup, Direction, RankBy } from '@/api/types';
+import { DEFAULT_BASE_PERIOD, DEFAULT_COMPARISON_PERIOD } from '@/constants/periods';
+
 export type TopN = 10 | 20 | 'all';
 
 export interface OverviewFilters {
+  base: string;
+  comparison: string;
   /** null means All India. */
   state: string | null;
   group: CityGroup | null;
-  rankBy: RankMetric;
-  direction: RankDirection;
+  rankBy: RankBy;
+  direction: Direction;
   top: TopN;
 }
 
 export const DEFAULT_FILTERS: OverviewFilters = {
+  base: DEFAULT_BASE_PERIOD,
+  comparison: DEFAULT_COMPARISON_PERIOD,
   state: null,
   group: null,
   rankBy: 'good_days',
@@ -27,15 +33,16 @@ export const DEFAULT_FILTERS: OverviewFilters = {
   top: 10,
 };
 
-export const CITY_GROUPS: { value: CityGroup; label: string; description: string }[] = [
-  { value: 'NCAP', label: 'NCAP', description: 'National Clean Air Programme cities' },
-  { value: 'MPC', label: 'MPC', description: 'Million-plus cities' },
-  { value: 'IGP', label: 'IGP', description: 'Indo-Gangetic Plain cities' },
-  { value: 'DELHI_NCR', label: 'Delhi NCR', description: 'Delhi National Capital Region' },
-  { value: 'STATE_CAPITALS', label: 'State Capitals', description: 'State and UT capitals' },
-];
+/** Fallback labels for the group chips; the API's /v1/meta has the same list. */
+export const GROUP_LABELS: Record<CityGroup, string> = {
+  NCAP: 'NCAP',
+  MPC: 'MPC',
+  IGP: 'IGP',
+  DELHI_NCR: 'Delhi NCR',
+  STATE_CAPITALS: 'State Capitals',
+};
 
-export const RANK_METRICS: { value: RankMetric; label: string }[] = [
+export const RANK_METRICS: { value: RankBy; label: string }[] = [
   { value: 'good_days', label: 'Good days' },
   { value: 'PM2.5', label: 'PM2.5' },
   { value: 'PM10', label: 'PM10' },
@@ -44,10 +51,22 @@ export const RANK_METRICS: { value: RankMetric; label: string }[] = [
   { value: 'CO', label: 'CO' },
 ];
 
+export function toOverviewParams(filters: OverviewFilters): OverviewParams {
+  return {
+    base: filters.base,
+    comparison: filters.comparison,
+    state: filters.state,
+    group: filters.group,
+    rankBy: filters.rankBy,
+    direction: filters.direction,
+    top: filters.top === 'all' ? 0 : filters.top,
+  };
+}
+
 /** One-line description of the active filters, used on screen and read by screen readers. */
 export function describeFilters(filters: OverviewFilters): string {
   const place = filters.state ?? 'All India';
-  const group = CITY_GROUPS.find((g) => g.value === filters.group)?.label ?? 'All groups';
+  const group = filters.group ? GROUP_LABELS[filters.group] : 'All groups';
   const metric = RANK_METRICS.find((m) => m.value === filters.rankBy)?.label ?? filters.rankBy;
   const scope = filters.top === 'all' ? 'All cities' : `Top ${filters.top}`;
   const order = filters.direction === 'best' ? 'best first' : 'worst first';

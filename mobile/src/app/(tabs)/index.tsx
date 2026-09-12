@@ -1,23 +1,31 @@
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 
+import { useMeta, useOverview } from '@/api/history';
+import type { Pollutant } from '@/api/live';
+import type { OverviewCity } from '@/api/types';
 import { ChoiceChip } from '@/components/choice-chip';
+import { Legend } from '@/components/charts/legend';
+import { CityMap } from '@/components/city-map';
+import { CoverageBanner } from '@/components/coverage-banner';
+import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
+import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
-import { Screen } from '@/components/screen';
-import { SectionCard } from '@/components/section-card';
+import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
+import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
 import { SegmentedControl } from '@/components/segmented-control';
 import { StatusMessage } from '@/components/status-message';
-import {
-  BASE_PERIOD,
-  COMPARISON_PERIOD,
-  PERIOD_VIEW_OPTIONS,
-  type PeriodView,
-} from '@/constants/periods';
-import { Spacing } from '@/constants/theme';
-import { useOverviewFilters } from '@/state/overview-filters';
+import { ThemedText } from '@/components/themed-text';
+import { AQI_CATEGORIES } from '@/constants/aqi';
+import { PLACEHOLDER_PERIODS, periodViewOptions, type PeriodView } from '@/constants/periods';
+import { CONCENTRATION_POLLUTANTS, POLLUTANT_ORDER, pollutantColor } from '@/constants/pollutants';
+import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+import { toOverviewParams, useOverviewFilters } from '@/state/overview-filters';
 
-type OverviewMetric = 'aqi_days' | 'pollutants' | 'dominant' | 'map';
+type OverviewMetric = RowMetric | 'map';
 
 // Chips that wrap rather than a segmented control: four labels don't fit a 375pt screen
 // without truncating, and they must stay readable at large text sizes.
@@ -28,29 +36,68 @@ const METRIC_OPTIONS: { value: OverviewMetric; label: string }[] = [
   { value: 'map', label: 'Map' },
 ];
 
-const METRIC_TITLES: Record<OverviewMetric, string> = {
-  aqi_days: 'AQI category days',
-  pollutants: 'Average concentration',
-  dominant: 'Days as dominant pollutant',
-  map: 'City map',
-};
-
-function periodCaption(view: PeriodView): string {
-  if (view === 'base') return BASE_PERIOD.label;
-  if (view === 'comparison') return COMPARISON_PERIOD.label;
-  return `Change, ${BASE_PERIOD.label} to ${COMPARISON_PERIOD.label}`;
-}
+const AQI_LEGEND = AQI_CATEGORIES.map((c) => ({ key: c.key, label: c.label, color: c.color }));
+const POLLUTANT_LEGEND = POLLUTANT_ORDER.map((p) => ({ key: p, label: p, color: pollutantColor(p).color }));
 
 export default function OverviewScreen() {
-  const { filters } = useOverviewFilters();
+  const router = useRouter();
+  const theme = useTheme();
+  const { filters, setFilters } = useOverviewFilters();
+  const meta = useMeta();
+  const overview = useOverview(toOverviewParams(filters));
   const [view, setView] = useState<PeriodView>('base');
   const [metric, setMetric] = useState<OverviewMetric>('aqi_days');
+  const [pollutant, setPollutant] = useState<Pollutant>('PM2.5');
 
-  return (
-    <Screen title="Air quality overview">
+  const data = overview.data;
+  const periods = data ? { base: data.base, comparison: data.comparison } : null;
+  const rowMetric: RowMetric = metric === 'map' ? 'aqi_days' : metric;
+
+  const scaleMax = useMemo(
+    () =>
+      Math.max(
+        1,
+        ...(data?.cities ?? []).flatMap((c) => [
+          c.base.pollutant_means[pollutant] ?? 0,
+          c.comparison?.pollutant_means[pollutant] ?? 0,
+        ]),
+      ),
+    [data, pollutant],
+  );
+
+  const openCity = useCallback(
+    (cityId: number) => router.push({ pathname: '/city/[id]', params: { id: String(cityId) } }),
+    [router],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: OverviewCity }) =>
+      periods ? (
+        <OverviewCityRow
+          item={item}
+          metric={rowMetric}
+          view={view}
+          pollutant={pollutant}
+          scaleMax={scaleMax}
+          periods={periods}
+          onPress={openCity}
+        />
+      ) : null,
+    [periods, rowMetric, view, pollutant, scaleMax, openCity],
+  );
+
+  const header = (
+    <View style={styles.header}>
+      <ScreenTitle>Air quality overview</ScreenTitle>
+      <DemoDataBanner />
       <FilterSummaryBar />
       <LiveCitiesCard state={filters.state} />
-      <SegmentedControl label="Period" options={PERIOD_VIEW_OPTIONS} value={view} onChange={setView} />
+      <SegmentedControl
+        label="Period"
+        options={periodViewOptions(periods?.base ?? PLACEHOLDER_PERIODS.base, periods?.comparison ?? PLACEHOLDER_PERIODS.comparison)}
+        value={view}
+        onChange={setView}
+      />
       <View role="radiogroup" aria-label="Metric" style={styles.chips}>
         {METRIC_OPTIONS.map((option) => (
           <ChoiceChip
@@ -61,21 +108,93 @@ export default function OverviewScreen() {
           />
         ))}
       </View>
-      <SectionCard title={METRIC_TITLES[metric]} subtitle={periodCaption(view)}>
-        <StatusMessage
-          kind="empty"
-          title="Historical data not imported yet"
-          message="City rankings for FY 2024-25 and FY 2025-26 appear here once the EnviroCatalysts dataset is loaded into the API."
-        />
-      </SectionCard>
-    </Screen>
+      {metric === 'pollutants' ? (
+        <View role="radiogroup" aria-label="Pollutant" style={styles.chips}>
+          {CONCENTRATION_POLLUTANTS.map((p) => (
+            <ChoiceChip key={p} label={p} selected={pollutant === p} onPress={() => setPollutant(p)} />
+          ))}
+        </View>
+      ) : null}
+      {data ? <CoverageBanner excluded={data.excluded} periodLabel={data.base.label} /> : null}
+      {metric === 'map' && data ? <CityMap cities={data.cities} view={view} onSelect={openCity} /> : null}
+      {data?.cities.length ? (
+        <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
+      ) : null}
+      {overview.isPlaceholderData ? (
+        <ThemedText type="small" themeColor="textSecondary" aria-live="polite">
+          Updating…
+        </ThemedText>
+      ) : null}
+    </View>
+  );
+
+  const empty = overview.isPending ? (
+    <StatusMessage kind="loading" message="Loading cities…" />
+  ) : overview.isError ? (
+    meta.data && meta.data.periods.length === 0 ? (
+      <StatusMessage
+        kind="empty"
+        title="No historical data yet"
+        message="City rankings appear here once the dataset is loaded into the API."
+      />
+    ) : (
+      <StatusMessage kind="error" message={overview.error.message} onRetry={() => overview.refetch()} />
+    )
+  ) : (
+    <StatusMessage kind="empty" title="No cities match these filters" message="Try another state or city group." />
+  );
+
+  const hiddenCount = data && data.top !== null ? data.eligible - data.cities.length : 0;
+  const footer =
+    hiddenCount > 0 ? (
+      <View style={styles.footer}>
+        <ThemedText type="small" themeColor="textSecondary">
+          {`Showing ${data!.cities.length} of ${data!.eligible} ranked cities`}
+        </ThemedText>
+        <FocusablePressable
+          role="button"
+          aria-label={`Show all ${data!.eligible} cities`}
+          onPress={() => setFilters({ ...filters, top: 'all' })}
+          style={[styles.showAll, { borderColor: theme.border }]}>
+          <ThemedText type="smallBold">Show all</ThemedText>
+        </FocusablePressable>
+      </View>
+    ) : null;
+
+  return (
+    <ScreenFrame>
+      <FlatList
+        data={data?.cities ?? []}
+        keyExtractor={(item) => String(item.city.id)}
+        renderItem={renderItem}
+        ListHeaderComponent={header}
+        ListEmptyComponent={empty}
+        ListFooterComponent={footer}
+        contentContainerStyle={screenStyles.content}
+      />
+    </ScreenFrame>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    gap: Spacing.three,
+  },
   chips: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: Spacing.two,
+  },
+  footer: {
+    alignItems: 'center',
+    gap: Spacing.two,
+    paddingTop: Spacing.two,
+  },
+  showAll: {
+    minHeight: MinTouchTarget,
+    justifyContent: 'center',
+    paddingHorizontal: Spacing.four,
+    borderRadius: Spacing.two,
+    borderWidth: 1,
   },
 });

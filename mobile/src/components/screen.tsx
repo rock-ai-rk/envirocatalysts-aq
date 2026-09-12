@@ -9,24 +9,36 @@ import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 /** Scrollable tab screen with a heading, safe-area padding and a readable max width on tablets. */
 export function Screen({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
-        <ScrollView contentContainerStyle={styles.content}>
-          <ThemedText type="screenTitle" role="heading">
-            {title}
-          </ThemedText>
-          {children}
-        </ScrollView>
+    <ScreenFrame>
+      <ScrollView contentContainerStyle={screenStyles.content}>
+        <ScreenTitle>{title}</ScreenTitle>
+        {children}
+      </ScrollView>
+    </ScreenFrame>
+  );
+}
+
+/** Background and safe area, for screens that bring their own scroll view (e.g. a FlatList). */
+export function ScreenFrame({ children }: { children: ReactNode }) {
+  return (
+    <ThemedView style={screenStyles.container}>
+      <SafeAreaView edges={['top', 'left', 'right']} style={screenStyles.container}>
+        {children}
       </SafeAreaView>
     </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
+export function ScreenTitle({ children }: { children: string }) {
+  return (
+    <ThemedText type="screenTitle" role="heading">
+      {children}
+    </ThemedText>
+  );
+}
+
+export const screenStyles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  safeArea: {
     flex: 1,
   },
   content: {

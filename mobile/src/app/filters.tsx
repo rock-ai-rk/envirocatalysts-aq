@@ -1,8 +1,10 @@
 import { Stack, useRouter } from 'expo-router';
 import { useState, type ReactNode } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useMeta } from '@/api/history';
+import type { CityGroup } from '@/api/types';
 import { ChoiceChip } from '@/components/choice-chip';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SegmentedControl } from '@/components/segmented-control';
@@ -11,13 +13,16 @@ import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import {
-  CITY_GROUPS,
   DEFAULT_FILTERS,
+  GROUP_LABELS,
   RANK_METRICS,
   useOverviewFilters,
   type OverviewFilters,
   type TopN,
 } from '@/state/overview-filters';
+
+// Offer a search field once the state list is long enough to be tedious to scan.
+const SEARCH_FROM = 8;
 
 /**
  * Every Overview filter in one sheet. Changes are drafted here and applied together on
@@ -26,35 +31,107 @@ import {
 export default function FiltersScreen() {
   const theme = useTheme();
   const router = useRouter();
+  const meta = useMeta();
   const { filters, setFilters } = useOverviewFilters();
   const [draft, setDraft] = useState<OverviewFilters>(filters);
-  const update = (patch: Partial<OverviewFilters>) => setDraft((current) => ({ ...current, ...patch }));
+  const [stateQuery, setStateQuery] = useState('');
+  const update = (patch: Partial<OverviewFilters>) =>
+    setDraft((current) => ({ ...current, ...patch }));
+
+  const financialYears = (meta.data?.periods ?? []).filter((p) => p.frequency === 'FY');
+  const groups =
+    meta.data?.groups ??
+    (Object.keys(GROUP_LABELS) as CityGroup[]).map((code) => ({
+      code,
+      label: GROUP_LABELS[code],
+      description: '',
+    }));
+  const states = meta.data?.states ?? [];
+  const query = stateQuery.trim().toLowerCase();
+  const shownStates = query ? states.filter((s) => s.toLowerCase().includes(query)) : states;
 
   return (
     <ThemedView style={styles.container}>
       <Stack.Screen
         options={{
           headerLeft: () => <HeaderButton label="Cancel" onPress={() => router.back()} />,
-          headerRight: () => <HeaderButton label="Reset" onPress={() => setDraft(DEFAULT_FILTERS)} />,
+          headerRight: () => (
+            <HeaderButton label="Reset" onPress={() => setDraft(DEFAULT_FILTERS)} />
+          ),
         }}
       />
-      <ScrollView contentContainerStyle={styles.content}>
-        <FilterSection title="Geography">
-          <ChoiceChip label="All India" selected={draft.state === null} onPress={() => update({ state: null })} />
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        {financialYears.length > 1 ? (
+          <>
+            <FilterSection title="Base period">
+              {financialYears.map((p) => (
+                <ChoiceChip
+                  key={p.key}
+                  label={p.label}
+                  selected={draft.base === p.key}
+                  onPress={() => update({ base: p.key })}
+                />
+              ))}
+            </FilterSection>
+            <FilterSection title="Compare with">
+              {financialYears.map((p) => (
+                <ChoiceChip
+                  key={p.key}
+                  label={p.label}
+                  selected={draft.comparison === p.key}
+                  onPress={() => update({ comparison: p.key })}
+                />
+              ))}
+            </FilterSection>
+          </>
+        ) : null}
+
+        <FilterSection
+          title="Geography"
+          above={
+            states.length > SEARCH_FROM ? (
+              <TextInput
+                value={stateQuery}
+                onChangeText={setStateQuery}
+                placeholder="Search states"
+                placeholderTextColor={theme.textSecondary}
+                aria-label="Search states"
+                autoCorrect={false}
+                style={[
+                  styles.search,
+                  { color: theme.text, borderColor: theme.border, backgroundColor: theme.background },
+                ]}
+              />
+            ) : null
+          }>
+          <ChoiceChip
+            label="All India"
+            selected={draft.state === null}
+            onPress={() => update({ state: null })}
+          />
+          {shownStates.map((state) => (
+            <ChoiceChip
+              key={state}
+              label={state}
+              selected={draft.state === state}
+              onPress={() => update({ state })}
+            />
+          ))}
         </FilterSection>
-        <ThemedText type="small" themeColor="textSecondary">
-          The state list comes from the API once the historical data is imported.
-        </ThemedText>
 
         <FilterSection title="City group">
-          <ChoiceChip label="All groups" selected={draft.group === null} onPress={() => update({ group: null })} />
-          {CITY_GROUPS.map((group) => (
+          <ChoiceChip
+            label="All groups"
+            selected={draft.group === null}
+            onPress={() => update({ group: null })}
+          />
+          {groups.map((group) => (
             <ChoiceChip
-              key={group.value}
+              key={group.code}
               label={group.label}
-              accessibilityHint={group.description}
-              selected={draft.group === group.value}
-              onPress={() => update({ group: group.value })}
+              accessibilityHint={group.description || undefined}
+              selected={draft.group === group.code}
+              onPress={() => update({ group: group.code })}
             />
           ))}
         </FilterSection>
@@ -91,7 +168,9 @@ export default function FiltersScreen() {
               { value: 'all', label: 'All cities' },
             ]}
             value={String(draft.top)}
-            onChange={(value) => update({ top: (value === 'all' ? 'all' : Number(value)) as TopN })}
+            onChange={(value) =>
+              update({ top: (value === 'all' ? 'all' : Number(value)) as TopN })
+            }
           />
         </View>
       </ScrollView>
@@ -114,12 +193,22 @@ export default function FiltersScreen() {
   );
 }
 
-function FilterSection({ title, children }: { title: string; children: ReactNode }) {
+function FilterSection({
+  title,
+  above,
+  children,
+}: {
+  title: string;
+  /** Rendered between the heading and the options, e.g. a search field. */
+  above?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <View style={styles.section}>
       <ThemedText type="sectionTitle" role="heading">
         {title}
       </ThemedText>
+      {above}
       <View role="radiogroup" aria-label={title} style={styles.chips}>
         {children}
       </View>
@@ -160,6 +249,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: Spacing.two,
+  },
+  search: {
+    minHeight: MinTouchTarget,
+    borderWidth: 1,
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    fontSize: 16,
   },
   footer: {
     borderTopWidth: StyleSheet.hairlineWidth,
