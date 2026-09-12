@@ -82,7 +82,9 @@ def test_skips_while_another_run_is_in_progress(session):
 
 
 def test_a_crashed_run_stops_blocking_after_the_timeout(session):
-    session.add(ScrapeRun(source="test", status="running", started_at=utcnow() - timedelta(hours=1)))
+    session.add(
+        ScrapeRun(source="test", status="running", started_at=utcnow() - timedelta(hours=1))
+    )
     session.commit()
 
     assert run_scrape(session, FakeSource(feed()), RETENTION_DAYS).status == "success"

@@ -14,15 +14,21 @@ def test_health(api):
 
 
 def test_latest_groups_readings_by_station_in_pollutant_order(api, session):
-    seed(session, [
-        make_record(pollutant="PM10", avg="210"),
-        make_record(pollutant="PM2.5"),
-        make_record(station="Bawana, Delhi - DPCC", avg="95"),
-    ])
+    seed(
+        session,
+        [
+            make_record(pollutant="PM10", avg="210"),
+            make_record(pollutant="PM2.5"),
+            make_record(station="Bawana, Delhi - DPCC", avg="95"),
+        ],
+    )
 
     body = api.get("/v1/live/latest", params={"city": "delhi"}).json()
 
-    assert [s["name"] for s in body["stations"]] == ["Anand Vihar, Delhi - DPCC", "Bawana, Delhi - DPCC"]
+    assert [s["name"] for s in body["stations"]] == [
+        "Anand Vihar, Delhi - DPCC",
+        "Bawana, Delhi - DPCC",
+    ]
     readings = body["stations"][0]["readings"]
     assert [r["pollutant"] for r in readings] == ["PM2.5", "PM10"]
     assert (readings[0]["avg"], readings[0]["stale"]) == (120.0, False)
@@ -37,7 +43,10 @@ def test_latest_returns_only_the_newest_reading_per_pollutant(api, session):
 
 
 def test_latest_flags_stale_readings_and_drops_very_old_ones(api, session):
-    seed(session, [make_record(pollutant="PM2.5", hours_ago=5), make_record(pollutant="PM10", hours_ago=72)])
+    seed(
+        session,
+        [make_record(pollutant="PM2.5", hours_ago=5), make_record(pollutant="PM10", hours_ago=72)],
+    )
 
     readings = api.get("/v1/live/latest").json()["stations"][0]["readings"]
 
@@ -45,10 +54,13 @@ def test_latest_flags_stale_readings_and_drops_very_old_ones(api, session):
 
 
 def test_latest_filters_by_state(api, session):
-    seed(session, [
-        make_record(),
-        make_record(station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh"),
-    ])
+    seed(
+        session,
+        [
+            make_record(),
+            make_record(station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh"),
+        ],
+    )
 
     body = api.get("/v1/live/latest", params={"state": "Uttar Pradesh"}).json()
 
@@ -56,12 +68,23 @@ def test_latest_filters_by_state(api, session):
 
 
 def test_cities_ranks_city_means_and_ignores_stale_stations(api, session):
-    seed(session, [
-        make_record(station="Anand Vihar, Delhi - DPCC", avg="200"),
-        make_record(station="Bawana, Delhi - DPCC", avg="100"),
-        make_record(station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh", avg="90"),
-        make_record(station="Sanjay Palace, Agra - UPPCB", city="Agra", state="Uttar_Pradesh", avg="400", hours_ago=6),
-    ])
+    seed(
+        session,
+        [
+            make_record(station="Anand Vihar, Delhi - DPCC", avg="200"),
+            make_record(station="Bawana, Delhi - DPCC", avg="100"),
+            make_record(
+                station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh", avg="90"
+            ),
+            make_record(
+                station="Sanjay Palace, Agra - UPPCB",
+                city="Agra",
+                state="Uttar_Pradesh",
+                avg="400",
+                hours_ago=6,
+            ),
+        ],
+    )
 
     worst_first = api.get("/v1/live/cities", params={"pollutant": "PM2.5"}).json()["cities"]
     best_first = api.get("/v1/live/cities", params={"order": "asc", "limit": 1}).json()["cities"]

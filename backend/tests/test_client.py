@@ -43,11 +43,13 @@ def test_sends_key_and_asks_for_json():
 
 
 def test_retries_server_errors_and_network_failures():
-    responses = iter([
-        httpx.Response(503),
-        httpx.ConnectError("offline"),
-        httpx.Response(200, json={"total": 1, "records": [{"n": 1}]}),
-    ])
+    responses = iter(
+        [
+            httpx.Response(503),
+            httpx.ConnectError("offline"),
+            httpx.Response(200, json={"total": 1, "records": [{"n": 1}]}),
+        ]
+    )
 
     def handler(request: httpx.Request) -> httpx.Response:
         outcome = next(responses)
@@ -86,4 +88,7 @@ def test_error_status_in_body_raises():
 def test_redact_hides_the_api_key():
     client = make_client(lambda request: httpx.Response(200))
 
-    assert client.redact("GET /resource?api-key=secret-key&limit=2") == "GET /resource?api-key=***&limit=2"
+    assert (
+        client.redact("GET /resource?api-key=secret-key&limit=2")
+        == "GET /resource?api-key=***&limit=2"
+    )

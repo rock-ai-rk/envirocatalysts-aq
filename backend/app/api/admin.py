@@ -28,7 +28,9 @@ def require_admin(
 
 def get_record_source(settings: Settings = Depends(get_settings)) -> Iterator[RecordSource]:
     if not settings.datagov_api_key:
-        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "DATAGOV_API_KEY is not configured")
+        raise HTTPException(
+            status.HTTP_503_SERVICE_UNAVAILABLE, "DATAGOV_API_KEY is not configured"
+        )
     with DataGovClient.from_settings(settings) as client:
         yield client
 

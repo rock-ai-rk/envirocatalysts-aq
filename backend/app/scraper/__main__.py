@@ -10,7 +10,9 @@ from app.scraper.scheduler import scrape_once
 
 
 def main() -> int:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
     if not get_settings().datagov_api_key:
         print("DATAGOV_API_KEY is not set (see backend/.env.example)", file=sys.stderr)
         return 2

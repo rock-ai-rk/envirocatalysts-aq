@@ -6,19 +6,21 @@ from pathlib import Path
 # Configure before the app is imported: tests get their own database and never start the
 # scheduler. Set TEST_DATABASE_URL to run the suite against PostgreSQL instead of SQLite.
 _tmp_dir = Path(tempfile.mkdtemp(prefix="aq-tests-"))
-os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL", f"sqlite:///{_tmp_dir / 'test.db'}")
+os.environ["DATABASE_URL"] = os.environ.get(
+    "TEST_DATABASE_URL", f"sqlite:///{_tmp_dir / 'test.db'}"
+)
 os.environ["SCRAPER_ENABLED"] = "false"
 os.environ["ADMIN_TOKEN"] = "test-admin-token"
 os.environ["DATAGOV_API_KEY"] = ""
 
 import pytest
-from alembic import command
 from alembic.config import Config
 from fastapi.testclient import TestClient
 from sqlalchemy import text
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import Session
 
+from alembic import command
 from app.config import BACKEND_DIR
 from app.db import Base, SessionLocal, engine
 from app.main import create_app

@@ -62,7 +62,10 @@ def run_scrape(session: Session, source: RecordSource, retention_days: int) -> S
     session.commit()
     logger.info(
         "Scrape run %s %s: %s readings inserted, %s records skipped",
-        run.id, run.status, run.readings_inserted, run.records_skipped,
+        run.id,
+        run.status,
+        run.readings_inserted,
+        run.records_skipped,
     )
     return run
 
@@ -82,18 +85,20 @@ def _upsert_stations(session: Session, readings: list[Reading]) -> dict[str, int
     now = utcnow()
     ids: dict[str, int] = {}
     for chunk in _chunks(list(by_name.values())):
-        stmt = insert_for(session, LiveStation).values([
-            {
-                "name": r.station,
-                "city": r.city,
-                "state": r.state,
-                "latitude": r.latitude,
-                "longitude": r.longitude,
-                "first_seen_at": now,
-                "last_seen_at": now,
-            }
-            for r in chunk
-        ])
+        stmt = insert_for(session, LiveStation).values(
+            [
+                {
+                    "name": r.station,
+                    "city": r.city,
+                    "state": r.state,
+                    "latitude": r.latitude,
+                    "longitude": r.longitude,
+                    "first_seen_at": now,
+                    "last_seen_at": now,
+                }
+                for r in chunk
+            ]
+        )
         stmt = stmt.on_conflict_do_update(
             index_elements=["name"],
             set_={

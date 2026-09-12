@@ -23,7 +23,8 @@ from app.schemas import (
 
 router = APIRouter(prefix="/v1/live", tags=["live"])
 
-# A station silent for two days has no meaningful "latest" value; the cutoff also keeps queries small.
+# A station silent for two days has no meaningful "latest" value, and the cutoff keeps
+# queries small.
 LOOKBACK = timedelta(hours=48)
 
 
@@ -157,7 +158,10 @@ def scrape_status(session: Session = Depends(get_session)) -> LiveStatus:
     """When the scraper last ran and how fresh the stored data is."""
     last_run = session.scalars(select(ScrapeRun).order_by(ScrapeRun.id.desc()).limit(1)).first()
     last_success = session.scalars(
-        select(ScrapeRun).where(ScrapeRun.status == "success").order_by(ScrapeRun.id.desc()).limit(1)
+        select(ScrapeRun)
+        .where(ScrapeRun.status == "success")
+        .order_by(ScrapeRun.id.desc())
+        .limit(1)
     ).first()
     data_as_of: datetime | None = session.scalar(select(func.max(LiveReading.observed_at)))
     return LiveStatus(

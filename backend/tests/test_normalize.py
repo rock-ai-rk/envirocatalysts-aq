@@ -32,9 +32,15 @@ def test_timestamps_are_read_as_ist():
 
 
 def test_normalises_place_names_and_pollutant_ids():
-    reading = parse_record(make_record(state="Uttar_Pradesh", city="Greater_Noida", pollutant="OZONE"))
+    reading = parse_record(
+        make_record(state="Uttar_Pradesh", city="Greater_Noida", pollutant="OZONE")
+    )
 
-    assert (reading.state, reading.city, reading.pollutant) == ("Uttar Pradesh", "Greater Noida", "O3")
+    assert (reading.state, reading.city, reading.pollutant) == (
+        "Uttar Pradesh",
+        "Greater Noida",
+        "O3",
+    )
 
 
 def test_missing_values_become_none():
