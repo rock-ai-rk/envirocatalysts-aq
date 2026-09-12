@@ -44,6 +44,11 @@ def unit_for(pollutant: str) -> str:
     return "mg/m³" if pollutant == "CO" else "µg/m³"
 
 
+def decimals_for(pollutant: str) -> int:
+    """Decimal places the API reports a concentration to (CO is in mg/m³, so it needs more)."""
+    return 2 if pollutant == "CO" else 1
+
+
 @dataclass(frozen=True)
 class Limits:
     naaqs: float

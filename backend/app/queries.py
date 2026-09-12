@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.analytics.hourly import Reading, period_window
 from app.analytics.overview import Change, PeriodStats
-from app.domain import AQI_CATEGORIES, HOURLY_COLUMNS
+from app.domain import AQI_CATEGORIES, HOURLY_COLUMNS, decimals_for
 from app.models import (
     City,
     CityAqiDays,
@@ -145,7 +145,7 @@ def stats_out(stats: PeriodStats) -> CityPeriodStatsOut:
         coverage=round(stats.coverage, 4),
         days_with_data=stats.days_with_data,
         aqi_days={category: stats.aqi_days.get(category, 0) for category in AQI_CATEGORIES},
-        pollutant_means={p: round(v, 1) for p, v in stats.pollutant_means.items()},
+        pollutant_means={p: round(v, decimals_for(p)) for p, v in stats.pollutant_means.items()},
         dominant_days=dict(stats.dominant_days),
         pm25_below_floor=stats.pm25_below_floor,
     )
@@ -156,7 +156,7 @@ def change_out(change: Change | None) -> CityChangeOut | None:
         return None
     return CityChangeOut(
         aqi_days=change.aqi_days,
-        pollutant_means={p: round(v, 1) for p, v in change.pollutant_means.items()},
+        pollutant_means=change.pollutant_means,
         dominant_days=change.dominant_days,
         coverage=change.coverage,
     )

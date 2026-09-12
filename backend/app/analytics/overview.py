@@ -11,7 +11,7 @@ Mirrors the source dashboard's "Data Conditions":
 from dataclasses import dataclass, field
 from typing import Literal
 
-from app.domain import AQI_CATEGORIES
+from app.domain import AQI_CATEGORIES, decimals_for
 
 MIN_COVERAGE = 0.7
 PM25_FLOOR = 2.0
@@ -125,14 +125,20 @@ def change_between(base: PeriodStats, comparison: PeriodStats | None) -> Change 
         return None
     pollutants = base.pollutant_means.keys() & comparison.pollutant_means.keys()
     dominant = base.dominant_days.keys() | comparison.dominant_days.keys()
+
+    def mean_delta(pollutant: str) -> float:
+        # Subtract the rounded values the app displays, so "18.2 -> 15.4" shows a change of
+        # 2.8 rather than the 2.9 the unrounded means would give.
+        digits = decimals_for(pollutant)
+        before = round(base.pollutant_means[pollutant], digits)
+        after = round(comparison.pollutant_means[pollutant], digits)
+        return round(after - before, digits)
+
     return Change(
         aqi_days={
             c: comparison.aqi_days.get(c, 0) - base.aqi_days.get(c, 0) for c in AQI_CATEGORIES
         },
-        pollutant_means={
-            p: round(comparison.pollutant_means[p] - base.pollutant_means[p], 2)
-            for p in sorted(pollutants)
-        },
+        pollutant_means={p: mean_delta(p) for p in sorted(pollutants)},
         dominant_days={
             p: comparison.dominant_days.get(p, 0) - base.dominant_days.get(p, 0)
             for p in sorted(dominant)

@@ -89,3 +89,14 @@ def test_change_is_comparison_minus_base():
 def test_no_change_without_comparison_data():
     assert change_between(stats(100), None) is None
     assert change_between(stats(100), PeriodStats(period_days=365)) is None
+
+
+def test_change_uses_the_rounded_values_the_app_shows():
+    base = stats(100, pm25=18.24)
+    comparison = stats(100, pm25=15.36)
+    base.pollutant_means["CO"], comparison.pollutant_means["CO"] = 0.874, 0.812
+
+    change = change_between(base, comparison)
+
+    assert change.pollutant_means["PM2.5"] == -2.8  # 18.2 -> 15.4, not the raw -2.88
+    assert change.pollutant_means["CO"] == -0.06  # CO keeps two decimals: 0.87 -> 0.81
