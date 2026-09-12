@@ -1,0 +1,41 @@
+[project]
+name = "aq-backend"
+version = "0.1.0"
+description = "API, database and scraper for the EnviroCatalysts air quality mobile app"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "sqlalchemy>=2.0.36",
+    "alembic>=1.13",
+    "pydantic-settings>=2.4",
+    "httpx>=0.27",
+    "apscheduler>=3.10,<4",
+    "tzdata",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# conftest must set environment variables before the app is imported
+"tests/conftest.py" = ["E402"]
