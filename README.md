@@ -34,11 +34,38 @@ Interactive API docs are then at http://localhost:8000/docs.
 Run the tests with `pytest`. They use a throwaway SQLite database, or PostgreSQL if
 `TEST_DATABASE_URL` points at a database whose name ends in `_test`.
 
+### Historical data
+
+The Overview and Hourly screens read historical data loaded with the importer:
+
+```bash
+python -m app.importer load <dataset-dir> [--replace]
+```
+
+A dataset directory uses one canonical CSV layout, described in `backend/app/importer/canonical.py`.
+The loader validates every row, reports problems by file and line, and loads everything in one
+transaction.
+
+Until the EnviroCatalysts files arrive, you can generate a **synthetic** dataset for development.
+It is marked synthetic, and the app shows a "demo data" banner while it is loaded:
+
+```bash
+python -m app.importer demo data/demo
+python -m app.importer load data/demo --replace
+```
+
 ### Endpoints so far
 
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/health` | API and database check |
+| GET | `/v1/meta` | Periods, states, city groups, coverage rules, and the loaded dataset |
+| GET | `/v1/overview?base=FY2024-25&comparison=FY2025-26&state=&group=&rank_by=good_days&direction=best&top=10` | Ranked cities with both periods, the change between them, and excluded cities with the reason |
+| GET | `/v1/cities/{id}` | One city's numbers for both periods |
+| GET | `/v1/hourly/cities` | Cities with hourly station data, and their stations |
+| GET | `/v1/hourly/summary?city_id=&station_id=&pollutant=PM2.5` | KPIs, 24-hour pattern, daily means and monthly distribution for both periods |
+| GET | `/v1/hourly/heatmap?city_id=&pollutant=&period=&top=5` | Station × hour-of-day means |
+| GET | `/v1/hourly/day?city_id=&day=` | Station × hour values for one day |
 | GET | `/v1/live/latest?state=&city=&station_id=` | Newest reading of each pollutant at each station |
 | GET | `/v1/live/cities?pollutant=PM2.5&order=desc&limit=10` | Cities ranked by their stations' latest fresh values |
 | GET | `/v1/live/status` | Last scraper run and how fresh the data is |
