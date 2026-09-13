@@ -32,6 +32,10 @@ export const AQI_CATEGORIES: AqiCategory[] = categories.map((c) => ({
   textColor: readableTextOn(aqiColors[c.key]),
 }));
 
+export function categoryByKey(key: AqiCategoryKey): AqiCategory {
+  return AQI_CATEGORIES.find((c) => c.key === key) ?? AQI_CATEGORIES[0];
+}
+
 export function categoryForAqi(aqi: number): AqiCategory {
   return AQI_CATEGORIES.find((c) => aqi <= c.maxAqi) ?? AQI_CATEGORIES[AQI_CATEGORIES.length - 1];
 }

@@ -5,12 +5,15 @@
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
-import type { HourlyPollutant } from '@/api/types';
+import type { HourlyCity, HourlyPollutant, Station } from '@/api/types';
+
+// The source dashboard opens on Delhi; fall back to the first city with stations.
+const PREFERRED_CITY = 'Delhi';
 
 export interface HourlySelection {
   /** null until the user picks one; the screen then falls back to the first city with stations. */
   cityId: number | null;
-  /** null means the average of the city's stations. */
+  /** null (e.g. arriving from a city's detail sheet) means the city's first station. */
   stationId: number | null;
   pollutant: HourlyPollutant;
 }
@@ -39,6 +42,19 @@ export function HourlySelectionProvider({ children }: { children: ReactNode }) {
   return (
     <HourlySelectionContext.Provider value={value}>{children}</HourlySelectionContext.Provider>
   );
+}
+
+/** The city and station the Hourly screen actually shows, after the fallbacks above. */
+export function resolveStation(
+  cities: HourlyCity[] | undefined,
+  selection: HourlySelection,
+): { entry: HourlyCity; station: Station } | null {
+  const entry =
+    cities?.find((c) => c.city.id === selection.cityId) ??
+    cities?.find((c) => c.city.name === PREFERRED_CITY) ??
+    cities?.[0];
+  const station = entry?.stations.find((s) => s.id === selection.stationId) ?? entry?.stations[0];
+  return entry && station ? { entry, station } : null;
 }
 
 export function useHourlySelection(): HourlySelectionContextValue {

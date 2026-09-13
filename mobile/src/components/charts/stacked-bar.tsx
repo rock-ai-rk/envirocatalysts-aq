@@ -33,15 +33,20 @@ export function StackedBar({ segments, total, height = 22, showValues = true }: 
     <View aria-hidden style={[styles.bar, { height }]}>
       {segments
         .filter((s) => s.value > 0)
-        .map((s) => (
-          <View key={s.key} style={[styles.segment, { flex: s.value, backgroundColor: s.color }]}>
-            {showValues && s.value / length >= 0.09 ? (
-              <Text numberOfLines={1} style={[styles.value, { color: s.textColor }]}>
-                {s.value}
-              </Text>
-            ) : null}
-          </View>
-        ))}
+        .map((s) => {
+          // Not `flex: s.value` inline: Reanimated's Babel plugin flags any `.value` in a style
+          // as a misused shared value and logs a warning on every render.
+          const flex = s.value;
+          return (
+            <View key={s.key} style={[styles.segment, { flex, backgroundColor: s.color }]}>
+              {showValues && s.value / length >= 0.09 ? (
+                <Text numberOfLines={1} style={[styles.value, { color: s.textColor }]}>
+                  {s.value}
+                </Text>
+              ) : null}
+            </View>
+          );
+        })}
       {remainder > 0 ? (
         <View style={[styles.segment, { flex: remainder, backgroundColor: theme.backgroundSelected }]} />
       ) : null}

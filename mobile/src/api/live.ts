@@ -1,8 +1,15 @@
-/** Hooks for the scraped CPCB real-time readings (`/v1/live/*`). Types mirror backend/app/schemas.py. */
+/**
+ * Hooks for the readings the scraper stores from CPCB's real-time feed. Types mirror
+ * backend/app/schemas/live.py.
+ *
+ * The feed's values are AQI sub-indices (0-500), not concentrations, so they are never shown
+ * with a unit.
+ */
 
 import { useQuery } from '@tanstack/react-query';
 
 import { apiGet } from './client';
+import type { AqiCategoryKey, City, Station } from './types';
 
 export type Pollutant = 'PM2.5' | 'PM10' | 'NO2' | 'SO2' | 'CO' | 'O3' | 'NH3';
 
@@ -15,20 +22,24 @@ export interface PollutantReading {
   stale: boolean;
 }
 
+/** GET /v1/stations/{id}/latest */
 export interface StationLatest {
-  id: number;
-  name: string;
-  city: string;
-  state: string;
-  latitude: number | null;
-  longitude: number | null;
-  readings: PollutantReading[];
-}
-
-export interface LiveLatestResponse {
-  as_of: string | null;
+  station: Station;
+  city: City;
+  status: 'ok' | 'stale' | 'no_recent_readings' | 'no_live_station';
+  source: string;
+  measure: 'aqi_sub_index';
+  link: {
+    live_station_id: number;
+    live_station_name: string;
+    method: 'name' | 'distance' | 'manual';
+    distance_m: number | null;
+  } | null;
+  observed_at: string | null;
+  fetched_at: string | null;
   stale_after_hours: number;
-  stations: StationLatest[];
+  aqi: { value: number; category: AqiCategoryKey; dominant: Pollutant; pollutants_used: number } | null;
+  readings: PollutantReading[];
 }
 
 export interface CityLatest {
@@ -60,10 +71,13 @@ export function useLiveCities(params: {
   });
 }
 
-export function useLiveLatest(params: { state?: string | null; city?: string | null }) {
+export function useStationLatest(stationId: number | null) {
   return useQuery({
-    queryKey: ['live', 'latest', params],
-    queryFn: () => apiGet<LiveLatestResponse>('/v1/live/latest', params),
+    queryKey: ['live', 'station', stationId],
+    queryFn: () => apiGet<StationLatest>(`/v1/stations/${stationId}/latest`),
+    enabled: stationId !== null,
     staleTime: LIVE_STALE_TIME_MS,
+    // The screen stays open while the feed moves on; check again every quarter hour.
+    refetchInterval: 15 * 60 * 1000,
   });
 }

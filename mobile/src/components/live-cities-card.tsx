@@ -10,8 +10,9 @@ import { formatClock } from '@/lib/format';
 const LIMIT = 5;
 
 /**
- * "Right now": the cities with the highest PM2.5 in the latest scraped CPCB readings. This is the
- * part of the Overview powered by the scraper rather than the historical files.
+ * "Right now": the cities with the highest PM2.5 sub-index in the latest scraped CPCB readings.
+ * This is the part of the Overview powered by the scraper rather than the historical files. The
+ * feed publishes sub-indices on the AQI scale, not concentrations, so no unit is shown.
  */
 export function LiveCitiesCard({ state }: { state: string | null }) {
   const query = useLiveCities({ pollutant: 'PM2.5', state, order: 'desc', limit: LIMIT });
@@ -23,7 +24,7 @@ export function LiveCitiesCard({ state }: { state: string | null }) {
   return (
     <SectionCard
       title="Right now"
-      subtitle={`Highest PM2.5 in the latest CPCB readings${state ? ` in ${state}` : ''}`}
+      subtitle={`Highest PM2.5 sub-index (0–500 AQI scale) in the latest CPCB readings${state ? ` in ${state}` : ''}`}
       accessory={
         updated ? (
           <ThemedText type="small" themeColor="textSecondary">
@@ -47,7 +48,7 @@ export function LiveCitiesCard({ state }: { state: string | null }) {
             <View
               key={`${city.city}-${city.state}`}
               accessible
-              aria-label={`${index + 1}. ${city.city}, ${city.state}: PM2.5 ${Math.round(city.avg)}, average of ${city.station_count} ${city.station_count === 1 ? 'station' : 'stations'}`}
+              aria-label={`${index + 1}. ${city.city}, ${city.state}: PM2.5 sub-index ${Math.round(city.avg)}, average of ${city.station_count} ${city.station_count === 1 ? 'station' : 'stations'}`}
               style={styles.row}>
               <ThemedText type="smallBold" style={styles.rank}>
                 {index + 1}
@@ -64,7 +65,7 @@ export function LiveCitiesCard({ state }: { state: string | null }) {
         </View>
       )}
       <ThemedText type="small" themeColor="textSecondary">
-        Source: CPCB via data.gov.in. Real-time data is provisional.
+        Source: CPCB via data.gov.in. Sub-indices, not concentrations; real-time data is provisional.
       </ThemedText>
     </SectionCard>
   );

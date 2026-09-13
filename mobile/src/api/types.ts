@@ -195,3 +195,40 @@ export interface DayHeatmap {
   hour_labels: string[];
   rows: HeatmapRow[];
 }
+
+export interface SeriesPoint {
+  /** Hourly points: the hour-ending timestamp (IST). Daily points: midnight IST starting the day. */
+  t: string;
+  /** null marks a gap: the hour or day had no data. */
+  value: number | null;
+  /** Daily points only. */
+  min: number | null;
+  max: number | null;
+  hours: number | null;
+}
+
+export interface SeriesStats {
+  hours_with_data: number;
+  expected_hours: number;
+  mean: number | null;
+  max: number | null;
+  max_at: string | null;
+  min: number | null;
+  min_at: string | null;
+}
+
+/** GET /v1/stations/{id}/hourly */
+export interface StationSeries {
+  station: Station;
+  city: City;
+  pollutant: HourlyPollutant;
+  unit: string;
+  thresholds: { naaqs: number; who: number } | null;
+  start: string;
+  end: string;
+  resolution: 'hour' | 'day';
+  points: SeriesPoint[];
+  stats: SeriesStats;
+  available_from: string | null;
+  available_to: string | null;
+}

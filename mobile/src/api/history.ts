@@ -14,6 +14,7 @@ import type {
   Meta,
   Overview,
   RankBy,
+  StationSeries,
 } from './types';
 
 // Historical data only changes when someone runs the importer, so cached responses stay good
@@ -111,6 +112,31 @@ export function useHeatmap(
         pollutant: params!.pollutant,
         period: params!.period,
         top: params!.top,
+      }),
+    enabled: params !== null,
+    staleTime: HISTORY_STALE_TIME_MS,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export interface SeriesParams {
+  stationId: number;
+  pollutant: HourlyPollutant;
+  /** First day, YYYY-MM-DD (IST). */
+  from: string;
+  /** Day after the last one, YYYY-MM-DD. */
+  to: string;
+}
+
+/** One station's values over a window: hourly up to 31 days, daily means beyond. */
+export function useStationSeries(params: SeriesParams | null) {
+  return useQuery({
+    queryKey: ['stations', 'series', params],
+    queryFn: () =>
+      apiGet<StationSeries>(`/v1/stations/${params!.stationId}/hourly`, {
+        from: params!.from,
+        to: params!.to,
+        pollutant: params!.pollutant,
       }),
     enabled: params !== null,
     staleTime: HISTORY_STALE_TIME_MS,

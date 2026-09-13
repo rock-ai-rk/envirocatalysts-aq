@@ -4,10 +4,18 @@
  */
 
 import type { Pollutant } from '../api/live';
-import type { AqiCategoryKey, CityPeriodStats, HourBin, HourlyPeriod } from '../api/types';
+import type {
+  AqiCategoryKey,
+  CityPeriodStats,
+  HourBin,
+  HourlyPeriod,
+  SeriesPoint,
+  StationSeries,
+} from '../api/types';
 import { AQI_CATEGORIES } from '../constants/aqi';
-import { POLLUTANT_ORDER, spokenUnitFor } from '../constants/pollutants';
-import { formatPercent } from './format';
+import { POLLUTANT_ORDER, categoryForConcentration, spokenUnitFor } from '../constants/pollutants';
+import { speakDay } from './dates';
+import { formatConcentration, formatIstClock, formatPercent } from './format';
 
 /** "320 good, 30 satisfactory and 5 moderate days" (categories with zero days are skipped). */
 export function describeAqiDays(aqiDays: Record<AqiCategoryKey, number>): string {
@@ -47,6 +55,67 @@ export function describeExceedance(period: HourlyPeriod, pollutant: Pollutant): 
   const { above_naaqs_pct: naaqs, above_who_pct: who } = period.kpis;
   if (naaqs === null || who === null) return null;
   return `${pollutant} was above the Indian standard in ${naaqs}% of hours and above the WHO guideline in ${who}%.`;
+}
+
+/** "4 March 2025, hour ending 21:00" for an hour-ending IST timestamp. */
+export function speakHour(iso: string): string {
+  return `${speakDay(iso.slice(0, 10))}, hour ending ${formatIstClock(iso)}`;
+}
+
+/** One point of a trend, as the chart announces it while stepping through. */
+export function describePoint(
+  point: SeriesPoint,
+  series: Pick<StationSeries, 'pollutant' | 'resolution'>,
+): string {
+  const { pollutant } = series;
+  const when = series.resolution === 'hour' ? speakHour(point.t) : speakDay(point.t.slice(0, 10));
+  if (point.value === null) return `${when}: no data`;
+  const category = categoryForConcentration(pollutant, point.value).label.toLowerCase();
+  const unit = spokenUnitFor(pollutant);
+  const value = formatConcentration(point.value, pollutant);
+  if (series.resolution === 'day' && point.min !== null && point.max !== null) {
+    return (
+      `${when}: daily average ${value} ${unit}, ${category}; hours ranged from ` +
+      `${formatConcentration(point.min, pollutant)} to ${formatConcentration(point.max, pollutant)}`
+    );
+  }
+  return `${when}: ${value} ${unit}, ${category}`;
+}
+
+/**
+ * The trend chart's text equivalent, e.g. "PM2.5 at Anand Vihar, 1 to 7 March 2025: averaged 187
+ * micrograms per cubic metre; highest 312 at 21:00 on 4 March 2025, lowest 88 at 14:00 on
+ * 6 March 2025. 7 of 168 hours have no data."
+ */
+export function describeSeries(
+  series: StationSeries,
+  windowSpoken: string,
+  comparison?: { series: StationSeries; label: string; ownLabel: string },
+): string {
+  const { stats, pollutant } = series;
+  const where = `${pollutant} at ${series.station.name}, ${windowSpoken}`;
+  if (stats.mean === null) return `${where}: no data.`;
+
+  const show = (value: number | null) => formatConcentration(value, pollutant);
+  const at = (iso: string | null) =>
+    iso ? ` at ${formatIstClock(iso)} on ${speakDay(iso.slice(0, 10))}` : '';
+  let text =
+    `${where}: averaged ${show(stats.mean)} ${spokenUnitFor(pollutant)}; ` +
+    `highest ${show(stats.max)}${at(stats.max_at)}, lowest ${show(stats.min)}${at(stats.min_at)}.`;
+
+  const missing = stats.expected_hours - stats.hours_with_data;
+  if (missing > 0) text += ` ${missing} of ${stats.expected_hours} hours have no data.`;
+
+  const before = comparison?.series.stats.mean ?? null;
+  if (comparison && before !== null) {
+    const change = Number(show(stats.mean)) - Number(show(before));
+    const verdict =
+      change === 0
+        ? 'no change'
+        : `${show(Math.abs(change))} ${change > 0 ? 'higher' : 'lower'} in ${comparison.ownLabel}`;
+    text += ` The same days in ${comparison.label} averaged ${show(before)}, so ${verdict}.`;
+  }
+  return text;
 }
 
 function joinWithAnd(parts: string[]): string {

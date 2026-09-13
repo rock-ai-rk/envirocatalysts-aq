@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { useHeatmap, useHourlyCities, useHourlySummary } from '@/api/history';
+import { useHeatmap, useHourlyCities, useHourlySummary, useMeta } from '@/api/history';
 import type { HourlyPollutant } from '@/api/types';
 import { HeatmapGrid } from '@/components/charts/heatmap-grid';
 import { HourBars, bandsUsed } from '@/components/charts/hour-bars';
@@ -12,12 +12,13 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { KpiGrid } from '@/components/kpi-grid';
+import { LiveReadingCard } from '@/components/live-reading-card';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { SegmentedControl } from '@/components/segmented-control';
-import { StationReadingsCard } from '@/components/station-readings-card';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
+import { TrendCard } from '@/components/trend-card';
 import {
   PLACEHOLDER_PERIODS,
   periodViewOptions,
@@ -28,13 +29,14 @@ import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { describeExceedance, describeHourProfile } from '@/lib/describe';
 import { formatDay } from '@/lib/format';
-import { useHourlySelection } from '@/state/hourly-selection';
+import { resolveStation, useHourlySelection } from '@/state/hourly-selection';
 import { useOverviewFilters } from '@/state/overview-filters';
 
 const POLLUTANTS: HourlyPollutant[] = ['PM2.5', 'PM10', 'NO2', 'SO2', 'CO', 'O3'];
-// The source dashboard opens on Delhi; fall back to the first city with stations.
-const PREFERRED_CITY = 'Delhi';
 
+/**
+ * One station at a time: its live reading first, then its history for the chosen financial year.
+ */
 export default function HourlyScreen() {
   const router = useRouter();
   const theme = useTheme();
@@ -42,19 +44,20 @@ export default function HourlyScreen() {
   const { selection, select } = useHourlySelection();
   const [view, setView] = useState<PeriodView>('base');
   const cities = useHourlyCities();
+  const meta = useMeta();
 
-  const entry =
-    cities.data?.find((c) => c.city.id === selection.cityId) ??
-    cities.data?.find((c) => c.city.name === PREFERRED_CITY) ??
-    cities.data?.[0];
+  const resolved = resolveStation(cities.data, selection);
+  const entry = resolved?.entry;
+  const station = resolved?.station ?? null;
   const cityId = entry?.city.id ?? null;
-  const station = entry?.stations.find((s) => s.id === selection.stationId) ?? null;
   const { pollutant } = selection;
+  const basePeriod = meta.data?.periods.find((p) => p.key === filters.base);
+  const comparisonPeriod = meta.data?.periods.find((p) => p.key === filters.comparison);
 
   const summary = useHourlySummary(
-    cityId === null
+    cityId === null || station === null
       ? null
-      : { cityId, stationId: station?.id ?? null, pollutant, base: filters.base, comparison: filters.comparison },
+      : { cityId, stationId: station.id, pollutant, base: filters.base, comparison: filters.comparison },
   );
   const heatmap = useHeatmap(
     cityId === null
@@ -73,16 +76,16 @@ export default function HourlyScreen() {
 
       <FocusablePressable
         role="button"
-        aria-label={`Showing ${entry ? `${entry.city.name}, ${station ? station.name : 'city average'}` : 'no city'}. Change city or station`}
+        aria-label={`Showing ${entry && station ? `${station.name}, ${entry.city.name}` : 'no station'}. Change station`}
         onPress={() => router.push('/station-picker')}
         disabled={!entry}
         style={[styles.place, { borderColor: theme.border }]}>
         <View style={styles.placeText}>
           <ThemedText type="small" themeColor="textSecondary">
-            City · station
+            Station
           </ThemedText>
           <ThemedText type="sectionTitle" numberOfLines={2}>
-            {entry ? `${entry.city.name} · ${station ? station.name : 'City average'}` : 'No stations yet'}
+            {entry && station ? `${station.name} · ${entry.city.name}` : 'No stations yet'}
           </ThemedText>
         </View>
         <ThemedText type="smallBold" style={{ color: theme.accent }}>
@@ -90,20 +93,34 @@ export default function HourlyScreen() {
         </ThemedText>
       </FocusablePressable>
 
+      {station ? <LiveReadingCard stationId={station.id} /> : null}
+
+      <ThemedText type="sectionTitle" role="heading" style={styles.historyHeading}>
+        History
+      </ThemedText>
+
       <View role="radiogroup" aria-label="Pollutant" style={styles.chips}>
         {POLLUTANTS.map((p) => (
           <ChoiceChip key={p} label={p} selected={p === pollutant} onPress={() => select({ pollutant: p })} />
         ))}
       </View>
 
-      {entry ? <StationReadingsCard city={entry.city.name} pollutant={pollutant} /> : null}
-
       <SegmentedControl
         label="Period"
-        options={periodViewOptions(data?.base.period ?? PLACEHOLDER_PERIODS.base, data?.comparison.period ?? PLACEHOLDER_PERIODS.comparison)}
+        options={periodViewOptions(basePeriod ?? PLACEHOLDER_PERIODS.base, comparisonPeriod ?? PLACEHOLDER_PERIODS.comparison)}
         value={view}
         onChange={setView}
       />
+
+      {station && basePeriod && comparisonPeriod ? (
+        <TrendCard
+          station={station}
+          pollutant={pollutant}
+          view={view}
+          base={basePeriod}
+          comparison={comparisonPeriod}
+        />
+      ) : null}
 
       {cities.isError ? (
         <StatusMessage kind="error" message={cities.error.message} onRetry={() => cities.refetch()} />
@@ -251,6 +268,9 @@ const styles = StyleSheet.create({
   },
   placeText: {
     flex: 1,
+  },
+  historyHeading: {
+    marginTop: Spacing.two,
   },
   chips: {
     flexDirection: 'row',

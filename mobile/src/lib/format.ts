@@ -37,6 +37,27 @@ export function formatNumber(value: number | null | undefined, digits = 0): stri
   return value === null || value === undefined ? '–' : value.toFixed(digits);
 }
 
+/** A concentration as the app shows it: CO (mg/m³) to 2 decimals, the rest as whole numbers. */
+export function formatConcentration(value: number | null, pollutant: string): string {
+  if (value === null) return '–';
+  return pollutant === 'CO' ? value.toFixed(2) : String(Math.round(value));
+}
+
+/** "just now", "25 min ago", "5 h ago", "3 days ago"; `spoken` writes the units out. */
+export function formatAge(iso: string, spoken = false, now = Date.now()): string {
+  const minutes = Math.max(0, Math.round((now - Date.parse(iso)) / 60_000));
+  if (minutes < 2) return 'just now';
+  if (minutes < 60) return `${minutes} ${spoken ? 'minutes' : 'min'} ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 48) return `${hours} ${spoken ? (hours === 1 ? 'hour' : 'hours') : 'h'} ago`;
+  return `${Math.round(hours / 24)} days ago`;
+}
+
+/** "11:00" from a timestamp carrying the IST offset, whatever the device's time zone. */
+export function formatIstClock(iso: string): string {
+  return iso.slice(11, 16);
+}
+
 /** 0.964 -> "96%". */
 export function formatPercent(fraction: number): string {
   return `${Math.round(fraction * 100)}%`;
