@@ -70,7 +70,7 @@ export function HourBars({ hours, comparison, pollutant, thresholds, summary, he
       </View>
       <View style={styles.axis}>
         {hours.map((bin) => (
-          <View key={bin.hour} style={styles.column}>
+          <View key={bin.hour} style={styles.axisColumn}>
             {AXIS_LABELS.has(bin.label) ? (
               <ThemedText type="small" themeColor="textSecondary" style={styles.axisLabel}>
                 {bin.label.slice(0, 2)}
@@ -132,6 +132,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 2,
     marginTop: Spacing.one,
+  },
+  // No percentage height here: the axis row has no height of its own, and on iOS a
+  // percentage of it resolves against the scroll view, stretching the card to twice the screen.
+  axisColumn: {
+    flex: 1,
   },
   axisLabel: {
     fontSize: 11,

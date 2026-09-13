@@ -7,6 +7,10 @@ import { HeaderCloseButton } from '@/components/header-close-button';
 import { HourlySelectionProvider } from '@/state/hourly-selection';
 import { OverviewFiltersProvider } from '@/state/overview-filters';
 
+// A deep link straight to a modal (or a web refresh on one) still gets the tabs underneath, so
+// Close and Back always have somewhere to go.
+export const unstable_settings = { anchor: '(tabs)' };
+
 function modal(title: string) {
   return {
     presentation: 'modal' as const,

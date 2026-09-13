@@ -11,8 +11,13 @@ export default function AppTabs() {
   return (
     <NativeTabs
       backgroundColor={colors.background}
+      // iOS otherwise makes the bar transparent over scrolled content, and the tab labels end up
+      // drawn on top of list text, unreadable.
+      disableTransparentOnScrollEdge
       indicatorColor={colors.backgroundSelected}
-      labelStyle={{ selected: { color: colors.text } }}>
+      // The system grey for unselected tabs is under 3:1 on white; use the theme's checked colours.
+      labelStyle={{ default: { color: colors.textSecondary }, selected: { color: colors.text } }}
+      iconColor={{ default: colors.textSecondary, selected: colors.accent }}>
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Overview</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf={{ default: 'chart.bar', selected: 'chart.bar.fill' }} md="bar_chart" />
