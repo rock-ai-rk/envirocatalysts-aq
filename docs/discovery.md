@@ -221,6 +221,11 @@ GET  /health
 - **Licence:** Government Open Data License – India (GODL). It allows use, adaptation and redistribution for commercial and non-commercial purposes, **with attribution** to the provider, source and licence. The README must include the attribution statement.
 - **Access:** a free API key from data.gov.in → My Account. The author registers for this.
 - **Expected fields** (verify once a key is available): `state, city, station, last_update, latitude, longitude, pollutant_id, min_value, max_value, avg_value`.
+  - **Verified 13 Sep 2026.** I used the sample key data.gov.in publishes on the resource's API page, which is limited to 10 records.
+    - The fields are exactly the ones above, all strings, with `"NA"` for missing values.
+    - `last_update` looks like `13-09-2026 11:00:00` (IST).
+    - The response metadata includes `total` (3,402 records), `updated` (Unix seconds) and `updated_date`. `updated_date` was 06:02 UTC, i.e. 11:32 IST, for the 11:00 values.
+  - **Finding: the values are AQI sub-indices, not concentrations.** CO shows as `12` and `25`, which is impossible as mg/m³. The live card and the `/latest` endpoint must label them that way, and must not use µg/m³.
 - **Design:**
   - Fetch with httpx, paging by limit/offset, with retry and backoff.
   - Normalise: pollutant ids, `"NA"` → null, IST timestamps.

@@ -1,11 +1,12 @@
 """Response models for the Overview and Hourly endpoints (historical data)."""
 
 from datetime import date, datetime
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.analytics.overview import Direction, ExclusionReason, RankBy
-from app.domain import AqiCategory, CityGroup, Frequency, Pollutant
+from app.domain import AqiCategory, CityGroup, Frequency, HourlyPollutant, Pollutant
 
 
 class PeriodOut(BaseModel):
@@ -213,3 +214,80 @@ class DayHeatmapOut(BaseModel):
     day: date
     hour_labels: list[str]
     rows: list[HeatmapRowOut]
+
+
+class CityListItemOut(CityOut):
+    station_count: int  # stations with hourly history
+
+
+class CityAqiSummaryOut(BaseModel):
+    city: CityOut
+    stats: CityPeriodStatsOut | None  # null when the city has no data for the period
+
+
+class AqiSummaryOut(BaseModel):
+    period: PeriodOut
+    rules: CoverageRules
+    cities: list[CityAqiSummaryOut]  # in the order the ids were requested
+
+
+class CoverageFlagOut(BaseModel):
+    code: ExclusionReason
+    # Which base-period charts the rule removes the city from.
+    applies_to: Literal["all_charts", "pm25_chart"]
+
+
+class CoverageOut(BaseModel):
+    """The data conditions for one city and period, as flags the app can render and explain."""
+
+    city: CityOut
+    period: PeriodOut
+    days_in_period: int
+    days_with_data: int
+    coverage: float  # 0-1
+    meets_min_coverage: bool
+    pm25_mean: float | None
+    pm25_below_floor: bool
+    # Whether the city appears in the base period's charts (strict rules) ...
+    included_in_base: bool
+    # ... and specifically in the PM2.5 concentration chart.
+    included_in_pm25_chart: bool
+    flags: list[CoverageFlagOut]
+    rules: CoverageRules
+
+
+class SeriesPointOut(BaseModel):
+    # Hourly points: the hour-ending timestamp. Daily points: midnight IST at the start of the day.
+    t: datetime
+    value: float | None  # null marks a gap: the hour or day had no data
+    min: float | None = None  # daily points only
+    max: float | None = None
+    hours: int | None = None  # daily points only: hours with data
+
+
+class SeriesStatsOut(BaseModel):
+    """Over the hourly values in the window, whatever the resolution of `points`."""
+
+    hours_with_data: int
+    expected_hours: int
+    mean: float | None
+    max: float | None
+    max_at: datetime | None
+    min: float | None
+    min_at: datetime | None
+
+
+class StationSeriesOut(BaseModel):
+    station: StationOut
+    city: CityOut
+    pollutant: HourlyPollutant
+    unit: str
+    thresholds: Thresholds | None
+    start: datetime = Field(description="Window start (exclusive), IST")
+    end: datetime = Field(description="Window end (inclusive), IST")
+    resolution: Literal["hour", "day"]
+    points: list[SeriesPointOut]
+    stats: SeriesStatsOut
+    # The station's full hourly record for this pollutant, so the app can bound its range control.
+    available_from: datetime | None
+    available_to: datetime | None

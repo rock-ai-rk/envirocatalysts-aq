@@ -3,6 +3,7 @@
 import logging
 import time
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from typing import Self
 
 import httpx
@@ -33,6 +34,8 @@ class DataGovClient:
         page_size: int = 1000,
         max_retries: int = 3,
         backoff_seconds: float = 2.0,
+        page_delay_seconds: float = 1.0,
+        user_agent: str = "envirocatalysts-aq-scraper",
         http: httpx.Client | None = None,
     ) -> None:
         self._api_key = api_key
@@ -40,7 +43,9 @@ class DataGovClient:
         self._page_size = page_size
         self._max_retries = max_retries
         self._backoff_seconds = backoff_seconds
+        self._page_delay_seconds = page_delay_seconds
         self._http = http or httpx.Client(timeout=30.0)
+        self._http.headers["User-Agent"] = user_agent
 
     @classmethod
     def from_settings(cls, settings: Settings) -> Self:
@@ -49,6 +54,8 @@ class DataGovClient:
             resource_id=settings.datagov_resource_id,
             base_url=settings.datagov_base_url,
             page_size=settings.datagov_page_size,
+            page_delay_seconds=settings.scraper_page_delay_seconds,
+            user_agent=settings.scraper_user_agent,
         )
 
     def __enter__(self) -> Self:
@@ -57,10 +64,28 @@ class DataGovClient:
     def __exit__(self, *exc_info) -> None:
         self._http.close()
 
+    def updated_at(self) -> datetime | None:
+        """When data.gov.in last updated the resource, from a one-record request.
+
+        The response metadata carries `updated` (Unix seconds) and `updated_date` (ISO 8601).
+        Returns None if neither is present, so the caller falls back to a full fetch.
+        """
+        page = self._get_page(offset=0, limit=1)
+        try:
+            return datetime.fromtimestamp(int(page["updated"]), UTC)
+        except (KeyError, TypeError, ValueError):
+            pass
+        try:
+            return datetime.fromisoformat(str(page["updated_date"])).astimezone(UTC)
+        except (KeyError, ValueError):
+            return None
+
     def fetch_all(self) -> Iterator[dict]:
         """Yield every record in the resource, following limit/offset pagination."""
         offset = 0
         while True:
+            if offset:
+                time.sleep(self._page_delay_seconds)  # spread the pages out
             page = self._get_page(offset)
             records = page.get("records") or []
             yield from records
@@ -71,11 +96,11 @@ class DataGovClient:
     def redact(self, text: str) -> str:
         return text.replace(self._api_key, "***") if self._api_key else text
 
-    def _get_page(self, offset: int) -> dict:
+    def _get_page(self, offset: int, limit: int | None = None) -> dict:
         params = {
             "api-key": self._api_key,
             "format": "json",
-            "limit": self._page_size,
+            "limit": limit or self._page_size,
             "offset": offset,
         }
         for attempt in range(1, self._max_retries + 1):

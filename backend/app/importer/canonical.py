@@ -33,6 +33,7 @@ from sqlalchemy.orm import Session
 
 from app.db import insert_for
 from app.domain import AQI_CATEGORIES, CITY_GROUPS, HOURLY_COLUMNS, IST, POLLUTANTS
+from app.linking import refresh_links
 from app.models import (
     City,
     CityAqiDays,
@@ -43,6 +44,7 @@ from app.models import (
     Period,
     Station,
     StationHourly,
+    StationLink,
 )
 from app.periods import parse_period
 
@@ -87,6 +89,8 @@ def load_directory(session: Session, directory: Path, replace: bool = False) -> 
         _load_dominant_days(session, directory, cities, periods, report)
         stations = _load_stations(session, directory, cities, report)
         _load_hourly(session, directory, stations, report)
+        # Live stations may already be known from earlier scrapes.
+        report.add("station_links", refresh_links(session).linked)
         session.add(Dataset(**manifest))
         session.commit()
         return report
@@ -112,6 +116,7 @@ def _read_manifest(directory: Path) -> dict:
 
 def _clear_history(session: Session) -> None:
     for model in (
+        StationLink,
         StationHourly,
         Station,
         CityDominantDays,

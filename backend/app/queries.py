@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from collections.abc import Iterable
-from datetime import date
+from datetime import date, datetime
 
 from fastapi import HTTPException, status
 from sqlalchemy import func, select
@@ -80,32 +80,66 @@ def period_stats(
     return stats
 
 
+def get_station(session: Session, station_id: int) -> Station:
+    station = session.get(Station, station_id)
+    if station is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, f"No station with id {station_id}")
+    return station
+
+
 def hourly_readings(
     session: Session, city_id: int, station_id: int | None, pollutant: str, start: date, end: date
 ) -> list[Reading]:
     """Hourly values for one station, or the mean across the city's stations for each hour."""
-    column = getattr(StationHourly, HOURLY_COLUMNS[pollutant])
     after, until = period_window(start, end)
-    in_window = (
-        StationHourly.observed_at > after,
-        StationHourly.observed_at <= until,
-        column.is_not(None),
-    )
     if station_id is not None:
-        stmt = select(StationHourly.observed_at, column).where(
-            StationHourly.station_id == station_id, *in_window
+        return station_readings(session, station_id, pollutant, after, until)
+
+    column = getattr(StationHourly, HOURLY_COLUMNS[pollutant])
+    stmt = (
+        select(StationHourly.observed_at, func.avg(column))
+        .join(Station, Station.id == StationHourly.station_id)
+        .where(
+            Station.city_id == city_id,
+            StationHourly.observed_at > after,
+            StationHourly.observed_at <= until,
+            column.is_not(None),
         )
-    else:
-        stmt = (
-            select(StationHourly.observed_at, func.avg(column))
-            .join(Station, Station.id == StationHourly.station_id)
-            .where(Station.city_id == city_id, *in_window)
-            .group_by(StationHourly.observed_at)
+        .group_by(StationHourly.observed_at)
+        .order_by(StationHourly.observed_at)
+    )
+    return [(observed_at, value) for observed_at, value in session.execute(stmt)]
+
+
+def station_readings(
+    session: Session, station_id: int, pollutant: str, after: datetime, until: datetime
+) -> list[Reading]:
+    """One station's hourly values with hour-ending timestamps in (after, until], oldest first."""
+    column = getattr(StationHourly, HOURLY_COLUMNS[pollutant])
+    stmt = (
+        select(StationHourly.observed_at, column)
+        .where(
+            StationHourly.station_id == station_id,
+            StationHourly.observed_at > after,
+            StationHourly.observed_at <= until,
+            column.is_not(None),
         )
-    return [
-        (observed_at, value)
-        for observed_at, value in session.execute(stmt.order_by(StationHourly.observed_at))
-    ]
+        .order_by(StationHourly.observed_at)
+    )
+    return [(observed_at, value) for observed_at, value in session.execute(stmt)]
+
+
+def station_data_extent(
+    session: Session, station_id: int, pollutant: str
+) -> tuple[datetime | None, datetime | None]:
+    """The first and last hour a station has a value for a pollutant."""
+    column = getattr(StationHourly, HOURLY_COLUMNS[pollutant])
+    first, last = session.execute(
+        select(func.min(StationHourly.observed_at), func.max(StationHourly.observed_at)).where(
+            StationHourly.station_id == station_id, column.is_not(None)
+        )
+    ).one()
+    return first, last
 
 
 def hourly_readings_by_station(

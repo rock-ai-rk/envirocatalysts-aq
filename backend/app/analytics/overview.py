@@ -88,14 +88,29 @@ def rank_cities(
     )
 
 
-def _exclusion_reason(stats: PeriodStats | None, rank_by: RankBy) -> ExclusionReason | None:
+def rule_failures(stats: PeriodStats | None) -> list[ExclusionReason]:
+    """Every data condition a city fails for one period.
+
+    no_data and low_coverage keep a city out of every base-period chart; pm25_floor only out of
+    PM2.5 ones.
+    """
     if stats is None or stats.days_with_data == 0:
-        return "no_data"
+        return ["no_data"]
+    failures: list[ExclusionReason] = []
     if stats.coverage < MIN_COVERAGE:
-        return "low_coverage"
+        failures.append("low_coverage")
+    if stats.pm25_below_floor:
+        failures.append("pm25_floor")
+    return failures
+
+
+def _exclusion_reason(stats: PeriodStats | None, rank_by: RankBy) -> ExclusionReason | None:
+    failures = rule_failures(stats)
+    if "no_data" in failures or "low_coverage" in failures:
+        return failures[0]
     if rank_by != "good_days" and rank_by not in stats.pollutant_means:
         return "no_data"
-    if rank_by == "PM2.5" and stats.pm25_below_floor:
+    if rank_by == "PM2.5" and "pm25_floor" in failures:
         return "pm25_floor"
     return None
 

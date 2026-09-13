@@ -24,6 +24,7 @@ def test_loads_every_table(session, tmp_path):
         "city_dominant_days": 3,
         "stations": 2,
         "station_hourly": 4,
+        "station_links": 0,  # no live stations scraped yet
     }
     agra = session.scalar(select(City).where(City.name == "Agra"))
     assert agra.group_codes == ["IGP", "NCAP"]

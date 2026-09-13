@@ -3,7 +3,7 @@
 import secrets
 from collections.abc import Iterator
 
-from fastapi import APIRouter, Depends, Header, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.config import Settings, get_settings
@@ -37,12 +37,13 @@ def get_record_source(settings: Settings = Depends(get_settings)) -> Iterator[Re
 
 @router.post("/scrape", response_model=ScrapeRunOut, dependencies=[Depends(require_admin)])
 def trigger_scrape(
+    force: bool = Query(False, description="Fetch everything even if the feed hasn't changed"),
     source: RecordSource = Depends(get_record_source),
     session: Session = Depends(get_session),
     settings: Settings = Depends(get_settings),
 ) -> ScrapeRun:
     """Run the scraper now instead of waiting for the schedule."""
-    run = run_scrape(session, source, settings.live_retention_days)
+    run = run_scrape(session, source, settings.live_retention_days, force=force)
     if run is None:
         raise HTTPException(status.HTTP_409_CONFLICT, "A scrape is already running")
     return run

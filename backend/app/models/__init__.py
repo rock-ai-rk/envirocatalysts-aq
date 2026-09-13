@@ -9,7 +9,7 @@ from app.models.history import (
     Station,
     StationHourly,
 )
-from app.models.live import LiveReading, LiveStation, ScrapeRun
+from app.models.live import LiveReading, LiveStation, ScrapeRun, StationLink
 
 __all__ = [
     "City",
@@ -24,4 +24,5 @@ __all__ = [
     "ScrapeRun",
     "Station",
     "StationHourly",
+    "StationLink",
 ]

@@ -21,7 +21,12 @@ class Settings(BaseSettings):
     datagov_page_size: int = 1000
 
     scraper_enabled: bool = True
-    scrape_interval_minutes: int = 60
+    # The feed stamps values on the hour and data.gov.in publishes them roughly 30 minutes later
+    # (observed: 11:00 IST readings, resource updated 11:32 IST), so run hourly at :40.
+    scrape_minute: int = 40
+    scraper_page_delay_seconds: float = 1.0
+    # Identifies this client to data.gov.in. Add a contact (email or repo URL) in .env.
+    scraper_user_agent: str = "envirocatalysts-aq-scraper/0.1 (air quality mobile app; hourly)"
     live_stale_after_hours: int = 3
     live_retention_days: int = 30
 

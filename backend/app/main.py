@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import admin, health, hourly, live, meta, overview
+from app.api import admin, cities, health, hourly, live, meta, overview, stations
 from app.config import get_settings
 from app.scraper.scheduler import start_scheduler
 
@@ -32,7 +32,9 @@ def create_app() -> FastAPI:
         health.router,
         meta.router,
         overview.router,
+        cities.router,
         hourly.router,
+        stations.router,
         live.router,
         admin.router,
     ):

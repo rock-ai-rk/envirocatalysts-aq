@@ -81,6 +81,64 @@ def test_skips_while_another_run_is_in_progress(session):
     assert run_scrape(session, FakeSource(feed()), RETENTION_DAYS) is None
 
 
+def test_readings_record_their_source(session):
+    run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
+
+    assert set(session.scalars(select(LiveReading.source))) == {"datagov_cpcb_realtime"}
+
+
+def test_an_unchanged_feed_is_not_fetched_again(session):
+    updated = utcnow().replace(microsecond=0)
+    run_scrape(session, FakeSource(feed(), updated=updated), RETENTION_DAYS)
+    source = FakeSource(feed(), updated=updated)
+
+    run = run_scrape(session, source, RETENTION_DAYS)
+
+    assert (run.status, run.unchanged, run.source_updated_at) == ("success", True, updated)
+    assert (run.records_seen, run.readings_inserted) == (0, 0)
+    assert source.fetches == 0
+
+
+def test_a_newer_feed_is_fetched(session):
+    earlier = utcnow().replace(microsecond=0) - timedelta(hours=1)
+    run_scrape(session, FakeSource(feed(), updated=earlier), RETENTION_DAYS)
+    source = FakeSource(feed(), updated=earlier + timedelta(hours=1))
+
+    run = run_scrape(session, source, RETENTION_DAYS)
+
+    assert run.unchanged is False
+    assert source.fetches == 1
+
+
+def test_force_fetches_an_unchanged_feed(session):
+    updated = utcnow().replace(microsecond=0)
+    run_scrape(session, FakeSource(feed(), updated=updated), RETENTION_DAYS)
+    source = FakeSource(feed(), updated=updated)
+
+    run = run_scrape(session, source, RETENTION_DAYS, force=True)
+
+    assert (run.unchanged, run.records_seen) == (False, 4)
+    assert source.fetches == 1
+
+
+def test_a_failed_run_does_not_count_as_the_last_update(session):
+    updated = utcnow().replace(microsecond=0)
+    run_scrape(session, FakeSource(error=RuntimeError("boom"), updated=updated), RETENTION_DAYS)
+    source = FakeSource(feed(), updated=updated)
+
+    assert run_scrape(session, source, RETENTION_DAYS).unchanged is False
+    assert source.fetches == 1
+
+
+def test_without_an_update_time_the_feed_is_always_fetched(session):
+    run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
+    source = FakeSource(feed())
+
+    run_scrape(session, source, RETENTION_DAYS)
+
+    assert source.fetches == 1
+
+
 def test_a_crashed_run_stops_blocking_after_the_timeout(session):
     session.add(
         ScrapeRun(source="test", status="running", started_at=utcnow() - timedelta(hours=1))

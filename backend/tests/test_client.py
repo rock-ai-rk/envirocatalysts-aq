@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 import httpx
 import pytest
 
@@ -11,8 +13,52 @@ def make_client(handler, page_size: int = 2) -> DataGovClient:
         base_url="https://example.test/resource",
         page_size=page_size,
         backoff_seconds=0,
+        page_delay_seconds=0,
+        user_agent="test-agent/1.0",
         http=httpx.Client(transport=httpx.MockTransport(handler)),
     )
+
+
+def test_identifies_itself_with_the_configured_user_agent():
+    agents = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        agents.append(request.headers["user-agent"])
+        return httpx.Response(200, json={"total": 0, "records": []})
+
+    list(make_client(handler).fetch_all())
+
+    assert agents == ["test-agent/1.0"]
+
+
+def test_updated_at_asks_for_one_record_and_reads_the_metadata():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.update(request.url.params)
+        # As the live API returns it (13 Sep 2026).
+        return httpx.Response(
+            200,
+            json={
+                "updated": 1789279333,
+                "updated_date": "2026-09-13T06:02:13Z",
+                "total": 3402,
+                "records": [{}],
+            },
+        )
+
+    assert make_client(handler).updated_at() == datetime(2026, 9, 13, 6, 2, 13, tzinfo=UTC)
+    assert seen["limit"] == "1"
+
+
+def test_updated_at_falls_back_to_the_iso_date_then_to_none():
+    iso_only = make_client(
+        lambda r: httpx.Response(200, json={"updated_date": "2026-09-13T06:02:13Z"})
+    )
+    neither = make_client(lambda r: httpx.Response(200, json={"total": 1, "records": []}))
+
+    assert iso_only.updated_at() == datetime(2026, 9, 13, 6, 2, 13, tzinfo=UTC)
+    assert neither.updated_at() is None
 
 
 def test_follows_pagination_until_total():

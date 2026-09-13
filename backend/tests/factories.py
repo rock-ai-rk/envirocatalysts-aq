@@ -46,11 +46,22 @@ def make_record(
 class FakeSource:
     """Stands in for DataGovClient: returns canned records or raises."""
 
-    def __init__(self, records: list[dict] = (), error: Exception | None = None) -> None:
+    def __init__(
+        self,
+        records: list[dict] = (),
+        error: Exception | None = None,
+        updated: datetime | None = None,
+    ) -> None:
         self.records = list(records)
         self.error = error
+        self.updated = updated
+        self.fetches = 0
+
+    def updated_at(self) -> datetime | None:
+        return self.updated
 
     def fetch_all(self):
+        self.fetches += 1
         if self.error:
             raise self.error
         return iter(self.records)

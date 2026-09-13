@@ -43,6 +43,8 @@ class DayMean:
     day: date
     mean: float
     hours: int
+    min: float
+    max: float
 
     @property
     def valid(self) -> bool:
@@ -125,7 +127,10 @@ def daily_means(readings: Iterable[Reading]) -> list[DayMean]:
     by_day: dict[date, list[float]] = defaultdict(list)
     for observed_at, value in readings:
         by_day[_day_of(observed_at)].append(value)
-    return [DayMean(day, _round(fmean(v)), len(v)) for day, v in sorted(by_day.items())]
+    return [
+        DayMean(day, _round(fmean(v)), len(v), _round(min(v)), _round(max(v)))
+        for day, v in sorted(by_day.items())
+    ]
 
 
 def monthly_stats(readings: Iterable[Reading]) -> list[MonthStats]:

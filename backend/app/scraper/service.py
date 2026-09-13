@@ -1,33 +1,42 @@
-"""One scrape: fetch the feed, parse it, upsert stations, insert readings, record the run."""
+"""One scrape: check the feed changed, fetch it, parse it, upsert stations, insert readings, link
+stations to the historical data, and record the run."""
 
 import logging
 from collections.abc import Iterable, Iterator
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Protocol
 
 from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from app.db import insert_for, utcnow
+from app.domain import LIVE_SOURCE
+from app.linking import refresh_links
 from app.models import LiveReading, LiveStation, ScrapeRun
 from app.scraper.normalize import Reading, parse_records
 
 logger = logging.getLogger(__name__)
 
-SOURCE_NAME = "datagov_cpcb_realtime"
 # A run still marked "running" after this long is assumed to have crashed and stops blocking.
 RUN_TIMEOUT = timedelta(minutes=10)
 CHUNK_SIZE = 500
 
 
 class RecordSource(Protocol):
+    def updated_at(self) -> datetime | None: ...
+
     def fetch_all(self) -> Iterable[dict]: ...
 
     def redact(self, text: str) -> str: ...
 
 
-def run_scrape(session: Session, source: RecordSource, retention_days: int) -> ScrapeRun | None:
+def run_scrape(
+    session: Session, source: RecordSource, retention_days: int, force: bool = False
+) -> ScrapeRun | None:
     """Run one scrape and return its audit row, or None if another run is in progress.
+
+    If the feed's update time matches the last successful run's, nothing more is fetched and the
+    run is marked unchanged; `force` fetches anyway.
 
     The in-progress check isn't atomic, so two processes starting at the same moment could both
     run. That only costs an extra API call: readings are unique per (station, pollutant,
@@ -37,18 +46,23 @@ def run_scrape(session: Session, source: RecordSource, retention_days: int) -> S
         logger.info("Skipping scrape: another run is in progress")
         return None
 
-    run = ScrapeRun(source=SOURCE_NAME)
+    run = ScrapeRun(source=LIVE_SOURCE)
     session.add(run)
     session.commit()
 
     try:
-        records = list(source.fetch_all())
-        readings, skipped = parse_records(records)
-        station_ids = _upsert_stations(session, readings)
-        run.records_seen = len(records)
-        run.records_skipped = skipped
-        run.stations_seen = len(station_ids)
-        run.readings_inserted = _insert_readings(session, readings, station_ids, run.id)
+        run.source_updated_at = source.updated_at()
+        if not force and run.source_updated_at is not None:
+            run.unchanged = run.source_updated_at == _last_source_update(session)
+        if not run.unchanged:
+            records = list(source.fetch_all())
+            readings, skipped = parse_records(records)
+            station_ids = _upsert_stations(session, readings)
+            run.records_seen = len(records)
+            run.records_skipped = skipped
+            run.stations_seen = len(station_ids)
+            run.readings_inserted = _insert_readings(session, readings, station_ids, run.id)
+            run.stations_linked = refresh_links(session).linked
         run.readings_purged = _purge_old_readings(session, retention_days)
         run.status = "success"
     except Exception as exc:
@@ -60,14 +74,42 @@ def run_scrape(session: Session, source: RecordSource, retention_days: int) -> S
 
     run.finished_at = utcnow()
     session.commit()
+    _log_run(run)
+    return run
+
+
+def _log_run(run: ScrapeRun) -> None:
+    seconds = (run.finished_at - run.started_at).total_seconds()
+    if run.unchanged:
+        logger.info(
+            "Scrape run %s unchanged in %.1fs: feed last updated %s, nothing fetched",
+            run.id,
+            seconds,
+            run.source_updated_at.isoformat(),
+        )
+        return
     logger.info(
-        "Scrape run %s %s: %s readings inserted, %s records skipped",
+        "Scrape run %s %s in %.1fs: %s records fetched, %s skipped, %s stations, "
+        "%s readings inserted, %s purged, %s stations linked",
         run.id,
         run.status,
-        run.readings_inserted,
+        seconds,
+        run.records_seen,
         run.records_skipped,
+        run.stations_seen,
+        run.readings_inserted,
+        run.readings_purged,
+        run.stations_linked,
     )
-    return run
+
+
+def _last_source_update(session: Session) -> datetime | None:
+    return session.scalar(
+        select(ScrapeRun.source_updated_at)
+        .where(ScrapeRun.status == "success", ScrapeRun.source_updated_at.is_not(None))
+        .order_by(ScrapeRun.id.desc())
+        .limit(1)
+    )
 
 
 def _run_in_progress(session: Session) -> bool:
@@ -127,6 +169,7 @@ def _insert_readings(
             "max_value": r.max_value,
             "observed_at": r.observed_at,
             "fetched_at": now,
+            "source": LIVE_SOURCE,
             "scrape_run_id": run_id,
         }
         for r in readings
