@@ -12,6 +12,7 @@ database and scraper.
 | `backend/` | FastAPI API, database models and migrations, and the CPCB real-time scraper |
 | `mobile/` | React Native (Expo) app |
 | `docs/discovery.md` | Analysis of the existing Streamlit dashboard, and the design proposals |
+| `docs/accessibility.md` | Accessibility check results: what was tested, what broke and how it was fixed |
 
 ## Backend
 

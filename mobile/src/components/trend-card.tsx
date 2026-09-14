@@ -13,6 +13,7 @@ import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { shortPeriodLabel, type PeriodView } from '@/constants/periods';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { describeSeries } from '@/lib/describe';
 import {
@@ -37,6 +38,9 @@ interface Props {
  * days of the base year are drawn dashed behind the comparison year.
  */
 export function TrendCard({ station, pollutant, view, base, comparison }: Props) {
+  // At large text sizes the window's dates get a line of their own above the two buttons,
+  // instead of being squeezed between them into one word per line.
+  const stackStepper = useLargeText();
   const [preset, setPreset] = useState<RangePreset>('week');
   // Where the window ends, in days from the start of the year; starts at the latest week.
   const [endOffset, setEndOffset] = useState(Number.POSITIVE_INFINITY);
@@ -104,6 +108,11 @@ export function TrendCard({ station, pollutant, view, base, comparison }: Props)
             onPreview={setPreviewOffset}
             onChange={moveTo}
           />
+          {stackStepper ? (
+            <ThemedText type="smallBold" style={styles.stepLabelStacked} aria-hidden>
+              {windowLabel(labelSpan)}
+            </ThemedText>
+          ) : null}
           <View style={styles.stepper}>
             <StepButton
               label="‹ Earlier"
@@ -111,9 +120,13 @@ export function TrendCard({ station, pollutant, view, base, comparison }: Props)
               disabled={!canGoEarlier}
               onPress={() => moveTo(span.endOffset - span.days)}
             />
-            <ThemedText type="smallBold" style={styles.stepLabel} aria-hidden>
-              {windowLabel(labelSpan)}
-            </ThemedText>
+            {stackStepper ? (
+              <View style={styles.stepLabel} />
+            ) : (
+              <ThemedText type="smallBold" style={styles.stepLabel} aria-hidden>
+                {windowLabel(labelSpan)}
+              </ThemedText>
+            )}
             <StepButton
               label="Later ›"
               spoken={`Later: ${speakWindow(windowIn(shownPeriod, preset, span.endOffset + span.days))}`}
@@ -217,6 +230,9 @@ const styles = StyleSheet.create({
   },
   stepLabel: {
     flex: 1,
+    textAlign: 'center',
+  },
+  stepLabelStacked: {
     textAlign: 'center',
   },
   stepButton: {

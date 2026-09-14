@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AccessibilityInfo, Platform, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedReaction, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import Svg, { Line, Path } from 'react-native-svg';
@@ -10,6 +10,7 @@ import { AqiBadge } from '@/components/aqi-badge';
 import { ThemedText } from '@/components/themed-text';
 import { categoryForConcentration } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
+import { LARGE_TEXT_SCALE } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { monthInitial, shortDay } from '@/lib/dates';
 import { describePoint } from '@/lib/describe';
@@ -28,6 +29,9 @@ interface Props {
 }
 
 const TICK_WIDTH = 44;
+// Axis labels grow with the text size only this far, so they stay on one line under their tick;
+// the readout above the chart and the spoken summary carry the same information at full size.
+const TICK_MAX_SCALE = LARGE_TEXT_SCALE;
 
 /**
  * A line chart you read by dragging across it. The crosshair follows the finger on the UI thread
@@ -39,6 +43,9 @@ const TICK_WIDTH = 44;
  */
 export function TrendChart({ series, comparison, seriesLabel, comparisonLabel, summary, height = 180 }: Props) {
   const theme = useTheme();
+  const { fontScale } = useWindowDimensions();
+  // At large text sizes the readout may wrap: a steady plot matters less than losing words.
+  const readoutLines = fontScale > LARGE_TEXT_SCALE ? undefined : 1;
   const [width, setWidth] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const { points, pollutant, thresholds } = series;
@@ -173,7 +180,7 @@ export function TrendChart({ series, comparison, seriesLabel, comparisonLabel, s
                 <AqiBadge category={categoryForConcentration(pollutant, point.value)} />
               ) : null}
             </View>
-            <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+            <ThemedText type="small" themeColor="textSecondary" numberOfLines={readoutLines}>
               {[
                 series.resolution === 'day' && point.min !== null && point.max !== null
                   ? `Hours ranged ${formatConcentration(point.min, pollutant)}–${formatConcentration(point.max, pollutant)}`
@@ -198,7 +205,7 @@ export function TrendChart({ series, comparison, seriesLabel, comparisonLabel, s
                   : `Average ${formatConcentration(series.stats.mean, pollutant)} ${unit}`}
               </ThemedText>
             </View>
-            <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
+            <ThemedText type="small" themeColor="textSecondary" numberOfLines={readoutLines}>
               {series.stats.max !== null && series.stats.max_at
                 ? `Highest ${formatConcentration(series.stats.max, pollutant)} on ${formatIstTimestamp(series.stats.max_at)}`
                 : seriesLabel}
@@ -278,13 +285,15 @@ export function TrendChart({ series, comparison, seriesLabel, comparisonLabel, s
         </View>
       </GestureDetector>
 
-      <View style={styles.axis}>
+      <View style={[styles.axis, { height: Math.ceil(16 * Math.min(fontScale, TICK_MAX_SCALE)) }]}>
         {width > 0
           ? geometry.ticks.map((tick) => (
               <ThemedText
                 key={tick.index}
                 type="small"
                 themeColor="textSecondary"
+                numberOfLines={1}
+                maxFontSizeMultiplier={TICK_MAX_SCALE}
                 style={[
                   styles.tick,
                   { left: Math.min(Math.max(geometry.x(tick.index) - TICK_WIDTH / 2, 0), width - TICK_WIDTH) },
@@ -419,7 +428,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   axis: {
-    height: 16,
+    height: 16, // grows a little with the text size; see TICK_MAX_SCALE
   },
   tick: {
     position: 'absolute',

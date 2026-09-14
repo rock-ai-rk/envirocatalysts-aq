@@ -30,7 +30,8 @@ export function StackedBar({ segments, total, height = 22, showValues = true }: 
   const remainder = Math.max(length - sum, 0);
 
   return (
-    <View aria-hidden style={[styles.bar, { height }]}>
+    // minHeight, not height: at large text sizes the numbers inside grow and the bar grows with them.
+    <View aria-hidden style={[styles.bar, { minHeight: height }]}>
       {segments
         .filter((s) => s.value > 0)
         .map((s) => {
@@ -40,7 +41,8 @@ export function StackedBar({ segments, total, height = 22, showValues = true }: 
           return (
             <View key={s.key} style={[styles.segment, { flex, backgroundColor: s.color }]}>
               {showValues && s.value / length >= 0.09 ? (
-                <Text numberOfLines={1} style={[styles.value, { color: s.textColor }]}>
+                // Capped: the same numbers are in the row's headline and spoken summary, which scale fully.
+                <Text numberOfLines={1} maxFontSizeMultiplier={1.6} style={[styles.value, { color: s.textColor }]}>
                   {s.value}
                 </Text>
               ) : null}
@@ -68,5 +70,6 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 11,
     fontWeight: '700',
+    paddingVertical: 2,
   },
 });

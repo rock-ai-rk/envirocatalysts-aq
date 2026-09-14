@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 
 export interface SegmentOption<T extends string> {
@@ -27,12 +28,18 @@ interface Props<T extends string> {
  */
 export function SegmentedControl<T extends string>({ label, options, value, onChange }: Props<T>) {
   const theme = useTheme();
+  // At large text sizes three side-by-side segments would truncate ("FY 2…"), so they stack.
+  const stacked = useLargeText();
 
   return (
     <View
       role="radiogroup"
       aria-label={label}
-      style={[styles.track, { backgroundColor: theme.backgroundElement, borderColor: theme.border }]}>
+      style={[
+        styles.track,
+        stacked && styles.trackStacked,
+        { backgroundColor: theme.backgroundElement, borderColor: theme.border },
+      ]}>
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -42,10 +49,10 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
             aria-checked={selected}
             aria-label={option.accessibilityLabel ?? option.label}
             onPress={() => onChange(option.value)}
-            style={[styles.segment, selected && { backgroundColor: theme.accent }]}>
+            style={[styles.segment, stacked && styles.segmentStacked, selected && { backgroundColor: theme.accent }]}>
             <ThemedText
               type={selected ? 'smallBold' : 'small'}
-              numberOfLines={1}
+              numberOfLines={stacked ? undefined : 1}
               style={{ color: selected ? theme.onAccent : theme.text }}>
               {option.label}
             </ThemedText>
@@ -64,6 +71,9 @@ const styles = StyleSheet.create({
     padding: Spacing.half,
     gap: Spacing.half,
   },
+  trackStacked: {
+    flexDirection: 'column',
+  },
   segment: {
     flex: 1,
     minHeight: MinTouchTarget,
@@ -71,5 +81,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.two,
     borderRadius: Spacing.three - Spacing.half,
+  },
+  segmentStacked: {
+    flex: 0,
+    paddingVertical: Spacing.one,
   },
 });
