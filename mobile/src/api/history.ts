@@ -140,6 +140,9 @@ export function useStationSeries(params: SeriesParams | null) {
       }),
     enabled: params !== null,
     staleTime: HISTORY_STALE_TIME_MS,
+    // Every window you browse is its own query. Dropping unused ones after half an hour keeps the
+    // copy saved on the phone from growing with each week you scroll past.
+    gcTime: 30 * 60 * 1000,
     placeholderData: keepPreviousData,
   });
 }

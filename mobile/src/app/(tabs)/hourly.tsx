@@ -9,10 +9,12 @@ import { HourBars, bandsUsed } from '@/components/charts/hour-bars';
 import { Legend } from '@/components/charts/legend';
 import { MonthBoxes } from '@/components/charts/month-boxes';
 import { ChoiceChip } from '@/components/choice-chip';
+import { DataFreshness } from '@/components/data-freshness';
 import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { KpiGrid } from '@/components/kpi-grid';
 import { LiveReadingCard } from '@/components/live-reading-card';
+import { OfflineBanner } from '@/components/offline-banner';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { SegmentedControl } from '@/components/segmented-control';
@@ -72,6 +74,7 @@ export default function HourlyScreen() {
 
   return (
     <Screen title="Hourly analysis">
+      <OfflineBanner />
       <DemoDataBanner />
 
       <FocusablePressable
@@ -98,6 +101,7 @@ export default function HourlyScreen() {
       <ThemedText type="sectionTitle" role="heading" style={styles.historyHeading}>
         History
       </ThemedText>
+      <DataFreshness query={summary} />
 
       <View role="radiogroup" aria-label="Pollutant" style={styles.chips}>
         {POLLUTANTS.map((p) => (

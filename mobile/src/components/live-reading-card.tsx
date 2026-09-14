@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { categoryByKey } from '@/constants/aqi';
 import { POLLUTANT_ORDER } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
+import { useNow } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 import { formatAge, formatIstClock, formatIstTimestamp, formatReading } from '@/lib/format';
 
@@ -62,6 +63,7 @@ export function LiveReadingCard({ stationId }: { stationId: number }) {
 
 function LiveBody({ data }: { data: StationLatest }) {
   const theme = useTheme();
+  const now = useNow();
 
   if (data.status === 'no_live_station') {
     return (
@@ -82,7 +84,11 @@ function LiveBody({ data }: { data: StationLatest }) {
     );
   }
 
-  const stale = data.status === 'stale';
+  // The API judged freshness when it answered; an answer restored from the phone's cache may be
+  // hours older than that, so check again against the clock.
+  const stale =
+    data.status === 'stale' ||
+    now - Date.parse(data.observed_at) > data.stale_after_hours * 60 * 60 * 1000;
   const category = data.aqi ? categoryByKey(data.aqi.category) : null;
   const readings = [...data.readings]
     .filter((r) => r.observed_at === data.observed_at)

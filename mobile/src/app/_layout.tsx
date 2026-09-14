@@ -1,9 +1,9 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { queryClient } from '@/api/query-client';
+import { CACHE_BUSTER, CACHE_MAX_AGE_MS, queryClient, queryPersister } from '@/api/query-client';
 import { HeaderCloseButton } from '@/components/header-close-button';
 import { HourlySelectionProvider } from '@/state/hourly-selection';
 import { OverviewFiltersProvider } from '@/state/overview-filters';
@@ -27,7 +27,10 @@ export default function RootLayout() {
   return (
     // The trend chart's scrub and the window strip's drag are Gesture Handler gestures.
     <GestureHandlerRootView style={styles.root}>
-      <QueryClientProvider client={queryClient}>
+      {/* Restores the answers saved on the phone before any screen asks the API again. */}
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: queryPersister, maxAge: CACHE_MAX_AGE_MS, buster: CACHE_BUSTER }}>
         <OverviewFiltersProvider>
           <HourlySelectionProvider>
             <StationPrefsProvider>
@@ -45,7 +48,7 @@ export default function RootLayout() {
             </StationPrefsProvider>
           </HourlySelectionProvider>
         </OverviewFiltersProvider>
-      </QueryClientProvider>
+      </PersistQueryClientProvider>
     </GestureHandlerRootView>
   );
 }

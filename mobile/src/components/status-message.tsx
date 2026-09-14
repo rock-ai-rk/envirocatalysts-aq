@@ -3,6 +3,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { useOnline } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 
 type Props =
@@ -13,6 +14,19 @@ type Props =
 /** Loading, empty and error states. Announced politely to screen readers when they appear. */
 export function StatusMessage(props: Props) {
   const theme = useTheme();
+  const online = useOnline();
+
+  // Offline, React Query pauses requests rather than failing them, so a spinner would spin forever.
+  if (props.kind === 'loading' && !online) {
+    return (
+      <View style={styles.block} aria-live="polite">
+        <ThemedText type="smallBold">Waiting for a connection</ThemedText>
+        <ThemedText type="small" themeColor="textSecondary">
+          Nothing is saved on this phone for this yet. It will load when you’re back online.
+        </ThemedText>
+      </View>
+    );
+  }
 
   if (props.kind === 'loading') {
     return (

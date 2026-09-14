@@ -9,10 +9,12 @@ import { ChoiceChip } from '@/components/choice-chip';
 import { Legend } from '@/components/charts/legend';
 import { CityMap } from '@/components/city-map';
 import { CoverageBanner } from '@/components/coverage-banner';
+import { DataFreshness } from '@/components/data-freshness';
 import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
+import { OfflineBanner } from '@/components/offline-banner';
 import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
 import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
 import { SegmentedControl } from '@/components/segmented-control';
@@ -89,8 +91,10 @@ export default function OverviewScreen() {
   const header = (
     <View style={styles.header}>
       <ScreenTitle>Air quality overview</ScreenTitle>
+      <OfflineBanner />
       <DemoDataBanner />
       <FilterSummaryBar />
+      <DataFreshness query={overview} />
       <LiveCitiesCard state={filters.state} />
       <SegmentedControl
         label="Period"
@@ -119,11 +123,6 @@ export default function OverviewScreen() {
       {metric === 'map' && data ? <CityMap cities={data.cities} view={view} onSelect={openCity} /> : null}
       {data?.cities.length ? (
         <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
-      ) : null}
-      {overview.isPlaceholderData ? (
-        <ThemedText type="small" themeColor="textSecondary" aria-live="polite">
-          Updating…
-        </ThemedText>
       ) : null}
     </View>
   );
