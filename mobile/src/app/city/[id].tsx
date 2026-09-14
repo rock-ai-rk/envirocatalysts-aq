@@ -2,9 +2,10 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { useCityDetail } from '@/api/history';
+import { useCityDetail, useMeta } from '@/api/history';
 import type { AqiCategoryKey, CityChange, CityPeriodStats } from '@/api/types';
 import { ComparisonTable, type ComparisonRow } from '@/components/comparison-table';
+import { CoverageChip } from '@/components/coverage-chip';
 import { DeltaChip, describeDelta } from '@/components/delta-chip';
 import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FocusablePressable } from '@/components/focusable-pressable';
@@ -13,6 +14,7 @@ import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { AQI_CATEGORIES } from '@/constants/aqi';
+import { DEFAULT_MIN_COVERAGE } from '@/constants/coverage';
 import { shortPeriodLabel } from '@/constants/periods';
 import {
   CONCENTRATION_POLLUTANTS,
@@ -23,7 +25,7 @@ import {
 } from '@/constants/pollutants';
 import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { formatNumber, formatPercent } from '@/lib/format';
+import { formatNumber } from '@/lib/format';
 import { useHourlySelection } from '@/state/hourly-selection';
 import { GROUP_LABELS, useOverviewFilters } from '@/state/overview-filters';
 
@@ -53,6 +55,7 @@ export default function CityDetailScreen() {
     filters.base,
     filters.comparison,
   );
+  const minCoverage = useMeta().data?.rules.min_coverage ?? DEFAULT_MIN_COVERAGE;
 
   if (isPending) return <Frame title="City"><StatusMessage kind="loading" /></Frame>;
   if (isError) {
@@ -81,18 +84,37 @@ export default function CityDetailScreen() {
       </View>
 
       <SectionCard title="Data coverage">
-        <ThemedText type="small">
-          {`${data.base.label}: ${base ? `${formatPercent(base.coverage)} of days` : 'no data'}. ` +
-            `${data.comparison.label}: ${comparison ? `${formatPercent(comparison.coverage)} of days` : 'no data'}.`}
-        </ThemedText>
+        <View style={styles.coverage}>
+          {[
+            { period: data.base, label: baseLabel, stats: base },
+            { period: data.comparison, label: comparisonLabel, stats: comparison },
+          ].map(({ period, label, stats }) =>
+            stats ? (
+              <CoverageChip
+                key={period.key}
+                prefix={label}
+                coverage={stats.coverage}
+                minCoverage={minCoverage}
+                pm25BelowFloor={stats.pm25_below_floor}
+                onPress={() =>
+                  router.push({ pathname: '/coverage', params: { cityId: String(city.id), period: period.key } })
+                }
+              />
+            ) : (
+              <ThemedText key={period.key} type="small" themeColor="textSecondary">
+                {`${label}: no data`}
+              </ThemedText>
+            ),
+          )}
+        </View>
       </SectionCard>
 
       <SectionCard title="AQI category days">
         <ComparisonTable
           baseLabel={baseLabel}
           comparisonLabel={comparisonLabel}
-          rows={AQI_CATEGORIES.map((c) =>
-            countRow(
+          rows={AQI_CATEGORIES.map((c) => ({
+            ...countRow(
               c.key,
               c.label,
               c.color,
@@ -102,7 +124,8 @@ export default function CityDetailScreen() {
               CATEGORY_DIRECTION[c.key],
               periodsSpoken,
             ),
-          )}
+            category: c,
+          }))}
         />
       </SectionCard>
 
@@ -237,6 +260,11 @@ const styles = StyleSheet.create({
     maxWidth: MaxContentWidth,
     alignSelf: 'center',
     padding: Spacing.three,
+    gap: Spacing.three,
+  },
+  coverage: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: Spacing.three,
   },
   primaryButton: {

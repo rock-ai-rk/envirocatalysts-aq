@@ -242,7 +242,14 @@ function HourPatternCard({
         thresholds={data.thresholds}
         summary={summary}
       />
-      <Legend items={bandsUsed(pollutant, primary.hours).map((c) => ({ key: c.key, label: c.label, color: c.color }))} />
+      <Legend
+        items={bandsUsed(pollutant, primary.hours).map((c) => ({
+          key: c.key,
+          label: c.label,
+          color: c.color,
+          category: c,
+        }))}
+      />
     </SectionCard>
   );
 }

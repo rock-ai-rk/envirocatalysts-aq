@@ -21,6 +21,7 @@ import { SegmentedControl } from '@/components/segmented-control';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { AQI_CATEGORIES } from '@/constants/aqi';
+import { DEFAULT_MIN_COVERAGE } from '@/constants/coverage';
 import { PLACEHOLDER_PERIODS, periodViewOptions, type PeriodView } from '@/constants/periods';
 import { CONCENTRATION_POLLUTANTS, POLLUTANT_ORDER, pollutantColor } from '@/constants/pollutants';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
@@ -38,7 +39,7 @@ const METRIC_OPTIONS: { value: OverviewMetric; label: string }[] = [
   { value: 'map', label: 'Map' },
 ];
 
-const AQI_LEGEND = AQI_CATEGORIES.map((c) => ({ key: c.key, label: c.label, color: c.color }));
+const AQI_LEGEND = AQI_CATEGORIES.map((c) => ({ key: c.key, label: c.label, color: c.color, category: c }));
 const POLLUTANT_LEGEND = POLLUTANT_ORDER.map((p) => ({ key: p, label: p, color: pollutantColor(p).color }));
 
 export default function OverviewScreen() {
@@ -71,6 +72,12 @@ export default function OverviewScreen() {
     (cityId: number) => router.push({ pathname: '/city/[id]', params: { id: String(cityId) } }),
     [router],
   );
+  const openCoverage = useCallback(
+    (cityId: number, period: string) =>
+      router.push({ pathname: '/coverage', params: { cityId: String(cityId), period } }),
+    [router],
+  );
+  const minCoverage = data?.rules.min_coverage ?? DEFAULT_MIN_COVERAGE;
 
   const renderItem = useCallback(
     ({ item }: { item: OverviewCity }) =>
@@ -82,10 +89,12 @@ export default function OverviewScreen() {
           pollutant={pollutant}
           scaleMax={scaleMax}
           periods={periods}
+          minCoverage={minCoverage}
           onPress={openCity}
+          onCoverage={openCoverage}
         />
       ) : null,
-    [periods, rowMetric, view, pollutant, scaleMax, openCity],
+    [periods, rowMetric, view, pollutant, scaleMax, minCoverage, openCity, openCoverage],
   );
 
   const header = (

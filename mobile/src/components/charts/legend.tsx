@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
+import { CategorySwatch } from '@/components/aqi-badge';
 import { ThemedText } from '@/components/themed-text';
+import type { AqiCategory } from '@/constants/aqi';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -8,6 +10,8 @@ export interface LegendItem {
   key: string;
   label: string;
   color: string;
+  /** AQI categories get a level-meter swatch, so the key doesn't depend on telling colours apart. */
+  category?: AqiCategory;
 }
 
 /**
@@ -20,7 +24,11 @@ export function Legend({ items }: { items: LegendItem[] }) {
     <View aria-hidden style={styles.legend}>
       {items.map((item) => (
         <View key={item.key} style={styles.item}>
-          <View style={[styles.swatch, { backgroundColor: item.color, borderColor: theme.border }]} />
+          {item.category ? (
+            <CategorySwatch category={item.category} />
+          ) : (
+            <View style={[styles.swatch, { backgroundColor: item.color, borderColor: theme.border }]} />
+          )}
           <ThemedText type="small" themeColor="textSecondary">
             {item.label}
           </ThemedText>

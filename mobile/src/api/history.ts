@@ -4,6 +4,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { apiGet } from './client';
 import type {
+  CityCoverage,
   CityDetail,
   DayHeatmap,
   Direction,
@@ -64,6 +65,16 @@ export function useCityDetail(cityId: number, base: string, comparison: string) 
   return useQuery({
     queryKey: ['city', cityId, base, comparison],
     queryFn: () => apiGet<CityDetail>(`/v1/cities/${cityId}`, { base, comparison }),
+    staleTime: HISTORY_STALE_TIME_MS,
+  });
+}
+
+/** Whether a city meets the data rules for a period, and which ones it fails. */
+export function useCoverage(cityId: number | null, period: string) {
+  return useQuery({
+    queryKey: ['coverage', cityId, period],
+    queryFn: () => apiGet<CityCoverage>(`/v1/coverage/${cityId}`, { period }),
+    enabled: cityId !== null,
     staleTime: HISTORY_STALE_TIME_MS,
   });
 }

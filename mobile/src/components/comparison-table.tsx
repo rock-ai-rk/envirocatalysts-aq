@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { CategorySwatch } from '@/components/aqi-badge';
 import { ThemedText } from '@/components/themed-text';
+import type { AqiCategory } from '@/constants/aqi';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -9,6 +11,8 @@ export interface ComparisonRow {
   key: string;
   label: string;
   swatch?: string;
+  /** For AQI category rows: a level-meter swatch instead of a plain colour. */
+  category?: AqiCategory;
   base: string;
   comparison: string;
   change: ReactNode;
@@ -40,7 +44,9 @@ export function ComparisonTable({ baseLabel, comparisonLabel, rows }: Props) {
         <View key={row.key} accessible aria-label={row.spoken} style={styles.rowBlock}>
           <View style={styles.row}>
             <View style={[styles.label, styles.labelWithSwatch]}>
-              {row.swatch ? (
+              {row.category ? (
+                <CategorySwatch category={row.category} />
+              ) : row.swatch ? (
                 <View style={[styles.swatch, { backgroundColor: row.swatch, borderColor: theme.border }]} />
               ) : null}
               <ThemedText type="small">{row.label}</ThemedText>

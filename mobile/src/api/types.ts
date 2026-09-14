@@ -196,6 +196,22 @@ export interface DayHeatmap {
   rows: HeatmapRow[];
 }
 
+/** GET /v1/coverage/{city_id}: the data rules for one city and period, as flags. */
+export interface CityCoverage {
+  city: City;
+  period: Period;
+  days_in_period: number;
+  days_with_data: number;
+  coverage: number;
+  meets_min_coverage: boolean;
+  pm25_mean: number | null;
+  pm25_below_floor: boolean;
+  included_in_base: boolean;
+  included_in_pm25_chart: boolean;
+  flags: { code: ExclusionReason; applies_to: 'all_charts' | 'pm25_chart' }[];
+  rules: CoverageRules;
+}
+
 export interface SeriesPoint {
   /** Hourly points: the hour-ending timestamp (IST). Daily points: midnight IST starting the day. */
   t: string;
