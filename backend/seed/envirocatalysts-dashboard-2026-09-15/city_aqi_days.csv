@@ -1,0 +1,470 @@
+city,state,period,good,satisfactory,moderate,poor,very_poor,severe,days_with_data
+Agartala,Tripura,FY2024-25,63,116,80,42,5,0,306
+Agartala,Tripura,FY2025-26,178,58,30,17,11,0,294
+Agra,Uttar Pradesh,FY2024-25,97,186,77,4,0,0,364
+Agra,Uttar Pradesh,FY2025-26,43,130,178,14,0,0,365
+Ahmedabad,Gujarat,FY2024-25,12,127,216,9,0,0,364
+Ahmedabad,Gujarat,FY2025-26,33,130,197,5,0,0,365
+Ahmednagar,Maharashtra,FY2024-25,30,107,125,35,0,0,297
+Ahmednagar,Maharashtra,FY2025-26,100,155,90,0,0,0,345
+Aizawl,Mizoram,FY2024-25,209,113,28,0,0,0,350
+Aizawl,Mizoram,FY2025-26,135,80,5,0,0,0,220
+Ajmer,Rajasthan,FY2024-25,28,227,97,6,0,0,358
+Ajmer,Rajasthan,FY2025-26,16,188,153,2,0,0,359
+Akola,Maharashtra,FY2024-25,86,152,125,1,0,0,364
+Akola,Maharashtra,FY2025-26,110,199,48,0,0,0,357
+Alwar,Rajasthan,FY2024-25,36,254,66,3,0,0,359
+Alwar,Rajasthan,FY2025-26,7,200,142,1,0,0,350
+Amaravati,Andhra Pradesh,FY2024-25,171,130,50,0,0,0,351
+Amaravati,Andhra Pradesh,FY2025-26,114,119,96,18,0,0,347
+Amravati,Maharashtra,FY2024-25,102,149,111,1,0,0,363
+Amravati,Maharashtra,FY2025-26,85,192,87,0,0,0,364
+Amritsar,Punjab,FY2024-25,15,164,134,26,6,0,345
+Amritsar,Punjab,FY2025-26,43,177,109,10,1,0,340
+Anantapur,Andhra Pradesh,FY2024-25,69,193,16,0,0,0,278
+Anantapur,Andhra Pradesh,FY2025-26,21,263,29,1,0,0,314
+Angul,Odisha,FY2024-25,23,105,138,61,4,0,331
+Angul,Odisha,FY2025-26,12,153,101,57,29,0,352
+Ankleshwar,Gujarat,FY2024-25,39,175,97,3,0,0,314
+Ankleshwar,Gujarat,FY2025-26,3,198,100,15,0,0,316
+Araria,Bihar,FY2024-25,17,49,129,34,6,0,235
+Araria,Bihar,FY2025-26,33,148,102,13,1,0,297
+Ariyalur,Tamil Nadu,FY2024-25,210,69,7,3,0,0,289
+Ariyalur,Tamil Nadu,FY2025-26,120,93,2,0,0,0,215
+Arrah,Bihar,FY2024-25,24,100,99,17,1,0,241
+Arrah,Bihar,FY2025-26,64,141,55,13,0,0,273
+Asansol,West Bengal,FY2024-25,23,89,140,101,11,0,364
+Asansol,West Bengal,FY2025-26,88,124,127,26,0,0,365
+Aurangabad (Bihar),Bihar,FY2024-25,15,68,144,42,2,0,271
+Aurangabad (Bihar),Bihar,FY2025-26,40,60,172,10,1,0,283
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,65,159,139,0,0,0,363
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,80,163,122,0,0,0,365
+Baddi,Himachal Pradesh,FY2024-25,5,77,191,77,10,0,360
+Baddi,Himachal Pradesh,FY2025-26,6,63,223,57,13,0,362
+Badlapur,Maharashtra,FY2024-25,44,111,163,16,0,0,334
+Badlapur,Maharashtra,FY2025-26,33,173,139,0,0,0,345
+Bagalkot,Karnataka,FY2024-25,239,61,0,0,0,0,300
+Bagalkot,Karnataka,FY2025-26,241,57,0,0,0,0,298
+Baghpat,Uttar Pradesh,FY2024-25,33,60,178,60,5,0,336
+Baghpat,Uttar Pradesh,FY2025-26,16,49,103,90,31,3,292
+Balasore,Odisha,FY2024-25,12,157,136,37,0,0,342
+Balasore,Odisha,FY2025-26,87,109,95,45,16,0,352
+Banswara,Rajasthan,FY2024-25,36,124,164,25,0,0,349
+Banswara,Rajasthan,FY2025-26,32,160,149,1,1,0,343
+Baran,Rajasthan,FY2024-25,64,120,142,19,0,0,345
+Baran,Rajasthan,FY2025-26,41,133,170,11,0,0,355
+Barbil,Odisha,FY2024-25,33,90,167,53,3,0,346
+Barbil,Odisha,FY2025-26,87,69,160,41,0,0,357
+Bareilly,Uttar Pradesh,FY2024-25,183,155,24,0,0,0,362
+Bareilly,Uttar Pradesh,FY2025-26,26,269,55,1,0,0,351
+Baripada,Odisha,FY2024-25,33,146,131,18,1,0,329
+Baripada,Odisha,FY2025-26,89,120,94,20,5,0,328
+Barmer,Rajasthan,FY2024-25,36,154,155,7,2,0,354
+Barmer,Rajasthan,FY2025-26,18,145,186,13,1,0,363
+Barrackpore,West Bengal,FY2024-25,52,125,97,55,12,0,341
+Barrackpore,West Bengal,FY2025-26,95,146,74,27,0,0,342
+Bathinda,Punjab,FY2024-25,53,156,122,4,2,0,337
+Bathinda,Punjab,FY2025-26,64,150,82,13,0,0,309
+Begusarai,Bihar,FY2024-25,33,40,85,52,0,0,210
+Begusarai,Bihar,FY2025-26,40,140,117,4,0,0,301
+Belapur,Maharashtra,FY2024-25,59,92,168,12,0,0,331
+Belapur,Maharashtra,FY2025-26,114,104,115,12,0,0,345
+Belgaum,Karnataka,FY2024-25,132,140,4,1,0,0,277
+Belgaum,Karnataka,FY2025-26,50,85,1,0,0,0,136
+Bengaluru,Karnataka,FY2024-25,65,265,34,0,0,0,364
+Bengaluru,Karnataka,FY2025-26,41,232,92,0,0,0,365
+Bettiah,Bihar,FY2024-25,5,63,143,29,2,0,242
+Bettiah,Bihar,FY2025-26,29,180,76,3,0,0,288
+Bhagalpur,Bihar,FY2024-25,11,123,158,54,3,0,349
+Bhagalpur,Bihar,FY2025-26,36,203,98,4,0,0,341
+Bharatpur,Rajasthan,FY2024-25,68,106,150,34,2,0,360
+Bharatpur,Rajasthan,FY2025-26,70,102,175,15,0,0,362
+Bhilai,Chhattisgarh,FY2024-25,96,211,57,0,0,0,364
+Bhilai,Chhattisgarh,FY2025-26,185,174,4,0,0,0,363
+Bhilwara,Rajasthan,FY2024-25,65,155,93,22,1,0,336
+Bhilwara,Rajasthan,FY2025-26,56,136,148,17,1,0,358
+Bhiwadi,Rajasthan,FY2024-25,1,80,180,86,13,1,361
+Bhiwadi,Rajasthan,FY2025-26,9,88,118,105,43,0,363
+Bhiwandi,Maharashtra,FY2024-25,39,137,146,20,0,0,342
+Bhiwandi,Maharashtra,FY2025-26,45,166,142,0,1,0,354
+Bhopal,Madhya Pradesh,FY2024-25,47,124,163,30,0,0,364
+Bhopal,Madhya Pradesh,FY2025-26,61,99,166,38,1,0,365
+Bhubaneswar,Odisha,FY2024-25,76,133,105,37,0,0,351
+Bhubaneswar,Odisha,FY2025-26,63,162,66,65,5,0,361
+Bikaner,Rajasthan,FY2024-25,14,80,200,43,5,1,343
+Bikaner,Rajasthan,FY2025-26,2,82,185,64,5,0,338
+Bilaspur,Chhattisgarh,FY2024-25,135,180,22,0,0,0,337
+Bilaspur,Chhattisgarh,FY2025-26,108,190,31,0,0,0,329
+Bileipada,Odisha,FY2024-25,21,68,180,47,1,0,317
+Bileipada,Odisha,FY2025-26,39,82,140,28,1,0,290
+Boisar,Maharashtra,FY2024-25,37,143,139,15,0,0,334
+Boisar,Maharashtra,FY2025-26,78,169,97,1,0,0,345
+Brajrajnagar,Odisha,FY2024-25,62,151,103,3,0,0,319
+Brajrajnagar,Odisha,FY2025-26,27,199,104,2,3,0,335
+Bulandshahr,Uttar Pradesh,FY2024-25,44,58,203,49,5,1,360
+Bulandshahr,Uttar Pradesh,FY2025-26,33,71,161,79,18,1,363
+Bundi,Rajasthan,FY2024-25,34,92,190,19,3,0,338
+Bundi,Rajasthan,FY2025-26,50,113,162,23,2,0,350
+Buxar,Bihar,FY2024-25,23,79,123,37,7,0,269
+Buxar,Bihar,FY2025-26,34,174,79,5,0,0,292
+Byasanagar,Odisha,FY2024-25,70,98,133,39,3,0,343
+Byasanagar,Odisha,FY2025-26,35,147,88,63,8,0,341
+Byrnihat (Assam),Assam,FY2024-25,3,43,63,98,65,6,278
+Byrnihat (Assam),Assam,FY2025-26,1,43,182,26,4,0,256
+Chamarajanagar,Karnataka,FY2024-25,319,23,0,0,0,0,342
+Chamarajanagar,Karnataka,FY2025-26,285,45,0,0,0,0,330
+Chandigarh,Chandigarh,FY2024-25,22,114,155,58,14,1,364
+Chandigarh,Chandigarh,FY2025-26,37,148,156,21,1,0,363
+Chandrapur,Maharashtra,FY2024-25,103,94,151,7,0,0,355
+Chandrapur,Maharashtra,FY2025-26,51,125,184,2,0,0,362
+Charkhi Dadri,Haryana,FY2024-25,33,71,143,85,14,0,346
+Charkhi Dadri,Haryana,FY2025-26,9,19,32,82,30,0,172
+Chennai,Tamil Nadu,FY2024-25,60,257,46,1,0,0,364
+Chennai,Tamil Nadu,FY2025-26,39,245,80,1,0,0,365
+Chhal,Chhattisgarh,FY2024-25,80,173,59,6,0,0,318
+Chhal,Chhattisgarh,FY2025-26,64,163,57,3,0,0,287
+Chhapra,Bihar,FY2024-25,29,107,100,30,1,0,267
+Chhapra,Bihar,FY2025-26,19,79,165,11,0,0,274
+Chikkaballapur,Karnataka,FY2024-25,178,131,38,0,0,0,347
+Chikkaballapur,Karnataka,FY2025-26,148,66,22,0,1,0,237
+Chikkamagaluru,Karnataka,FY2024-25,195,96,2,0,0,0,293
+Chikkamagaluru,Karnataka,FY2025-26,205,83,0,0,0,0,288
+Chittoor,Andhra Pradesh,FY2024-25,43,154,55,0,0,0,252
+Chittoor,Andhra Pradesh,FY2025-26,6,268,59,6,1,0,340
+Chittorgarh,Rajasthan,FY2024-25,6,96,213,19,0,0,334
+Chittorgarh,Rajasthan,FY2025-26,64,104,152,26,0,0,346
+Churu,Rajasthan,FY2024-25,16,95,147,56,11,1,326
+Churu,Rajasthan,FY2025-26,20,92,193,57,0,0,362
+Coimbatore,Tamil Nadu,FY2024-25,132,136,42,0,0,0,310
+Coimbatore,Tamil Nadu,FY2025-26,132,160,60,3,1,0,356
+Cuddalore,Tamil Nadu,FY2024-25,187,99,22,2,1,0,311
+Cuddalore,Tamil Nadu,FY2025-26,171,75,30,2,0,0,278
+Cuttack,Odisha,FY2024-25,77,113,106,39,1,0,336
+Cuttack,Odisha,FY2025-26,71,115,71,77,16,0,350
+Damoh,Madhya Pradesh,FY2024-25,78,94,63,5,0,0,240
+Damoh,Madhya Pradesh,FY2025-26,180,87,38,1,0,0,306
+Dausa,Rajasthan,FY2024-25,16,102,199,30,2,0,349
+Dausa,Rajasthan,FY2025-26,25,110,197,19,0,0,351
+Davanagere,Karnataka,FY2024-25,142,117,36,0,0,0,295
+Davanagere,Karnataka,FY2025-26,149,84,24,0,0,0,257
+Dehradun,Uttarakhand,FY2024-25,82,142,103,21,0,0,348
+Dehradun,Uttarakhand,FY2025-26,106,107,91,24,2,0,330
+Delhi,Delhi,FY2024-25,0,68,136,90,56,14,364
+Delhi,Delhi,FY2025-26,0,78,116,91,70,10,365
+Dewas,Madhya Pradesh,FY2024-25,55,146,113,16,3,0,333
+Dewas,Madhya Pradesh,FY2025-26,36,145,143,9,2,0,335
+Dhanbad,Jharkhand,FY2024-25,1,10,162,40,15,1,229
+Dhanbad,Jharkhand,FY2025-26,1,106,189,14,0,0,310
+Dharwad,Karnataka,FY2024-25,25,280,16,1,0,0,322
+Dharwad,Karnataka,FY2025-26,17,245,22,0,0,0,284
+Dholpur,Rajasthan,FY2024-25,31,101,155,25,3,0,315
+Dholpur,Rajasthan,FY2025-26,21,128,163,16,1,0,329
+Dhule,Maharashtra,FY2024-25,58,141,117,13,0,0,329
+Dhule,Maharashtra,FY2025-26,54,148,115,8,0,0,325
+Dungarpur,Rajasthan,FY2024-25,18,175,122,12,0,0,327
+Dungarpur,Rajasthan,FY2025-26,59,156,124,18,0,0,357
+Durgapur,West Bengal,FY2024-25,16,77,156,92,22,0,363
+Durgapur,West Bengal,FY2025-26,59,143,157,6,0,0,365
+Eloor,Kerala,FY2024-25,44,214,1,0,0,0,259
+Eloor,Kerala,FY2025-26,12,208,45,0,0,0,265
+Faridabad,Haryana,FY2024-25,7,108,151,94,4,0,364
+Faridabad,Haryana,FY2025-26,0,4,96,87,0,0,187
+Firozabad,Uttar Pradesh,FY2024-25,85,237,30,3,0,0,355
+Firozabad,Uttar Pradesh,FY2025-26,102,199,54,1,0,0,356
+Gadag,Karnataka,FY2024-25,176,118,5,0,0,0,299
+Gadag,Karnataka,FY2025-26,53,18,1,0,0,0,72
+Gandhinagar,Gujarat,FY2024-25,47,209,102,1,0,0,359
+Gandhinagar,Gujarat,FY2025-26,40,172,152,1,0,0,365
+Gaya,Bihar,FY2024-25,43,137,168,12,0,0,360
+Gaya,Bihar,FY2025-26,49,161,152,2,0,0,364
+Ghaziabad,Uttar Pradesh,FY2024-25,15,65,159,92,30,3,364
+Ghaziabad,Uttar Pradesh,FY2025-26,6,70,122,82,69,16,365
+Gorakhpur,Uttar Pradesh,FY2024-25,33,108,190,18,0,0,349
+Gorakhpur,Uttar Pradesh,FY2025-26,59,189,84,4,0,0,336
+Greater Noida,Uttar Pradesh,FY2024-25,3,53,160,122,26,0,364
+Greater Noida,Uttar Pradesh,FY2025-26,1,51,150,91,61,10,364
+Gummidipoondi,Tamil Nadu,FY2024-25,9,200,114,32,0,0,355
+Gummidipoondi,Tamil Nadu,FY2025-26,7,133,141,67,5,0,353
+Gurugram,Haryana,FY2024-25,1,62,143,131,24,2,363
+Gurugram,Haryana,FY2025-26,9,58,89,128,51,0,335
+Guwahati,Assam,FY2024-25,58,159,84,61,2,0,364
+Guwahati,Assam,FY2025-26,100,151,100,14,0,0,365
+Gwalior,Madhya Pradesh,FY2024-25,11,113,196,40,4,0,364
+Gwalior,Madhya Pradesh,FY2025-26,36,119,162,48,0,0,365
+Hajipur,Bihar,FY2024-25,17,70,106,112,38,5,348
+Hajipur,Bihar,FY2025-26,25,96,143,64,0,0,328
+Haldia,West Bengal,FY2024-25,135,107,58,54,4,0,358
+Haldia,West Bengal,FY2025-26,129,106,83,40,5,0,363
+Hanumangarh,Rajasthan,FY2024-25,18,66,167,52,10,0,313
+Hanumangarh,Rajasthan,FY2025-26,35,103,170,34,2,0,344
+Hapur,Uttar Pradesh,FY2024-25,46,105,134,45,16,2,348
+Hapur,Uttar Pradesh,FY2025-26,38,106,96,75,31,3,349
+Howrah,West Bengal,FY2024-25,67,120,96,74,7,0,364
+Howrah,West Bengal,FY2025-26,53,163,101,47,1,0,365
+Hubballi,Karnataka,FY2024-25,170,166,10,0,0,0,346
+Hubballi,Karnataka,FY2025-26,204,146,0,0,0,0,350
+Hyderabad,Telangana,FY2024-25,29,271,64,0,0,0,364
+Hyderabad,Telangana,FY2025-26,0,328,37,0,0,0,365
+Imphal,Manipur,FY2024-25,0,80,178,4,3,2,267
+Imphal,Manipur,FY2025-26,0,0,80,0,0,0,80
+Indore,Madhya Pradesh,FY2024-25,64,219,80,1,0,0,364
+Indore,Madhya Pradesh,FY2025-26,78,187,97,3,0,0,365
+Jabalpur,Madhya Pradesh,FY2024-25,62,167,127,7,0,0,363
+Jabalpur,Madhya Pradesh,FY2025-26,75,188,93,9,0,0,365
+Jaipur,Rajasthan,FY2024-25,18,91,215,40,0,0,364
+Jaipur,Rajasthan,FY2025-26,5,114,219,27,0,0,365
+Jaisalmer,Rajasthan,FY2024-25,12,129,188,21,7,0,357
+Jaisalmer,Rajasthan,FY2025-26,9,128,201,23,4,0,365
+Jalandhar,Punjab,FY2024-25,25,190,126,18,0,0,359
+Jalandhar,Punjab,FY2025-26,37,166,147,12,0,0,362
+Jalgaon,Maharashtra,FY2024-25,56,113,162,21,0,0,352
+Jalgaon,Maharashtra,FY2025-26,75,137,133,4,0,0,349
+Jalna,Maharashtra,FY2024-25,41,126,126,9,4,0,306
+Jalna,Maharashtra,FY2025-26,40,167,72,3,0,0,282
+Jalore,Rajasthan,FY2024-25,26,113,190,12,7,0,348
+Jalore,Rajasthan,FY2025-26,21,138,185,13,1,0,358
+Jhalawar,Rajasthan,FY2024-25,39,156,145,14,0,0,354
+Jhalawar,Rajasthan,FY2025-26,30,161,151,19,0,0,361
+Jhansi,Uttar Pradesh,FY2024-25,118,158,52,0,0,0,328
+Jhansi,Uttar Pradesh,FY2025-26,81,223,51,1,0,0,356
+Jhunjhunu,Rajasthan,FY2024-25,16,102,189,41,9,0,357
+Jhunjhunu,Rajasthan,FY2025-26,28,100,199,32,1,0,360
+Jodhpur,Rajasthan,FY2024-25,33,108,201,20,2,0,364
+Jodhpur,Rajasthan,FY2025-26,30,155,174,6,0,0,365
+Kadapa,Andhra Pradesh,FY2024-25,63,141,31,1,0,0,236
+Kadapa,Andhra Pradesh,FY2025-26,16,264,32,2,0,0,314
+Kalaburagi,Karnataka,FY2024-25,193,144,17,0,0,0,354
+Kalaburagi,Karnataka,FY2025-26,166,194,0,0,0,0,360
+Kalyan,Maharashtra,FY2024-25,82,110,161,5,0,0,358
+Kalyan,Maharashtra,FY2025-26,48,156,130,6,1,0,341
+Kannur,Kerala,FY2024-25,13,176,0,0,0,0,189
+Kannur,Kerala,FY2025-26,5,265,16,0,0,0,286
+Kanpur,Uttar Pradesh,FY2024-25,23,162,169,10,0,0,364
+Kanpur,Uttar Pradesh,FY2025-26,40,175,136,13,0,0,364
+Karauli,Rajasthan,FY2024-25,39,112,139,15,3,0,308
+Karauli,Rajasthan,FY2025-26,61,141,136,10,0,0,348
+Karnal,Haryana,FY2024-25,56,83,95,22,2,0,258
+Karnal,Haryana,FY2025-26,2,33,77,57,4,0,173
+Kashipur,Uttarakhand,FY2024-25,43,143,139,6,0,0,331
+Kashipur,Uttarakhand,FY2025-26,85,99,79,13,2,0,278
+Katihar,Bihar,FY2024-25,65,100,89,33,2,0,289
+Katihar,Bihar,FY2025-26,33,187,64,3,0,0,287
+Katni,Madhya Pradesh,FY2024-25,59,109,177,12,0,0,357
+Katni,Madhya Pradesh,FY2025-26,40,135,169,18,0,0,362
+Keonjhar,Odisha,FY2024-25,36,179,80,6,1,0,302
+Keonjhar,Odisha,FY2025-26,31,155,136,4,1,0,327
+Khanna,Punjab,FY2024-25,7,214,125,12,0,0,358
+Khanna,Punjab,FY2025-26,47,159,134,12,1,0,353
+Khurja,Uttar Pradesh,FY2024-25,3,92,185,33,6,0,319
+Khurja,Uttar Pradesh,FY2025-26,29,94,150,46,15,0,334
+Kishanganj,Bihar,FY2024-25,25,70,134,44,2,0,275
+Kishanganj,Bihar,FY2025-26,59,114,86,14,0,0,273
+Kohima,Nagaland,FY2024-25,82,158,77,3,0,0,320
+Kohima,Nagaland,FY2025-26,17,308,13,0,0,0,338
+Kolhapur,Maharashtra,FY2024-25,84,167,104,7,0,0,362
+Kolhapur,Maharashtra,FY2025-26,153,144,52,3,0,0,352
+Kolkata,West Bengal,FY2024-25,93,143,109,19,0,0,364
+Kolkata,West Bengal,FY2025-26,103,127,101,34,0,0,365
+Kollam,Kerala,FY2024-25,53,179,22,5,0,0,259
+Kollam,Kerala,FY2025-26,50,129,27,18,1,0,225
+Koppal,Karnataka,FY2024-25,167,84,27,0,0,0,278
+Koppal,Karnataka,FY2025-26,76,93,0,0,0,0,169
+Korba,Chhattisgarh,FY2024-25,95,196,57,1,0,0,349
+Korba,Chhattisgarh,FY2025-26,90,211,52,2,1,0,356
+Kota,Rajasthan,FY2024-25,11,128,193,28,4,0,364
+Kota,Rajasthan,FY2025-26,12,133,172,47,1,0,365
+Kunjemura,Chhattisgarh,FY2024-25,77,75,138,37,2,0,329
+Kunjemura,Chhattisgarh,FY2025-26,108,144,78,9,0,0,339
+Kurukshetra,Haryana,FY2024-25,48,71,97,42,1,0,259
+Kurukshetra,Haryana,FY2025-26,7,15,94,55,4,0,175
+Latur,Maharashtra,FY2024-25,106,136,110,7,0,0,359
+Latur,Maharashtra,FY2025-26,134,150,65,0,0,0,349
+Lucknow,Uttar Pradesh,FY2024-25,27,103,176,57,1,0,364
+Lucknow,Uttar Pradesh,FY2025-26,16,132,192,25,0,0,365
+Ludhiana,Punjab,FY2024-25,15,163,149,32,1,0,360
+Ludhiana,Punjab,FY2025-26,19,144,187,8,0,0,358
+Madikeri,Karnataka,FY2024-25,314,37,3,0,0,0,354
+Madikeri,Karnataka,FY2025-26,286,56,6,0,0,0,348
+Madurai,Tamil Nadu,FY2024-25,69,87,4,0,0,0,160
+Madurai,Tamil Nadu,FY2025-26,169,85,8,0,0,0,262
+Mahad,Maharashtra,FY2024-25,92,86,144,11,0,0,333
+Mahad,Maharashtra,FY2025-26,89,131,123,1,0,0,344
+Malegaon,Maharashtra,FY2024-25,27,128,166,18,0,0,339
+Malegaon,Maharashtra,FY2025-26,23,167,141,0,0,0,331
+Mandi Gobindgarh,Punjab,FY2024-25,9,80,145,77,5,0,316
+Mandi Gobindgarh,Punjab,FY2025-26,13,112,137,53,4,0,319
+Mandideep,Madhya Pradesh,FY2024-25,51,76,147,66,5,0,345
+Mandideep,Madhya Pradesh,FY2025-26,17,114,110,73,9,0,323
+Mangalore,Karnataka,FY2024-25,134,148,37,0,0,0,319
+Mangalore,Karnataka,FY2025-26,101,109,11,1,0,0,222
+Manguraha,Bihar,FY2024-25,12,92,103,6,0,0,213
+Manguraha,Bihar,FY2025-26,53,120,105,0,0,0,278
+Meerut,Uttar Pradesh,FY2024-25,46,82,165,64,7,0,364
+Meerut,Uttar Pradesh,FY2025-26,25,95,136,67,41,1,365
+Mira-Bhayandar,Maharashtra,FY2024-25,86,84,139,15,0,0,324
+Mira-Bhayandar,Maharashtra,FY2025-26,136,106,88,1,0,0,331
+Moradabad,Uttar Pradesh,FY2024-25,72,134,156,1,1,0,364
+Moradabad,Uttar Pradesh,FY2025-26,13,197,150,5,0,0,365
+Motihari,Bihar,FY2024-25,44,106,109,27,0,0,286
+Motihari,Bihar,FY2025-26,45,142,90,8,0,0,285
+Mumbai,Maharashtra,FY2024-25,82,123,157,2,0,0,364
+Mumbai,Maharashtra,FY2025-26,58,189,117,1,0,0,365
+Munger,Bihar,FY2024-25,46,80,148,37,2,0,313
+Munger,Bihar,FY2025-26,124,115,84,6,0,0,329
+Muzaffarnagar,Uttar Pradesh,FY2024-25,16,87,157,84,9,0,353
+Muzaffarnagar,Uttar Pradesh,FY2025-26,18,104,121,86,25,0,354
+Muzaffarpur,Bihar,FY2024-25,31,107,138,83,5,0,364
+Muzaffarpur,Bihar,FY2025-26,61,158,145,1,0,0,365
+Mysuru,Karnataka,FY2024-25,197,138,0,0,0,0,335
+Mysuru,Karnataka,FY2025-26,179,162,9,0,0,0,350
+Nagaon,Assam,FY2024-25,93,138,87,19,0,0,337
+Nagaon,Assam,FY2025-26,58,170,89,2,0,0,319
+Nagaur,Rajasthan,FY2024-25,27,87,194,37,5,0,350
+Nagaur,Rajasthan,FY2025-26,25,103,192,34,3,0,357
+Nagpur,Maharashtra,FY2024-25,72,128,147,17,0,0,364
+Nagpur,Maharashtra,FY2025-26,90,114,146,15,0,0,365
+Naharlagun,Arunachal Pradesh,FY2024-25,109,69,29,0,0,0,207
+Naharlagun,Arunachal Pradesh,FY2025-26,104,59,83,13,0,0,259
+Nalbari,Assam,FY2024-25,41,123,96,44,4,0,308
+Nalbari,Assam,FY2025-26,73,111,114,4,1,0,303
+Nanded,Maharashtra,FY2024-25,76,81,146,14,0,0,317
+Nanded,Maharashtra,FY2025-26,67,156,95,12,0,0,330
+Nashik,Maharashtra,FY2024-25,92,135,131,6,0,0,364
+Nashik,Maharashtra,FY2025-26,85,170,110,0,0,0,365
+Navi Mumbai,Maharashtra,FY2024-25,61,103,200,0,0,0,364
+Navi Mumbai,Maharashtra,FY2025-26,97,139,129,0,0,0,365
+Nayagarh,Odisha,FY2024-25,89,82,96,21,1,0,289
+Nayagarh,Odisha,FY2025-26,132,110,67,4,0,0,313
+Noida,Uttar Pradesh,FY2024-25,11,82,146,100,24,1,364
+Noida,Uttar Pradesh,FY2025-26,7,69,144,64,65,16,365
+Pali,Rajasthan,FY2024-25,8,72,233,21,9,0,343
+Pali,Rajasthan,FY2025-26,10,97,227,19,3,0,356
+Panchgaon,Haryana,FY2025-26,62,158,85,14,2,0,321
+Parbhani,Maharashtra,FY2024-25,34,93,126,23,3,0,279
+Parbhani,Maharashtra,FY2025-26,47,121,83,8,0,0,259
+Patiala,Punjab,FY2024-25,61,145,134,19,0,0,359
+Patiala,Punjab,FY2025-26,80,104,159,7,0,0,350
+Patna,Bihar,FY2024-25,9,87,127,132,9,0,364
+Patna,Bihar,FY2025-26,10,143,202,10,0,0,365
+Pimpri-Chinchwad,Maharashtra,FY2024-25,97,93,148,26,0,0,364
+Pimpri-Chinchwad,Maharashtra,FY2025-26,56,161,126,22,0,0,365
+Pithampur,Madhya Pradesh,FY2024-25,21,118,192,31,2,0,364
+Pithampur,Madhya Pradesh,FY2025-26,23,113,167,47,1,0,351
+Pratapgarh,Rajasthan,FY2024-25,55,174,116,8,0,0,353
+Pratapgarh,Rajasthan,FY2025-26,53,158,142,5,0,0,358
+Prayagraj,Uttar Pradesh,FY2024-25,120,182,60,1,0,0,363
+Prayagraj,Uttar Pradesh,FY2025-26,73,164,120,8,0,0,365
+Puducherry,Puducherry,FY2024-25,181,147,19,0,0,0,347
+Puducherry,Puducherry,FY2025-26,177,98,36,2,0,0,313
+Pudukottai,Tamil Nadu,FY2024-25,44,66,25,1,0,0,136
+Pudukottai,Tamil Nadu,FY2025-26,171,65,27,1,0,0,264
+Pune,Maharashtra,FY2024-25,54,122,185,3,0,0,364
+Pune,Maharashtra,FY2025-26,38,163,148,16,0,0,365
+Purnia,Bihar,FY2024-25,26,96,104,45,1,0,272
+Purnia,Bihar,FY2025-26,82,156,67,3,0,0,308
+Raipur,Chhattisgarh,FY2024-25,72,205,86,0,0,0,363
+Raipur,Chhattisgarh,FY2025-26,122,212,31,0,0,0,365
+Rairangpur,Odisha,FY2024-25,72,115,122,6,1,0,316
+Rairangpur,Odisha,FY2025-26,61,157,83,0,0,0,301
+Rajamahendravaram,Andhra Pradesh,FY2024-25,150,133,63,8,0,0,354
+Rajamahendravaram,Andhra Pradesh,FY2025-26,133,126,65,30,0,0,354
+Rajsamand,Rajasthan,FY2024-25,35,216,84,8,1,0,344
+Rajsamand,Rajasthan,FY2025-26,11,233,100,8,0,0,352
+Ramanagara,Karnataka,FY2024-25,175,128,26,4,0,0,333
+Ramanagara,Karnataka,FY2025-26,62,78,40,1,0,0,181
+Ramanathapuram,Tamil Nadu,FY2024-25,214,65,1,0,0,0,280
+Ramanathapuram,Tamil Nadu,FY2025-26,199,53,0,0,0,0,252
+Ratlam,Madhya Pradesh,FY2024-25,55,73,213,9,0,0,350
+Ratlam,Madhya Pradesh,FY2025-26,48,113,176,3,0,0,340
+Rishikesh,Uttarakhand,FY2024-25,104,174,51,2,0,0,331
+Rishikesh,Uttarakhand,FY2025-26,88,157,42,0,0,0,287
+Rohtak,Haryana,FY2024-25,37,67,108,66,14,2,294
+Rohtak,Haryana,FY2025-26,1,24,58,27,23,4,137
+Rourkela,Odisha,FY2024-25,35,125,155,47,0,0,362
+Rourkela,Odisha,FY2025-26,37,150,163,6,0,0,356
+Rupnagar,Punjab,FY2024-25,16,104,188,15,1,0,324
+Rupnagar,Punjab,FY2025-26,50,118,54,17,3,0,242
+Sagar,Madhya Pradesh,FY2024-25,42,193,114,12,2,0,363
+Sagar,Madhya Pradesh,FY2025-26,41,209,96,14,0,0,360
+Saharsa,Bihar,FY2024-25,28,128,111,41,6,0,314
+Saharsa,Bihar,FY2025-26,41,101,136,8,0,0,286
+Samastipur,Bihar,FY2024-25,5,79,156,38,2,0,280
+Samastipur,Bihar,FY2025-26,28,132,106,17,1,0,284
+Sangli,Maharashtra,FY2024-25,116,83,120,1,0,0,320
+Sangli,Maharashtra,FY2025-26,91,124,85,17,0,0,317
+Sasaram,Bihar,FY2024-25,62,95,121,46,2,0,326
+Sasaram,Bihar,FY2025-26,16,150,96,12,0,0,274
+Satna,Madhya Pradesh,FY2024-25,54,274,9,0,0,0,337
+Satna,Madhya Pradesh,FY2025-26,0,265,2,0,0,0,267
+Sawai Madhopur,Rajasthan,FY2024-25,17,104,186,22,1,0,330
+Sawai Madhopur,Rajasthan,FY2025-26,33,97,200,27,0,0,357
+Shillong,Meghalaya,FY2024-25,79,31,36,2,0,0,148
+Shillong,Meghalaya,FY2025-26,256,46,16,1,0,0,319
+Shivamogga,Karnataka,FY2024-25,161,181,0,0,0,0,342
+Shivamogga,Karnataka,FY2025-26,189,152,0,1,0,0,342
+Sikar,Rajasthan,FY2024-25,37,84,171,58,4,0,354
+Sikar,Rajasthan,FY2025-26,33,108,164,52,3,0,360
+Silchar,Assam,FY2024-25,117,232,0,0,0,0,349
+Silchar,Assam,FY2025-26,153,210,0,0,0,0,363
+Siliguri,West Bengal,FY2024-25,125,131,86,17,0,0,359
+Siliguri,West Bengal,FY2025-26,127,126,90,4,0,0,347
+Singrauli,Madhya Pradesh,FY2024-25,2,76,139,93,9,0,319
+Singrauli,Madhya Pradesh,FY2025-26,38,79,110,73,23,1,324
+Sirohi,Rajasthan,FY2024-25,51,209,61,4,6,0,331
+Sirohi,Rajasthan,FY2025-26,58,234,59,4,0,0,355
+Sivasagar,Assam,FY2024-25,96,263,0,0,0,0,359
+Sivasagar,Assam,FY2025-26,203,152,0,0,0,0,355
+Solapur,Maharashtra,FY2024-25,42,153,167,0,0,0,362
+Solapur,Maharashtra,FY2025-26,103,140,120,0,0,0,363
+Sri Ganganagar,Rajasthan,FY2024-25,2,42,144,108,20,2,318
+Sri Ganganagar,Rajasthan,FY2025-26,5,56,212,76,5,0,354
+Suakati,Odisha,FY2024-25,42,135,127,25,1,0,330
+Suakati,Odisha,FY2025-26,45,86,80,11,0,0,222
+Surat,Gujarat,FY2024-25,55,165,24,23,3,0,270
+Surat,Gujarat,FY2025-26,114,82,89,15,1,0,301
+Talcher,Odisha,FY2024-25,10,135,97,79,11,0,332
+Talcher,Odisha,FY2025-26,25,116,105,57,9,0,312
+Tensa,Odisha,FY2024-25,61,126,139,15,1,0,342
+Tensa,Odisha,FY2025-26,95,120,40,0,0,0,255
+Thane,Maharashtra,FY2024-25,74,163,122,5,0,0,364
+Thane,Maharashtra,FY2025-26,93,173,99,0,0,0,365
+Thiruvananthapuram,Kerala,FY2024-25,161,184,11,7,0,0,363
+Thiruvananthapuram,Kerala,FY2025-26,109,201,54,1,0,0,365
+Thrissur,Kerala,FY2024-25,133,169,5,0,0,0,307
+Thrissur,Kerala,FY2025-26,96,224,1,0,0,0,321
+Tirumala,Andhra Pradesh,FY2024-25,13,41,16,0,0,0,70
+Tirumala,Andhra Pradesh,FY2025-26,155,120,62,21,2,0,360
+Tirupati,Andhra Pradesh,FY2024-25,137,129,51,3,1,0,321
+Tirupati,Andhra Pradesh,FY2025-26,23,188,41,3,1,0,256
+Tirupur,Tamil Nadu,FY2024-25,89,117,55,0,0,0,261
+Tirupur,Tamil Nadu,FY2025-26,125,77,16,7,0,0,225
+Tonk,Rajasthan,FY2024-25,32,77,143,48,4,0,304
+Tonk,Rajasthan,FY2025-26,23,101,156,70,4,0,354
+Tumakuru,Karnataka,FY2024-25,36,90,177,5,0,0,308
+Tumakuru,Karnataka,FY2025-26,29,20,69,4,0,0,122
+Tumidih,Chhattisgarh,FY2024-25,13,46,48,4,0,0,111
+Tumidih,Chhattisgarh,FY2025-26,65,132,104,4,0,0,305
+Udaipur,Rajasthan,FY2024-25,11,165,173,13,1,0,363
+Udaipur,Rajasthan,FY2025-26,29,142,174,6,0,0,351
+Ujjain,Madhya Pradesh,FY2024-25,7,203,112,10,1,0,333
+Ujjain,Madhya Pradesh,FY2025-26,1,48,36,5,1,1,92
+Ulhasnagar,Maharashtra,FY2024-25,24,142,166,12,0,0,344
+Ulhasnagar,Maharashtra,FY2025-26,23,190,145,0,0,0,358
+Vapi,Gujarat,FY2024-25,64,135,96,25,5,0,325
+Vapi,Gujarat,FY2025-26,31,195,74,14,1,0,315
+Varanasi,Uttar Pradesh,FY2024-25,180,161,23,0,0,0,364
+Varanasi,Uttar Pradesh,FY2025-26,107,170,86,2,0,0,365
+Vatva,Gujarat,FY2024-25,28,191,120,10,0,0,349
+Vatva,Gujarat,FY2025-26,38,151,136,12,0,0,337
+Vijayapura,Karnataka,FY2024-25,252,19,35,0,0,0,306
+Vijayapura,Karnataka,FY2025-26,201,56,0,0,0,0,257
+Vijayawada,Andhra Pradesh,FY2024-25,53,277,9,0,0,0,339
+Vijayawada,Andhra Pradesh,FY2025-26,3,326,19,0,0,0,348
+Virar,Maharashtra,FY2024-25,36,189,101,17,0,0,343
+Virar,Maharashtra,FY2025-26,111,153,77,3,0,0,344
+Visakhapatnam,Andhra Pradesh,FY2024-25,23,148,148,23,2,0,344
+Visakhapatnam,Andhra Pradesh,FY2025-26,14,120,158,43,11,0,346
+Vrindavan,Uttar Pradesh,FY2024-25,26,124,188,5,0,0,343
+Vrindavan,Uttar Pradesh,FY2025-26,76,204,70,1,0,0,351
+Yadgir,Karnataka,FY2024-25,126,132,48,6,0,0,312
+Yadgir,Karnataka,FY2025-26,138,136,53,0,0,0,327

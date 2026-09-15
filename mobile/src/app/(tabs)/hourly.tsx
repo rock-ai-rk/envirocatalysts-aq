@@ -75,7 +75,7 @@ export default function HourlyScreen() {
   return (
     <Screen title="Hourly analysis">
       <OfflineBanner />
-      <DemoDataBanner />
+      <DemoDataBanner screen="hourly" />
 
       <FocusablePressable
         role="button"

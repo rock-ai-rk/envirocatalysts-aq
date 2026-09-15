@@ -12,20 +12,23 @@ from sqlalchemy import Boolean, CheckConstraint, Date, ForeignKey, String, Text,
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base, UTCDateTime, check_in, utcnow
-from app.domain import CITY_GROUPS, POLLUTANTS
+from app.domain import CITY_GROUPS, DATASET_SCOPES, POLLUTANTS
 
 
 class Dataset(Base):
-    """Where the historical data came from. The newest row describes what the API is serving."""
+    """Where the historical data came from. For each scope, the newest row covering it describes
+    what the API is serving (see DATASET_SCOPES)."""
 
     __tablename__ = "datasets"
+    __table_args__ = (CheckConstraint(check_in("scope", DATASET_SCOPES), name="scope"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
     source: Mapped[str] = mapped_column(Text)
     # Synthetic data exists only to build and test the app before the real files arrive;
-    # the app shows a banner whenever it is being served.
+    # the app shows a banner on every screen it is being served on.
     synthetic: Mapped[bool] = mapped_column(Boolean, default=False)
+    scope: Mapped[str] = mapped_column(String(10), default="all")
     imported_at: Mapped[datetime] = mapped_column(UTCDateTime, default=utcnow)
 
 

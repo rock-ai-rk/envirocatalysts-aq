@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.analytics.overview import Direction, ExclusionReason, RankBy
-from app.domain import AqiCategory, CityGroup, Frequency, HourlyPollutant, Pollutant
+from app.domain import AqiCategory, CityGroup, DatasetScope, Frequency, HourlyPollutant, Pollutant
 
 
 class PeriodOut(BaseModel):
@@ -26,7 +26,15 @@ class DatasetOut(BaseModel):
     name: str
     source: str
     synthetic: bool
+    scope: DatasetScope
     imported_at: datetime
+
+
+class DatasetsOut(BaseModel):
+    """Where each screen's data came from, so each can say so (e.g. real Overview, demo hourly)."""
+
+    overview: DatasetOut | None
+    hourly: DatasetOut | None
 
 
 class CityOut(BaseModel):
@@ -52,7 +60,9 @@ class CoverageRules(BaseModel):
 class MetaOut(BaseModel):
     """Everything the app needs to build its pickers, plus where the data came from."""
 
+    # The newest dataset loaded, kept for older app versions; `datasets` is per screen.
     dataset: DatasetOut | None
+    datasets: DatasetsOut
     periods: list[PeriodOut]
     default_base: str | None
     default_comparison: str | None

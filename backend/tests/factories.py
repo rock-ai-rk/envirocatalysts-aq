@@ -70,16 +70,20 @@ class FakeSource:
         return text.replace("secret-key", "***")
 
 
-def write_dataset(directory: Path, synthetic: bool = False, **tables: list[list]) -> Path:
+def write_dataset(
+    directory: Path, synthetic: bool = False, scope: str | None = None, **tables: list[list]
+) -> Path:
     """Write a canonical dataset directory, e.g. write_dataset(path, cities=[[...]], ...).
 
     The four city-level files are always written (empty unless given), since the loader requires
-    them; stations and hourly files only when passed.
+    them; stations and hourly files only when passed. `scope` is left out of the manifest unless
+    given, which the loader reads as "all".
     """
     directory.mkdir(parents=True, exist_ok=True)
-    (directory / "manifest.json").write_text(
-        json.dumps({"name": "test-dataset", "source": "tests", "synthetic": synthetic})
-    )
+    manifest = {"name": "test-dataset", "source": "tests", "synthetic": synthetic}
+    if scope:
+        manifest["scope"] = scope
+    (directory / "manifest.json").write_text(json.dumps(manifest))
     required = ("cities", "city_aqi_days", "city_pollutant_means", "city_dominant_days")
     for table in {*required, *tables}:
         filename = f"{table}.csv"

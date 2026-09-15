@@ -28,7 +28,8 @@ export const queryPersister = createAsyncStoragePersister({
 });
 
 // Answers saved from another API address, or before a response shape changed, are thrown away.
-export const CACHE_BUSTER = `${API_URL}#1`;
+// #2: /v1/meta reports each screen's dataset (and demo city numbers gave way to real ones).
+export const CACHE_BUSTER = `${API_URL}#2`;
 
 // React Query only knows about browser focus; tell it when the app comes back to the foreground
 // so stale readings refresh then.

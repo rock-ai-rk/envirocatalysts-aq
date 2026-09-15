@@ -6,7 +6,14 @@ from app.analytics.overview import MIN_COVERAGE, PM25_FLOOR
 from app.db import get_session
 from app.domain import CITY_GROUP_INFO
 from app.models import City, Dataset, Period
-from app.schemas.history import CoverageRules, DatasetOut, GroupOut, MetaOut, PeriodOut
+from app.schemas.history import (
+    CoverageRules,
+    DatasetOut,
+    DatasetsOut,
+    GroupOut,
+    MetaOut,
+    PeriodOut,
+)
 
 router = APIRouter(prefix="/v1", tags=["meta"])
 
@@ -17,7 +24,7 @@ PREFERRED_COMPARISON = "FY2025-26"
 
 @router.get("/meta", response_model=MetaOut)
 def meta(session: Session = Depends(get_session)) -> MetaOut:
-    """Periods, states and groups to build the pickers, and where the data came from."""
+    """Periods, states and groups to build the pickers, and where each screen's data came from."""
     dataset = session.scalars(select(Dataset).order_by(Dataset.id.desc()).limit(1)).first()
     periods = list(session.scalars(select(Period).order_by(Period.frequency, Period.start_date)))
     keys = [p.key for p in periods]
@@ -25,6 +32,9 @@ def meta(session: Session = Depends(get_session)) -> MetaOut:
 
     return MetaOut(
         dataset=DatasetOut.model_validate(dataset) if dataset else None,
+        datasets=DatasetsOut(
+            overview=_serving(session, "overview"), hourly=_serving(session, "hourly")
+        ),
         periods=[PeriodOut.model_validate(p) for p in periods],
         default_base=PREFERRED_BASE if PREFERRED_BASE in keys else _nth_last(financial_years, 2),
         default_comparison=(
@@ -37,6 +47,17 @@ def meta(session: Session = Depends(get_session)) -> MetaOut:
         ],
         rules=CoverageRules(min_coverage=MIN_COVERAGE, pm25_floor=PM25_FLOOR),
     )
+
+
+def _serving(session: Session, scope: str) -> DatasetOut | None:
+    """The newest dataset that provides this screen's data: one of its own scope, or a full one."""
+    dataset = session.scalars(
+        select(Dataset)
+        .where(Dataset.scope.in_((scope, "all")))
+        .order_by(Dataset.id.desc())
+        .limit(1)
+    ).first()
+    return DatasetOut.model_validate(dataset) if dataset else None
 
 
 def _nth_last(items: list[str], n: int) -> str | None:

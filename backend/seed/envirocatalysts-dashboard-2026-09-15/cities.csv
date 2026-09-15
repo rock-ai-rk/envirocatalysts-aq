@@ -1,0 +1,236 @@
+name,state,latitude,longitude,groups
+Agartala,Tripura,23.83,91.29,STATE_CAPITALS
+Agra,Uttar Pradesh,27.18,78.01,IGP MPC NCAP
+Ahmedabad,Gujarat,23.02,72.57,MPC NCAP
+Ahmednagar,Maharashtra,19.09,74.74,
+Aizawl,Mizoram,23.73,92.72,STATE_CAPITALS
+Ajmer,Rajasthan,26.45,74.64,
+Akola,Maharashtra,20.7,77.01,NCAP
+Alwar,Rajasthan,27.55,76.63,DELHI_NCR NCAP
+Amaravati,Andhra Pradesh,16.51,80.52,STATE_CAPITALS
+Amravati,Maharashtra,20.94,77.78,NCAP
+Amritsar,Punjab,31.63,74.87,IGP MPC NCAP
+Anantapur,Andhra Pradesh,14.68,77.6,NCAP
+Angul,Odisha,20.83,85.1,NCAP
+Ankleshwar,Gujarat,21.63,73.02,
+Araria,Bihar,26.15,87.52,IGP
+Ariyalur,Tamil Nadu,,,
+Arrah,Bihar,,,IGP
+Asansol,West Bengal,23.68,86.98,IGP MPC NCAP
+Aurangabad (Bihar),Bihar,24.75,84.37,MPC NCAP
+Aurangabad (Maharashtra),Maharashtra,19.88,75.34,MPC NCAP
+Baddi,Himachal Pradesh,30.95,76.79,NCAP
+Badlapur,Maharashtra,19.16,73.26,MPC NCAP
+Bagalkot,Karnataka,16.18,75.7,
+Baghpat,Uttar Pradesh,28.94,77.21,DELHI_NCR IGP
+Balasore,Odisha,21.49,86.93,NCAP
+Banswara,Rajasthan,,,
+Baran,Rajasthan,,,
+Barbil,Odisha,22.67,86.42,
+Bareilly,Uttar Pradesh,28.37,79.43,IGP NCAP
+Baripada,Odisha,21.95,86.74,
+Barmer,Rajasthan,,,
+Barrackpore,West Bengal,22.77,88.37,IGP MPC NCAP
+Bathinda,Punjab,30.21,74.95,IGP
+Begusarai,Bihar,,,IGP
+Belapur,Maharashtra,,,
+Belgaum,Karnataka,,,
+Bengaluru,Karnataka,12.97,77.59,MPC NCAP STATE_CAPITALS
+Bettiah,Bihar,,,IGP
+Bhagalpur,Bihar,,,IGP
+Bharatpur,Rajasthan,27.22,77.49,DELHI_NCR
+Bhilai,Chhattisgarh,21.21,81.43,MPC NCAP
+Bhilwara,Rajasthan,,,
+Bhiwadi,Rajasthan,28.21,76.87,
+Bhiwandi,Maharashtra,19.28,73.05,
+Bhopal,Madhya Pradesh,23.26,77.41,MPC NCAP STATE_CAPITALS
+Bhubaneswar,Odisha,20.3,85.82,NCAP STATE_CAPITALS
+Bikaner,Rajasthan,28.02,73.31,
+Bilaspur,Chhattisgarh,22.08,82.14,
+Bileipada,Odisha,,,
+Boisar,Maharashtra,19.71,72.76,
+Brajrajnagar,Odisha,,,
+Bulandshahr,Uttar Pradesh,28.41,77.85,DELHI_NCR IGP
+Bundi,Rajasthan,,,
+Buxar,Bihar,,,IGP
+Byasanagar,Odisha,,,
+Byrnihat (Assam),Assam,26.19,91.92,IGP NCAP
+Chamarajanagar,Karnataka,11.92,76.94,
+Chandigarh,Chandigarh,30.73,76.78,IGP NCAP STATE_CAPITALS
+Chandrapur,Maharashtra,19.96,79.3,NCAP
+Charkhi Dadri,Haryana,28.59,76.27,DELHI_NCR IGP
+Chennai,Tamil Nadu,13.08,80.27,MPC NCAP STATE_CAPITALS
+Chhal,Chhattisgarh,,,
+Chhapra,Bihar,,,IGP
+Chikkaballapur,Karnataka,13.43,77.73,
+Chikkamagaluru,Karnataka,13.32,75.78,
+Chittoor,Andhra Pradesh,13.22,79.1,NCAP
+Chittorgarh,Rajasthan,,,
+Churu,Rajasthan,,,
+Coimbatore,Tamil Nadu,11.02,76.96,
+Cuddalore,Tamil Nadu,11.75,79.77,
+Cuttack,Odisha,20.46,85.88,NCAP
+Damoh,Madhya Pradesh,,,
+Dausa,Rajasthan,,,
+Davanagere,Karnataka,14.46,75.92,NCAP
+Dehradun,Uttarakhand,30.32,78.03,NCAP STATE_CAPITALS
+Delhi,Delhi,28.61,77.21,DELHI_NCR IGP NCAP STATE_CAPITALS
+Dewas,Madhya Pradesh,22.96,76.05,NCAP
+Dhanbad,Jharkhand,23.8,86.43,IGP MPC NCAP
+Dharwad,Karnataka,15.46,75.01,NCAP
+Dholpur,Rajasthan,,,
+Dhule,Maharashtra,20.9,74.78,
+Dungarpur,Rajasthan,,,
+Durgapur,West Bengal,23.52,87.31,IGP NCAP
+Eloor,Kerala,10.08,76.29,
+Faridabad,Haryana,28.41,77.32,DELHI_NCR IGP MPC NCAP
+Firozabad,Uttar Pradesh,27.16,78.4,IGP NCAP
+Gadag,Karnataka,15.43,75.62,
+Gandhinagar,Gujarat,23.22,72.64,STATE_CAPITALS
+Gaya,Bihar,24.79,85.0,IGP NCAP
+Ghaziabad,Uttar Pradesh,28.67,77.45,DELHI_NCR IGP MPC NCAP
+Gorakhpur,Uttar Pradesh,26.76,83.37,IGP NCAP
+Greater Noida,Uttar Pradesh,28.47,77.5,DELHI_NCR IGP
+Gummidipoondi,Tamil Nadu,,,
+Gurugram,Haryana,28.46,77.03,DELHI_NCR IGP
+Guwahati,Assam,26.14,91.74,IGP NCAP
+Gwalior,Madhya Pradesh,26.22,78.18,MPC NCAP
+Hajipur,Bihar,25.69,85.21,IGP
+Haldia,West Bengal,22.07,88.06,IGP NCAP
+Hanumangarh,Rajasthan,,,
+Hapur,Uttar Pradesh,28.73,77.78,DELHI_NCR IGP
+Howrah,West Bengal,22.6,88.26,IGP MPC NCAP
+Hubballi,Karnataka,15.36,75.12,NCAP
+Hyderabad,Telangana,17.39,78.49,MPC NCAP STATE_CAPITALS
+Imphal,Manipur,24.82,93.94,STATE_CAPITALS
+Indore,Madhya Pradesh,22.72,75.86,MPC NCAP
+Jabalpur,Madhya Pradesh,23.18,79.99,MPC NCAP
+Jaipur,Rajasthan,26.91,75.79,MPC NCAP STATE_CAPITALS
+Jaisalmer,Rajasthan,,,
+Jalandhar,Punjab,31.33,75.58,IGP NCAP
+Jalgaon,Maharashtra,21.01,75.56,NCAP
+Jalna,Maharashtra,19.83,75.88,NCAP
+Jalore,Rajasthan,,,
+Jhalawar,Rajasthan,,,
+Jhansi,Uttar Pradesh,25.45,78.57,IGP NCAP
+Jhunjhunu,Rajasthan,,,
+Jodhpur,Rajasthan,26.24,73.02,MPC NCAP
+Kadapa,Andhra Pradesh,14.47,78.82,NCAP
+Kalaburagi,Karnataka,,,
+Kalyan,Maharashtra,19.24,73.14,
+Kannur,Kerala,11.87,75.37,
+Kanpur,Uttar Pradesh,26.45,80.33,IGP MPC NCAP
+Karauli,Rajasthan,,,
+Karnal,Haryana,29.69,76.99,DELHI_NCR IGP
+Kashipur,Uttarakhand,29.21,78.96,NCAP
+Katihar,Bihar,,,IGP
+Katni,Madhya Pradesh,23.83,80.4,
+Keonjhar,Odisha,,,
+Khanna,Punjab,30.7,76.21,IGP NCAP
+Khurja,Uttar Pradesh,28.25,77.86,IGP NCAP
+Kishanganj,Bihar,,,IGP
+Kohima,Nagaland,25.68,94.11,NCAP STATE_CAPITALS
+Kolhapur,Maharashtra,16.71,74.24,NCAP
+Kolkata,West Bengal,22.57,88.36,IGP MPC NCAP STATE_CAPITALS
+Kollam,Kerala,8.89,76.61,
+Koppal,Karnataka,15.35,76.15,
+Korba,Chhattisgarh,22.36,82.75,NCAP
+Kota,Rajasthan,25.21,75.86,MPC NCAP
+Kunjemura,Chhattisgarh,,,
+Kurukshetra,Haryana,29.97,76.88,IGP
+Latur,Maharashtra,18.41,76.56,NCAP
+Lucknow,Uttar Pradesh,26.85,80.95,IGP MPC NCAP STATE_CAPITALS
+Ludhiana,Punjab,30.9,75.86,IGP MPC NCAP
+Madikeri,Karnataka,12.42,75.74,
+Madurai,Tamil Nadu,9.93,78.12,MPC NCAP
+Mahad,Maharashtra,,,
+Malegaon,Maharashtra,20.56,74.51,
+Mandi Gobindgarh,Punjab,30.67,76.32,IGP NCAP
+Mandideep,Madhya Pradesh,,,
+Mangalore,Karnataka,12.87,74.84,
+Manguraha,Bihar,,,IGP
+Meerut,Uttar Pradesh,28.98,77.71,DELHI_NCR IGP MPC NCAP
+Mira-Bhayandar,Maharashtra,19.3,72.85,
+Moradabad,Uttar Pradesh,28.84,78.78,IGP NCAP
+Motihari,Bihar,,,IGP
+Mumbai,Maharashtra,19.08,72.88,MPC NCAP STATE_CAPITALS
+Munger,Bihar,,,IGP
+Muzaffarnagar,Uttar Pradesh,29.47,77.71,DELHI_NCR IGP
+Muzaffarpur,Bihar,26.12,85.36,IGP NCAP
+Mysuru,Karnataka,12.3,76.64,
+Nagaon,Assam,26.35,92.68,IGP NCAP
+Nagaur,Rajasthan,,,
+Nagpur,Maharashtra,21.15,79.09,MPC NCAP
+Naharlagun,Arunachal Pradesh,,,
+Nalbari,Assam,26.44,91.44,IGP NCAP
+Nanded,Maharashtra,19.14,77.32,
+Nashik,Maharashtra,20.0,73.79,MPC NCAP
+Navi Mumbai,Maharashtra,19.03,73.03,MPC NCAP
+Nayagarh,Odisha,,,
+Noida,Uttar Pradesh,28.54,77.39,DELHI_NCR IGP NCAP
+Pali,Rajasthan,25.77,73.32,
+Panchgaon,Haryana,,,IGP
+Parbhani,Maharashtra,19.27,76.77,
+Patiala,Punjab,30.34,76.39,IGP NCAP
+Patna,Bihar,25.59,85.14,IGP MPC NCAP STATE_CAPITALS
+Pimpri-Chinchwad,Maharashtra,18.62,73.8,
+Pithampur,Madhya Pradesh,22.62,75.7,
+Pratapgarh,Rajasthan,,,
+Prayagraj,Uttar Pradesh,25.44,81.85,IGP MPC NCAP
+Puducherry,Puducherry,11.94,79.81,STATE_CAPITALS
+Pudukottai,Tamil Nadu,,,
+Pune,Maharashtra,18.52,73.86,MPC NCAP
+Purnia,Bihar,,,IGP
+Raipur,Chhattisgarh,21.25,81.63,MPC NCAP STATE_CAPITALS
+Rairangpur,Odisha,,,
+Rajamahendravaram,Andhra Pradesh,17.0,81.8,NCAP
+Rajsamand,Rajasthan,,,
+Ramanagara,Karnataka,,,
+Ramanathapuram,Tamil Nadu,9.37,78.83,
+Ratlam,Madhya Pradesh,23.33,75.04,
+Rishikesh,Uttarakhand,30.09,78.27,NCAP
+Rohtak,Haryana,28.9,76.61,DELHI_NCR IGP
+Rourkela,Odisha,22.26,84.85,NCAP
+Rupnagar,Punjab,30.97,76.53,IGP
+Sagar,Madhya Pradesh,23.84,78.74,NCAP
+Saharsa,Bihar,25.88,86.6,IGP
+Samastipur,Bihar,,,IGP
+Sangli,Maharashtra,16.85,74.58,NCAP
+Sasaram,Bihar,,,IGP
+Satna,Madhya Pradesh,24.58,80.83,
+Sawai Madhopur,Rajasthan,,,
+Shillong,Meghalaya,25.58,91.89,STATE_CAPITALS
+Shivamogga,Karnataka,13.93,75.57,
+Sikar,Rajasthan,,,
+Silchar,Assam,24.83,92.78,IGP NCAP
+Siliguri,West Bengal,26.73,88.4,IGP
+Singrauli,Madhya Pradesh,24.2,82.67,
+Sirohi,Rajasthan,,,
+Sivasagar,Assam,26.98,94.64,IGP NCAP
+Solapur,Maharashtra,17.66,75.91,NCAP
+Sri Ganganagar,Rajasthan,,,
+Suakati,Odisha,,,
+Surat,Gujarat,21.17,72.83,MPC NCAP
+Talcher,Odisha,20.95,85.23,NCAP
+Tensa,Odisha,,,
+Thane,Maharashtra,19.22,72.98,MPC NCAP
+Thiruvananthapuram,Kerala,8.52,76.94,STATE_CAPITALS
+Thrissur,Kerala,10.53,76.21,
+Tirumala,Andhra Pradesh,,,
+Tirupati,Andhra Pradesh,13.63,79.42,
+Tirupur,Tamil Nadu,,,
+Tonk,Rajasthan,,,
+Tumakuru,Karnataka,,,
+Tumidih,Chhattisgarh,,,
+Udaipur,Rajasthan,24.59,73.71,NCAP
+Ujjain,Madhya Pradesh,23.18,75.79,NCAP
+Ulhasnagar,Maharashtra,19.22,73.16,MPC NCAP
+Vapi,Gujarat,20.37,72.91,
+Varanasi,Uttar Pradesh,25.32,82.97,IGP MPC NCAP
+Vatva,Gujarat,22.96,72.62,
+Vijayapura,Karnataka,16.83,75.72,
+Vijayawada,Andhra Pradesh,16.51,80.65,MPC NCAP
+Virar,Maharashtra,19.46,72.81,MPC NCAP
+Visakhapatnam,Andhra Pradesh,17.69,83.22,MPC NCAP
+Vrindavan,Uttar Pradesh,27.55,77.7,IGP
+Yadgir,Karnataka,16.77,77.13,

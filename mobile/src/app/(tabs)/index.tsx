@@ -10,7 +10,7 @@ import { Legend } from '@/components/charts/legend';
 import { CityMap } from '@/components/city-map';
 import { CoverageBanner } from '@/components/coverage-banner';
 import { DataFreshness } from '@/components/data-freshness';
-import { DemoDataBanner } from '@/components/demo-data-banner';
+import { DemoDataBanner, useScreenDataset } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
@@ -47,6 +47,7 @@ export default function OverviewScreen() {
   const theme = useTheme();
   const { filters, setFilters } = useOverviewFilters();
   const meta = useMeta();
+  const dataset = useScreenDataset('overview');
   const overview = useOverview(toOverviewParams(filters));
   const [view, setView] = useState<PeriodView>('base');
   const [metric, setMetric] = useState<OverviewMetric>('aqi_days');
@@ -101,7 +102,7 @@ export default function OverviewScreen() {
     <View style={styles.header}>
       <ScreenTitle>Air quality overview</ScreenTitle>
       <OfflineBanner />
-      <DemoDataBanner />
+      <DemoDataBanner screen="overview" />
       <FilterSummaryBar />
       <DataFreshness query={overview} />
       <LiveCitiesCard state={filters.state} />
@@ -153,21 +154,30 @@ export default function OverviewScreen() {
   );
 
   const hiddenCount = data && data.top !== null ? data.eligible - data.cities.length : 0;
-  const footer =
-    hiddenCount > 0 ? (
-      <View style={styles.footer}>
-        <ThemedText type="small" themeColor="textSecondary">
-          {`Showing ${data!.cities.length} of ${data!.eligible} ranked cities`}
+  const footer = (
+    <View style={styles.footer}>
+      {hiddenCount > 0 ? (
+        <>
+          <ThemedText type="small" themeColor="textSecondary">
+            {`Showing ${data!.cities.length} of ${data!.eligible} ranked cities`}
+          </ThemedText>
+          <FocusablePressable
+            role="button"
+            aria-label={`Show all ${data!.eligible} cities`}
+            onPress={() => setFilters({ ...filters, top: 'all' })}
+            style={[styles.showAll, { borderColor: theme.border }]}>
+            <ThemedText type="smallBold">Show all</ThemedText>
+          </FocusablePressable>
+        </>
+      ) : null}
+      {/* Where these numbers come from, as the data's terms of use ask. */}
+      {dataset && data?.cities.length ? (
+        <ThemedText type="small" themeColor="textSecondary" style={styles.source}>
+          {`Source: ${dataset.source}.`}
         </ThemedText>
-        <FocusablePressable
-          role="button"
-          aria-label={`Show all ${data!.eligible} cities`}
-          onPress={() => setFilters({ ...filters, top: 'all' })}
-          style={[styles.showAll, { borderColor: theme.border }]}>
-          <ThemedText type="smallBold">Show all</ThemedText>
-        </FocusablePressable>
-      </View>
-    ) : null;
+      ) : null}
+    </View>
+  );
 
   return (
     <ScreenFrame>
@@ -204,5 +214,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.four,
     borderRadius: Spacing.two,
     borderWidth: 1,
+  },
+  source: {
+    textAlign: 'center',
   },
 });

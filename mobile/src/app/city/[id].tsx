@@ -73,7 +73,7 @@ export default function CityDetailScreen() {
 
   return (
     <Frame title={city.name}>
-      <DemoDataBanner />
+      <DemoDataBanner screen="overview" />
       <View>
         <ThemedText type="screenTitle" role="heading">
           {city.name}

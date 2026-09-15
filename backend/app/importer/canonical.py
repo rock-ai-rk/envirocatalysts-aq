@@ -2,7 +2,7 @@
 
 A dataset is a directory containing these files (columns listed under each):
 
-    manifest.json              {"name": ..., "source": ..., "synthetic": false}
+    manifest.json              {"name": ..., "source": ..., "synthetic": false, "scope": "all"}
     cities.csv                 name,state,latitude,longitude,groups
     city_aqi_days.csv          city,state,period,good,satisfactory,moderate,poor,very_poor,
                                severe,days_with_data
@@ -15,9 +15,17 @@ A dataset is a directory containing these files (columns listed under each):
 keys such as FY2024-25, CY2025 or 2025-04. `observed_at` is IST and hour-ending, as CPCB publishes
 it ("2024-04-01 01:00" is the hour 00:00-01:00). Empty cells mean no data.
 
+`scope` (optional, default "all") says which screen's data the dataset provides:
+- "all": every file above.
+- "overview": cities.csv and the three city_* files; no station files.
+- "hourly": stations.csv and station_hourly.csv only, for cities an earlier dataset loaded.
+Each screen reports the source of the newest dataset covering it, so real Overview numbers can be
+served next to demo hourly data without either being mislabelled.
+
 Loading is idempotent: aggregate rows are replaced per period and hourly rows are upserted, so a
 directory can be loaded again after corrections. Everything happens in one transaction, so a bad
-file leaves the database untouched.
+file leaves the database untouched. `replace` clears everything, except for an hourly dataset,
+where it clears only the station data (cities belong to the Overview's dataset).
 """
 
 import csv
@@ -32,7 +40,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.db import insert_for
-from app.domain import AQI_CATEGORIES, CITY_GROUPS, HOURLY_COLUMNS, IST, POLLUTANTS
+from app.domain import AQI_CATEGORIES, CITY_GROUPS, DATASET_SCOPES, HOURLY_COLUMNS, IST, POLLUTANTS
 from app.linking import refresh_links
 from app.models import (
     City,
@@ -79,16 +87,23 @@ def load_directory(session: Session, directory: Path, replace: bool = False) -> 
     """Load a canonical dataset directory. Commits on success, rolls back on any error."""
     try:
         manifest = _read_manifest(directory)
+        scope = manifest["scope"]
         if replace:
-            _clear_history(session)
+            _clear_history(session, scope)
         report = LoadReport()
-        cities = _load_cities(session, directory, report)
-        periods: PeriodIndex = {}
-        _load_aqi_days(session, directory, cities, periods, report)
-        _load_pollutant_means(session, directory, cities, periods, report)
-        _load_dominant_days(session, directory, cities, periods, report)
-        stations = _load_stations(session, directory, cities, report)
-        _load_hourly(session, directory, stations, report)
+        if scope == "hourly":
+            # Stations attach to cities already loaded; their names, groups and coordinates stay
+            # as the Overview's dataset set them.
+            cities: CityIndex = {(c.name, c.state): c for c in session.scalars(select(City))}
+        else:
+            cities = _load_cities(session, directory, report)
+            periods: PeriodIndex = {}
+            _load_aqi_days(session, directory, cities, periods, report)
+            _load_pollutant_means(session, directory, cities, periods, report)
+            _load_dominant_days(session, directory, cities, periods, report)
+        if scope != "overview":
+            stations = _load_stations(session, directory, cities, report)
+            _load_hourly(session, directory, stations, report)
         # Live stations may already be known from earlier scrapes.
         report.add("station_links", refresh_links(session).linked)
         session.add(Dataset(**manifest))
@@ -107,18 +122,28 @@ def _read_manifest(directory: Path) -> dict:
     missing = {"name", "source", "synthetic"} - manifest.keys()
     if missing:
         raise InvalidDataset(f"{path}: missing {', '.join(sorted(missing))}")
+    scope = str(manifest.get("scope", "all"))
+    if scope not in DATASET_SCOPES:
+        raise InvalidDataset(f"{path}: scope {scope!r} is not one of {', '.join(DATASET_SCOPES)}")
     return {
         "name": str(manifest["name"]),
         "source": str(manifest["source"]),
         "synthetic": bool(manifest["synthetic"]),
+        "scope": scope,
     }
 
 
-def _clear_history(session: Session) -> None:
+def _clear_history(session: Session, scope: str) -> None:
+    """Delete what a dataset of this scope replaces."""
+    station_data = (StationLink, StationHourly, Station)
+    if scope == "hourly":
+        for model in station_data:
+            session.execute(delete(model))
+        session.execute(delete(Dataset).where(Dataset.scope == "hourly"))
+        return
+    # Stations belong to cities, so replacing the cities replaces them too.
     for model in (
-        StationLink,
-        StationHourly,
-        Station,
+        *station_data,
         CityDominantDays,
         CityPollutantMean,
         CityAqiDays,

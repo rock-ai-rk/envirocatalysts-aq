@@ -1,0 +1,2061 @@
+city,state,period,pollutant,days
+Agartala,Tripura,FY2024-25,PM2.5,94
+Agartala,Tripura,FY2024-25,PM10,153
+Agartala,Tripura,FY2024-25,SO2,21
+Agartala,Tripura,FY2024-25,O3,38
+Agartala,Tripura,FY2025-26,PM2.5,57
+Agartala,Tripura,FY2025-26,PM10,116
+Agartala,Tripura,FY2025-26,SO2,78
+Agartala,Tripura,FY2025-26,O3,43
+Agra,Uttar Pradesh,FY2024-25,PM2.5,101
+Agra,Uttar Pradesh,FY2024-25,PM10,207
+Agra,Uttar Pradesh,FY2024-25,NO2,18
+Agra,Uttar Pradesh,FY2024-25,SO2,10
+Agra,Uttar Pradesh,FY2024-25,CO,1
+Agra,Uttar Pradesh,FY2024-25,O3,27
+Agra,Uttar Pradesh,FY2025-26,PM2.5,86
+Agra,Uttar Pradesh,FY2025-26,PM10,255
+Agra,Uttar Pradesh,FY2025-26,NO2,8
+Agra,Uttar Pradesh,FY2025-26,SO2,4
+Agra,Uttar Pradesh,FY2025-26,CO,4
+Agra,Uttar Pradesh,FY2025-26,O3,8
+Ahmedabad,Gujarat,FY2024-25,PM2.5,210
+Ahmedabad,Gujarat,FY2024-25,PM10,103
+Ahmedabad,Gujarat,FY2024-25,NO2,19
+Ahmedabad,Gujarat,FY2024-25,SO2,1
+Ahmedabad,Gujarat,FY2024-25,CO,3
+Ahmedabad,Gujarat,FY2024-25,O3,28
+Ahmedabad,Gujarat,FY2025-26,PM2.5,105
+Ahmedabad,Gujarat,FY2025-26,PM10,206
+Ahmedabad,Gujarat,FY2025-26,NO2,24
+Ahmedabad,Gujarat,FY2025-26,SO2,2
+Ahmedabad,Gujarat,FY2025-26,CO,13
+Ahmedabad,Gujarat,FY2025-26,O3,15
+Ahmednagar,Maharashtra,FY2024-25,PM2.5,32
+Ahmednagar,Maharashtra,FY2024-25,PM10,169
+Ahmednagar,Maharashtra,FY2024-25,CO,7
+Ahmednagar,Maharashtra,FY2024-25,O3,89
+Ahmednagar,Maharashtra,FY2025-26,PM2.5,30
+Ahmednagar,Maharashtra,FY2025-26,PM10,247
+Ahmednagar,Maharashtra,FY2025-26,NO2,1
+Ahmednagar,Maharashtra,FY2025-26,CO,32
+Ahmednagar,Maharashtra,FY2025-26,O3,35
+Aizawl,Mizoram,FY2024-25,PM2.5,1
+Aizawl,Mizoram,FY2024-25,PM10,317
+Aizawl,Mizoram,FY2024-25,CO,1
+Aizawl,Mizoram,FY2024-25,O3,31
+Aizawl,Mizoram,FY2025-26,PM2.5,82
+Aizawl,Mizoram,FY2025-26,PM10,137
+Aizawl,Mizoram,FY2025-26,SO2,1
+Ajmer,Rajasthan,FY2024-25,PM2.5,52
+Ajmer,Rajasthan,FY2024-25,PM10,262
+Ajmer,Rajasthan,FY2024-25,NO2,3
+Ajmer,Rajasthan,FY2024-25,CO,1
+Ajmer,Rajasthan,FY2024-25,O3,40
+Ajmer,Rajasthan,FY2025-26,PM2.5,29
+Ajmer,Rajasthan,FY2025-26,PM10,305
+Ajmer,Rajasthan,FY2025-26,NO2,5
+Ajmer,Rajasthan,FY2025-26,CO,8
+Ajmer,Rajasthan,FY2025-26,O3,12
+Akola,Maharashtra,FY2024-25,PM2.5,10
+Akola,Maharashtra,FY2024-25,PM10,349
+Akola,Maharashtra,FY2024-25,CO,3
+Akola,Maharashtra,FY2024-25,O3,2
+Akola,Maharashtra,FY2025-26,PM2.5,7
+Akola,Maharashtra,FY2025-26,PM10,332
+Akola,Maharashtra,FY2025-26,NO2,3
+Akola,Maharashtra,FY2025-26,CO,5
+Akola,Maharashtra,FY2025-26,O3,10
+Alwar,Rajasthan,FY2024-25,PM2.5,30
+Alwar,Rajasthan,FY2024-25,PM10,289
+Alwar,Rajasthan,FY2024-25,NO2,25
+Alwar,Rajasthan,FY2024-25,CO,14
+Alwar,Rajasthan,FY2024-25,O3,1
+Alwar,Rajasthan,FY2025-26,PM2.5,19
+Alwar,Rajasthan,FY2025-26,PM10,226
+Alwar,Rajasthan,FY2025-26,NO2,45
+Alwar,Rajasthan,FY2025-26,CO,56
+Alwar,Rajasthan,FY2025-26,O3,4
+Amaravati,Andhra Pradesh,FY2024-25,PM2.5,30
+Amaravati,Andhra Pradesh,FY2024-25,PM10,206
+Amaravati,Andhra Pradesh,FY2024-25,NO2,5
+Amaravati,Andhra Pradesh,FY2024-25,SO2,3
+Amaravati,Andhra Pradesh,FY2024-25,CO,91
+Amaravati,Andhra Pradesh,FY2024-25,O3,16
+Amaravati,Andhra Pradesh,FY2025-26,PM2.5,50
+Amaravati,Andhra Pradesh,FY2025-26,PM10,249
+Amaravati,Andhra Pradesh,FY2025-26,NO2,17
+Amaravati,Andhra Pradesh,FY2025-26,SO2,3
+Amaravati,Andhra Pradesh,FY2025-26,CO,14
+Amaravati,Andhra Pradesh,FY2025-26,O3,14
+Amravati,Maharashtra,FY2024-25,PM2.5,28
+Amravati,Maharashtra,FY2024-25,PM10,308
+Amravati,Maharashtra,FY2024-25,CO,7
+Amravati,Maharashtra,FY2024-25,O3,20
+Amravati,Maharashtra,FY2025-26,PM2.5,19
+Amravati,Maharashtra,FY2025-26,PM10,302
+Amravati,Maharashtra,FY2025-26,CO,12
+Amravati,Maharashtra,FY2025-26,O3,31
+Amritsar,Punjab,FY2024-25,PM2.5,143
+Amritsar,Punjab,FY2024-25,PM10,166
+Amritsar,Punjab,FY2024-25,NO2,2
+Amritsar,Punjab,FY2024-25,CO,18
+Amritsar,Punjab,FY2024-25,O3,16
+Amritsar,Punjab,FY2025-26,PM2.5,97
+Amritsar,Punjab,FY2025-26,PM10,186
+Amritsar,Punjab,FY2025-26,NO2,15
+Amritsar,Punjab,FY2025-26,CO,29
+Amritsar,Punjab,FY2025-26,O3,13
+Anantapur,Andhra Pradesh,FY2024-25,PM2.5,40
+Anantapur,Andhra Pradesh,FY2024-25,PM10,229
+Anantapur,Andhra Pradesh,FY2024-25,NO2,2
+Anantapur,Andhra Pradesh,FY2024-25,SO2,1
+Anantapur,Andhra Pradesh,FY2024-25,CO,2
+Anantapur,Andhra Pradesh,FY2024-25,O3,4
+Anantapur,Andhra Pradesh,FY2025-26,PM2.5,241
+Anantapur,Andhra Pradesh,FY2025-26,PM10,70
+Anantapur,Andhra Pradesh,FY2025-26,CO,1
+Anantapur,Andhra Pradesh,FY2025-26,O3,2
+Angul,Odisha,FY2024-25,PM2.5,138
+Angul,Odisha,FY2024-25,PM10,111
+Angul,Odisha,FY2024-25,NO2,3
+Angul,Odisha,FY2024-25,SO2,1
+Angul,Odisha,FY2024-25,CO,45
+Angul,Odisha,FY2024-25,O3,33
+Angul,Odisha,FY2025-26,PM2.5,94
+Angul,Odisha,FY2025-26,PM10,100
+Angul,Odisha,FY2025-26,CO,92
+Angul,Odisha,FY2025-26,O3,66
+Ankleshwar,Gujarat,FY2024-25,PM2.5,117
+Ankleshwar,Gujarat,FY2024-25,PM10,109
+Ankleshwar,Gujarat,FY2024-25,NO2,7
+Ankleshwar,Gujarat,FY2024-25,SO2,7
+Ankleshwar,Gujarat,FY2024-25,CO,73
+Ankleshwar,Gujarat,FY2024-25,O3,1
+Ankleshwar,Gujarat,FY2025-26,PM2.5,66
+Ankleshwar,Gujarat,FY2025-26,PM10,114
+Ankleshwar,Gujarat,FY2025-26,NO2,41
+Ankleshwar,Gujarat,FY2025-26,SO2,69
+Ankleshwar,Gujarat,FY2025-26,CO,5
+Ankleshwar,Gujarat,FY2025-26,O3,21
+Araria,Bihar,FY2024-25,PM2.5,92
+Araria,Bihar,FY2024-25,PM10,139
+Araria,Bihar,FY2024-25,CO,3
+Araria,Bihar,FY2024-25,O3,1
+Araria,Bihar,FY2025-26,PM2.5,192
+Araria,Bihar,FY2025-26,PM10,49
+Araria,Bihar,FY2025-26,NO2,19
+Araria,Bihar,FY2025-26,CO,37
+Ariyalur,Tamil Nadu,FY2024-25,PM2.5,29
+Ariyalur,Tamil Nadu,FY2024-25,PM10,193
+Ariyalur,Tamil Nadu,FY2024-25,NO2,12
+Ariyalur,Tamil Nadu,FY2024-25,SO2,55
+Ariyalur,Tamil Nadu,FY2025-26,PM2.5,32
+Ariyalur,Tamil Nadu,FY2025-26,PM10,181
+Ariyalur,Tamil Nadu,FY2025-26,SO2,2
+Arrah,Bihar,FY2024-25,PM2.5,64
+Arrah,Bihar,FY2024-25,PM10,132
+Arrah,Bihar,FY2024-25,CO,2
+Arrah,Bihar,FY2024-25,O3,43
+Arrah,Bihar,FY2025-26,PM2.5,96
+Arrah,Bihar,FY2025-26,PM10,81
+Arrah,Bihar,FY2025-26,CO,87
+Arrah,Bihar,FY2025-26,O3,9
+Asansol,West Bengal,FY2024-25,PM2.5,243
+Asansol,West Bengal,FY2024-25,PM10,89
+Asansol,West Bengal,FY2024-25,NO2,2
+Asansol,West Bengal,FY2024-25,SO2,4
+Asansol,West Bengal,FY2024-25,CO,10
+Asansol,West Bengal,FY2024-25,O3,16
+Asansol,West Bengal,FY2025-26,PM2.5,170
+Asansol,West Bengal,FY2025-26,PM10,139
+Asansol,West Bengal,FY2025-26,NO2,6
+Asansol,West Bengal,FY2025-26,CO,26
+Asansol,West Bengal,FY2025-26,O3,24
+Aurangabad (Bihar),Bihar,FY2024-25,PM2.5,87
+Aurangabad (Bihar),Bihar,FY2024-25,PM10,154
+Aurangabad (Bihar),Bihar,FY2024-25,CO,6
+Aurangabad (Bihar),Bihar,FY2024-25,O3,24
+Aurangabad (Bihar),Bihar,FY2025-26,PM2.5,38
+Aurangabad (Bihar),Bihar,FY2025-26,PM10,156
+Aurangabad (Bihar),Bihar,FY2025-26,CO,84
+Aurangabad (Bihar),Bihar,FY2025-26,O3,5
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,PM2.5,44
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,PM10,245
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,NO2,11
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,CO,11
+Aurangabad (Maharashtra),Maharashtra,FY2024-25,O3,52
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,PM2.5,88
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,PM10,176
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,NO2,2
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,CO,6
+Aurangabad (Maharashtra),Maharashtra,FY2025-26,O3,93
+Baddi,Himachal Pradesh,FY2024-25,PM2.5,131
+Baddi,Himachal Pradesh,FY2024-25,PM10,105
+Baddi,Himachal Pradesh,FY2024-25,CO,1
+Baddi,Himachal Pradesh,FY2024-25,O3,123
+Baddi,Himachal Pradesh,FY2025-26,PM2.5,81
+Baddi,Himachal Pradesh,FY2025-26,PM10,192
+Baddi,Himachal Pradesh,FY2025-26,SO2,2
+Baddi,Himachal Pradesh,FY2025-26,CO,5
+Baddi,Himachal Pradesh,FY2025-26,O3,82
+Badlapur,Maharashtra,FY2024-25,PM2.5,66
+Badlapur,Maharashtra,FY2024-25,PM10,227
+Badlapur,Maharashtra,FY2024-25,NO2,3
+Badlapur,Maharashtra,FY2024-25,CO,4
+Badlapur,Maharashtra,FY2024-25,O3,34
+Badlapur,Maharashtra,FY2025-26,PM2.5,15
+Badlapur,Maharashtra,FY2025-26,PM10,321
+Badlapur,Maharashtra,FY2025-26,NO2,5
+Badlapur,Maharashtra,FY2025-26,O3,4
+Bagalkot,Karnataka,FY2024-25,PM2.5,13
+Bagalkot,Karnataka,FY2024-25,PM10,279
+Bagalkot,Karnataka,FY2024-25,O3,8
+Bagalkot,Karnataka,FY2025-26,PM10,298
+Baghpat,Uttar Pradesh,FY2024-25,PM2.5,28
+Baghpat,Uttar Pradesh,FY2024-25,PM10,278
+Baghpat,Uttar Pradesh,FY2024-25,CO,29
+Baghpat,Uttar Pradesh,FY2024-25,O3,1
+Baghpat,Uttar Pradesh,FY2025-26,PM2.5,137
+Baghpat,Uttar Pradesh,FY2025-26,PM10,139
+Baghpat,Uttar Pradesh,FY2025-26,NO2,4
+Baghpat,Uttar Pradesh,FY2025-26,O3,12
+Balasore,Odisha,FY2024-25,PM2.5,94
+Balasore,Odisha,FY2024-25,PM10,88
+Balasore,Odisha,FY2024-25,CO,121
+Balasore,Odisha,FY2024-25,O3,39
+Balasore,Odisha,FY2025-26,PM2.5,107
+Balasore,Odisha,FY2025-26,PM10,127
+Balasore,Odisha,FY2025-26,CO,52
+Balasore,Odisha,FY2025-26,O3,66
+Banswara,Rajasthan,FY2024-25,PM2.5,62
+Banswara,Rajasthan,FY2024-25,PM10,190
+Banswara,Rajasthan,FY2024-25,SO2,3
+Banswara,Rajasthan,FY2024-25,CO,3
+Banswara,Rajasthan,FY2024-25,O3,91
+Banswara,Rajasthan,FY2025-26,PM2.5,4
+Banswara,Rajasthan,FY2025-26,PM10,266
+Banswara,Rajasthan,FY2025-26,CO,8
+Banswara,Rajasthan,FY2025-26,O3,65
+Baran,Rajasthan,FY2024-25,PM2.5,41
+Baran,Rajasthan,FY2024-25,PM10,198
+Baran,Rajasthan,FY2024-25,CO,4
+Baran,Rajasthan,FY2024-25,O3,102
+Baran,Rajasthan,FY2025-26,PM2.5,27
+Baran,Rajasthan,FY2025-26,PM10,164
+Baran,Rajasthan,FY2025-26,O3,164
+Barbil,Odisha,FY2024-25,PM2.5,58
+Barbil,Odisha,FY2024-25,PM10,208
+Barbil,Odisha,FY2024-25,CO,12
+Barbil,Odisha,FY2024-25,O3,68
+Barbil,Odisha,FY2025-26,PM2.5,93
+Barbil,Odisha,FY2025-26,PM10,170
+Barbil,Odisha,FY2025-26,NO2,3
+Barbil,Odisha,FY2025-26,CO,14
+Barbil,Odisha,FY2025-26,O3,77
+Bareilly,Uttar Pradesh,FY2024-25,PM2.5,43
+Bareilly,Uttar Pradesh,FY2024-25,PM10,205
+Bareilly,Uttar Pradesh,FY2024-25,SO2,99
+Bareilly,Uttar Pradesh,FY2024-25,CO,12
+Bareilly,Uttar Pradesh,FY2024-25,O3,3
+Bareilly,Uttar Pradesh,FY2025-26,PM2.5,9
+Bareilly,Uttar Pradesh,FY2025-26,PM10,172
+Bareilly,Uttar Pradesh,FY2025-26,SO2,112
+Bareilly,Uttar Pradesh,FY2025-26,CO,51
+Bareilly,Uttar Pradesh,FY2025-26,O3,7
+Baripada,Odisha,FY2024-25,PM2.5,76
+Baripada,Odisha,FY2024-25,PM10,133
+Baripada,Odisha,FY2024-25,CO,24
+Baripada,Odisha,FY2024-25,O3,96
+Baripada,Odisha,FY2025-26,PM2.5,98
+Baripada,Odisha,FY2025-26,PM10,153
+Baripada,Odisha,FY2025-26,NO2,1
+Baripada,Odisha,FY2025-26,CO,50
+Baripada,Odisha,FY2025-26,O3,26
+Barmer,Rajasthan,FY2024-25,PM2.5,20
+Barmer,Rajasthan,FY2024-25,PM10,285
+Barmer,Rajasthan,FY2024-25,CO,1
+Barmer,Rajasthan,FY2024-25,O3,48
+Barmer,Rajasthan,FY2025-26,PM2.5,20
+Barmer,Rajasthan,FY2025-26,PM10,281
+Barmer,Rajasthan,FY2025-26,CO,3
+Barmer,Rajasthan,FY2025-26,O3,59
+Barrackpore,West Bengal,FY2024-25,PM2.5,134
+Barrackpore,West Bengal,FY2024-25,PM10,193
+Barrackpore,West Bengal,FY2024-25,CO,11
+Barrackpore,West Bengal,FY2024-25,O3,3
+Barrackpore,West Bengal,FY2025-26,PM2.5,120
+Barrackpore,West Bengal,FY2025-26,PM10,173
+Barrackpore,West Bengal,FY2025-26,CO,47
+Barrackpore,West Bengal,FY2025-26,O3,2
+Bathinda,Punjab,FY2024-25,PM2.5,66
+Bathinda,Punjab,FY2024-25,PM10,205
+Bathinda,Punjab,FY2024-25,NO2,2
+Bathinda,Punjab,FY2024-25,SO2,2
+Bathinda,Punjab,FY2024-25,CO,62
+Bathinda,Punjab,FY2025-26,PM2.5,76
+Bathinda,Punjab,FY2025-26,PM10,94
+Bathinda,Punjab,FY2025-26,NO2,49
+Bathinda,Punjab,FY2025-26,CO,90
+Begusarai,Bihar,FY2024-25,PM2.5,109
+Begusarai,Bihar,FY2024-25,PM10,56
+Begusarai,Bihar,FY2024-25,NO2,22
+Begusarai,Bihar,FY2024-25,SO2,1
+Begusarai,Bihar,FY2024-25,CO,22
+Begusarai,Bihar,FY2025-26,PM2.5,110
+Begusarai,Bihar,FY2025-26,PM10,76
+Begusarai,Bihar,FY2025-26,NO2,48
+Begusarai,Bihar,FY2025-26,CO,60
+Begusarai,Bihar,FY2025-26,O3,7
+Belapur,Maharashtra,FY2024-25,PM2.5,44
+Belapur,Maharashtra,FY2024-25,PM10,196
+Belapur,Maharashtra,FY2024-25,NO2,50
+Belapur,Maharashtra,FY2024-25,CO,4
+Belapur,Maharashtra,FY2024-25,O3,37
+Belapur,Maharashtra,FY2025-26,PM2.5,60
+Belapur,Maharashtra,FY2025-26,PM10,239
+Belapur,Maharashtra,FY2025-26,NO2,3
+Belapur,Maharashtra,FY2025-26,CO,7
+Belapur,Maharashtra,FY2025-26,O3,36
+Belgaum,Karnataka,FY2024-25,PM2.5,1
+Belgaum,Karnataka,FY2024-25,PM10,136
+Belgaum,Karnataka,FY2024-25,NO2,13
+Belgaum,Karnataka,FY2024-25,CO,127
+Belgaum,Karnataka,FY2025-26,PM10,95
+Belgaum,Karnataka,FY2025-26,NO2,24
+Belgaum,Karnataka,FY2025-26,SO2,2
+Belgaum,Karnataka,FY2025-26,CO,10
+Belgaum,Karnataka,FY2025-26,O3,5
+Bengaluru,Karnataka,FY2024-25,PM2.5,85
+Bengaluru,Karnataka,FY2024-25,PM10,219
+Bengaluru,Karnataka,FY2024-25,NO2,1
+Bengaluru,Karnataka,FY2024-25,CO,46
+Bengaluru,Karnataka,FY2024-25,O3,13
+Bengaluru,Karnataka,FY2025-26,PM2.5,75
+Bengaluru,Karnataka,FY2025-26,PM10,253
+Bengaluru,Karnataka,FY2025-26,NO2,3
+Bengaluru,Karnataka,FY2025-26,CO,10
+Bengaluru,Karnataka,FY2025-26,O3,24
+Bettiah,Bihar,FY2024-25,PM2.5,64
+Bettiah,Bihar,FY2024-25,PM10,146
+Bettiah,Bihar,FY2024-25,NO2,2
+Bettiah,Bihar,FY2024-25,CO,30
+Bettiah,Bihar,FY2025-26,PM2.5,85
+Bettiah,Bihar,FY2025-26,PM10,79
+Bettiah,Bihar,FY2025-26,SO2,5
+Bettiah,Bihar,FY2025-26,CO,118
+Bettiah,Bihar,FY2025-26,O3,1
+Bhagalpur,Bihar,FY2024-25,PM2.5,186
+Bhagalpur,Bihar,FY2024-25,PM10,121
+Bhagalpur,Bihar,FY2024-25,SO2,7
+Bhagalpur,Bihar,FY2024-25,CO,33
+Bhagalpur,Bihar,FY2024-25,O3,2
+Bhagalpur,Bihar,FY2025-26,PM2.5,66
+Bhagalpur,Bihar,FY2025-26,PM10,190
+Bhagalpur,Bihar,FY2025-26,SO2,56
+Bhagalpur,Bihar,FY2025-26,CO,26
+Bhagalpur,Bihar,FY2025-26,O3,3
+Bharatpur,Rajasthan,FY2024-25,PM2.5,92
+Bharatpur,Rajasthan,FY2024-25,PM10,134
+Bharatpur,Rajasthan,FY2024-25,CO,33
+Bharatpur,Rajasthan,FY2024-25,O3,101
+Bharatpur,Rajasthan,FY2025-26,PM2.5,40
+Bharatpur,Rajasthan,FY2025-26,PM10,163
+Bharatpur,Rajasthan,FY2025-26,CO,8
+Bharatpur,Rajasthan,FY2025-26,O3,151
+Bhilai,Chhattisgarh,FY2024-25,PM2.5,79
+Bhilai,Chhattisgarh,FY2024-25,PM10,224
+Bhilai,Chhattisgarh,FY2024-25,NO2,6
+Bhilai,Chhattisgarh,FY2024-25,CO,43
+Bhilai,Chhattisgarh,FY2024-25,O3,12
+Bhilai,Chhattisgarh,FY2025-26,PM2.5,29
+Bhilai,Chhattisgarh,FY2025-26,PM10,216
+Bhilai,Chhattisgarh,FY2025-26,NO2,21
+Bhilai,Chhattisgarh,FY2025-26,SO2,2
+Bhilai,Chhattisgarh,FY2025-26,CO,55
+Bhilai,Chhattisgarh,FY2025-26,O3,40
+Bhilwara,Rajasthan,FY2024-25,PM2.5,91
+Bhilwara,Rajasthan,FY2024-25,PM10,179
+Bhilwara,Rajasthan,FY2024-25,CO,5
+Bhilwara,Rajasthan,FY2024-25,O3,61
+Bhilwara,Rajasthan,FY2025-26,PM2.5,114
+Bhilwara,Rajasthan,FY2025-26,PM10,209
+Bhilwara,Rajasthan,FY2025-26,NO2,2
+Bhilwara,Rajasthan,FY2025-26,CO,19
+Bhilwara,Rajasthan,FY2025-26,O3,14
+Bhiwadi,Rajasthan,FY2024-25,PM2.5,160
+Bhiwadi,Rajasthan,FY2024-25,PM10,170
+Bhiwadi,Rajasthan,FY2024-25,CO,14
+Bhiwadi,Rajasthan,FY2024-25,O3,17
+Bhiwadi,Rajasthan,FY2025-26,PM2.5,175
+Bhiwadi,Rajasthan,FY2025-26,PM10,171
+Bhiwadi,Rajasthan,FY2025-26,CO,6
+Bhiwadi,Rajasthan,FY2025-26,O3,11
+Bhiwandi,Maharashtra,FY2024-25,PM2.5,82
+Bhiwandi,Maharashtra,FY2024-25,PM10,231
+Bhiwandi,Maharashtra,FY2024-25,NO2,2
+Bhiwandi,Maharashtra,FY2024-25,CO,3
+Bhiwandi,Maharashtra,FY2024-25,O3,24
+Bhiwandi,Maharashtra,FY2025-26,PM2.5,28
+Bhiwandi,Maharashtra,FY2025-26,PM10,317
+Bhiwandi,Maharashtra,FY2025-26,NO2,3
+Bhiwandi,Maharashtra,FY2025-26,CO,1
+Bhiwandi,Maharashtra,FY2025-26,O3,5
+Bhopal,Madhya Pradesh,FY2024-25,PM2.5,58
+Bhopal,Madhya Pradesh,FY2024-25,PM10,229
+Bhopal,Madhya Pradesh,FY2024-25,NO2,2
+Bhopal,Madhya Pradesh,FY2024-25,CO,6
+Bhopal,Madhya Pradesh,FY2024-25,O3,69
+Bhopal,Madhya Pradesh,FY2025-26,PM2.5,49
+Bhopal,Madhya Pradesh,FY2025-26,PM10,188
+Bhopal,Madhya Pradesh,FY2025-26,NO2,2
+Bhopal,Madhya Pradesh,FY2025-26,CO,11
+Bhopal,Madhya Pradesh,FY2025-26,O3,115
+Bhubaneswar,Odisha,FY2024-25,PM2.5,88
+Bhubaneswar,Odisha,FY2024-25,PM10,128
+Bhubaneswar,Odisha,FY2024-25,CO,48
+Bhubaneswar,Odisha,FY2024-25,O3,87
+Bhubaneswar,Odisha,FY2025-26,PM2.5,86
+Bhubaneswar,Odisha,FY2025-26,PM10,93
+Bhubaneswar,Odisha,FY2025-26,CO,115
+Bhubaneswar,Odisha,FY2025-26,O3,67
+Bikaner,Rajasthan,FY2024-25,PM2.5,39
+Bikaner,Rajasthan,FY2024-25,PM10,294
+Bikaner,Rajasthan,FY2024-25,CO,1
+Bikaner,Rajasthan,FY2024-25,O3,9
+Bikaner,Rajasthan,FY2025-26,PM2.5,34
+Bikaner,Rajasthan,FY2025-26,PM10,274
+Bikaner,Rajasthan,FY2025-26,CO,2
+Bikaner,Rajasthan,FY2025-26,O3,28
+Bilaspur,Chhattisgarh,FY2024-25,PM2.5,50
+Bilaspur,Chhattisgarh,FY2024-25,PM10,186
+Bilaspur,Chhattisgarh,FY2024-25,CO,101
+Bilaspur,Chhattisgarh,FY2025-26,PM2.5,38
+Bilaspur,Chhattisgarh,FY2025-26,PM10,239
+Bilaspur,Chhattisgarh,FY2025-26,NO2,4
+Bilaspur,Chhattisgarh,FY2025-26,CO,48
+Bileipada,Odisha,FY2024-25,PM2.5,30
+Bileipada,Odisha,FY2024-25,PM10,274
+Bileipada,Odisha,FY2024-25,SO2,1
+Bileipada,Odisha,FY2024-25,O3,12
+Bileipada,Odisha,FY2025-26,PM2.5,60
+Bileipada,Odisha,FY2025-26,PM10,206
+Bileipada,Odisha,FY2025-26,SO2,1
+Bileipada,Odisha,FY2025-26,CO,23
+Boisar,Maharashtra,FY2024-25,PM2.5,82
+Boisar,Maharashtra,FY2024-25,PM10,243
+Boisar,Maharashtra,FY2024-25,CO,1
+Boisar,Maharashtra,FY2024-25,O3,8
+Boisar,Maharashtra,FY2025-26,PM2.5,44
+Boisar,Maharashtra,FY2025-26,PM10,250
+Boisar,Maharashtra,FY2025-26,CO,3
+Boisar,Maharashtra,FY2025-26,O3,48
+Brajrajnagar,Odisha,FY2024-25,PM2.5,6
+Brajrajnagar,Odisha,FY2024-25,PM10,177
+Brajrajnagar,Odisha,FY2024-25,CO,99
+Brajrajnagar,Odisha,FY2024-25,O3,37
+Brajrajnagar,Odisha,FY2025-26,PM2.5,13
+Brajrajnagar,Odisha,FY2025-26,PM10,199
+Brajrajnagar,Odisha,FY2025-26,NO2,6
+Brajrajnagar,Odisha,FY2025-26,CO,94
+Brajrajnagar,Odisha,FY2025-26,O3,23
+Bulandshahr,Uttar Pradesh,FY2024-25,PM2.5,118
+Bulandshahr,Uttar Pradesh,FY2024-25,PM10,226
+Bulandshahr,Uttar Pradesh,FY2024-25,SO2,1
+Bulandshahr,Uttar Pradesh,FY2024-25,CO,8
+Bulandshahr,Uttar Pradesh,FY2024-25,O3,7
+Bulandshahr,Uttar Pradesh,FY2025-26,PM2.5,123
+Bulandshahr,Uttar Pradesh,FY2025-26,PM10,228
+Bulandshahr,Uttar Pradesh,FY2025-26,CO,8
+Bulandshahr,Uttar Pradesh,FY2025-26,O3,4
+Bundi,Rajasthan,FY2024-25,PM2.5,61
+Bundi,Rajasthan,FY2024-25,PM10,221
+Bundi,Rajasthan,FY2024-25,CO,10
+Bundi,Rajasthan,FY2024-25,O3,46
+Bundi,Rajasthan,FY2025-26,PM2.5,77
+Bundi,Rajasthan,FY2025-26,PM10,182
+Bundi,Rajasthan,FY2025-26,CO,10
+Bundi,Rajasthan,FY2025-26,O3,81
+Buxar,Bihar,FY2024-25,PM2.5,90
+Buxar,Bihar,FY2024-25,PM10,115
+Buxar,Bihar,FY2024-25,CO,35
+Buxar,Bihar,FY2024-25,O3,29
+Buxar,Bihar,FY2025-26,PM2.5,133
+Buxar,Bihar,FY2025-26,PM10,98
+Buxar,Bihar,FY2025-26,CO,4
+Buxar,Bihar,FY2025-26,O3,57
+Byasanagar,Odisha,FY2024-25,PM2.5,75
+Byasanagar,Odisha,FY2024-25,PM10,83
+Byasanagar,Odisha,FY2024-25,CO,30
+Byasanagar,Odisha,FY2024-25,O3,155
+Byasanagar,Odisha,FY2025-26,PM2.5,57
+Byasanagar,Odisha,FY2025-26,PM10,60
+Byasanagar,Odisha,FY2025-26,NO2,1
+Byasanagar,Odisha,FY2025-26,SO2,1
+Byasanagar,Odisha,FY2025-26,CO,71
+Byasanagar,Odisha,FY2025-26,O3,151
+Byrnihat (Assam),Assam,FY2024-25,PM2.5,248
+Byrnihat (Assam),Assam,FY2024-25,PM10,22
+Byrnihat (Assam),Assam,FY2024-25,NO2,3
+Byrnihat (Assam),Assam,FY2024-25,SO2,1
+Byrnihat (Assam),Assam,FY2024-25,CO,2
+Byrnihat (Assam),Assam,FY2024-25,O3,2
+Byrnihat (Assam),Assam,FY2025-26,PM2.5,254
+Byrnihat (Assam),Assam,FY2025-26,PM10,1
+Byrnihat (Assam),Assam,FY2025-26,CO,1
+Chamarajanagar,Karnataka,FY2024-25,PM10,339
+Chamarajanagar,Karnataka,FY2024-25,NO2,1
+Chamarajanagar,Karnataka,FY2024-25,O3,2
+Chamarajanagar,Karnataka,FY2025-26,PM2.5,1
+Chamarajanagar,Karnataka,FY2025-26,PM10,328
+Chamarajanagar,Karnataka,FY2025-26,NO2,1
+Chandigarh,Chandigarh,FY2024-25,PM2.5,163
+Chandigarh,Chandigarh,FY2024-25,PM10,157
+Chandigarh,Chandigarh,FY2024-25,CO,14
+Chandigarh,Chandigarh,FY2024-25,O3,30
+Chandigarh,Chandigarh,FY2025-26,PM2.5,140
+Chandigarh,Chandigarh,FY2025-26,PM10,93
+Chandigarh,Chandigarh,FY2025-26,NO2,3
+Chandigarh,Chandigarh,FY2025-26,CO,39
+Chandigarh,Chandigarh,FY2025-26,O3,88
+Chandrapur,Maharashtra,FY2024-25,PM2.5,79
+Chandrapur,Maharashtra,FY2024-25,PM10,206
+Chandrapur,Maharashtra,FY2024-25,NO2,3
+Chandrapur,Maharashtra,FY2024-25,CO,4
+Chandrapur,Maharashtra,FY2024-25,O3,63
+Chandrapur,Maharashtra,FY2025-26,PM2.5,26
+Chandrapur,Maharashtra,FY2025-26,PM10,236
+Chandrapur,Maharashtra,FY2025-26,NO2,2
+Chandrapur,Maharashtra,FY2025-26,SO2,15
+Chandrapur,Maharashtra,FY2025-26,CO,34
+Chandrapur,Maharashtra,FY2025-26,O3,49
+Charkhi Dadri,Haryana,FY2024-25,PM2.5,333
+Charkhi Dadri,Haryana,FY2024-25,PM10,5
+Charkhi Dadri,Haryana,FY2024-25,NO2,2
+Charkhi Dadri,Haryana,FY2024-25,CO,6
+Charkhi Dadri,Haryana,FY2025-26,PM2.5,151
+Charkhi Dadri,Haryana,FY2025-26,PM10,15
+Charkhi Dadri,Haryana,FY2025-26,CO,2
+Charkhi Dadri,Haryana,FY2025-26,O3,4
+Chennai,Tamil Nadu,FY2024-25,PM2.5,107
+Chennai,Tamil Nadu,FY2024-25,PM10,141
+Chennai,Tamil Nadu,FY2024-25,NO2,1
+Chennai,Tamil Nadu,FY2024-25,CO,99
+Chennai,Tamil Nadu,FY2024-25,O3,16
+Chennai,Tamil Nadu,FY2025-26,PM2.5,101
+Chennai,Tamil Nadu,FY2025-26,PM10,197
+Chennai,Tamil Nadu,FY2025-26,SO2,1
+Chennai,Tamil Nadu,FY2025-26,CO,41
+Chennai,Tamil Nadu,FY2025-26,O3,25
+Chhal,Chhattisgarh,FY2024-25,PM2.5,83
+Chhal,Chhattisgarh,FY2024-25,PM10,104
+Chhal,Chhattisgarh,FY2024-25,NO2,8
+Chhal,Chhattisgarh,FY2024-25,CO,19
+Chhal,Chhattisgarh,FY2024-25,O3,104
+Chhal,Chhattisgarh,FY2025-26,PM2.5,26
+Chhal,Chhattisgarh,FY2025-26,PM10,121
+Chhal,Chhattisgarh,FY2025-26,NO2,2
+Chhal,Chhattisgarh,FY2025-26,CO,23
+Chhal,Chhattisgarh,FY2025-26,O3,115
+Chhapra,Bihar,FY2024-25,PM2.5,118
+Chhapra,Bihar,FY2024-25,PM10,116
+Chhapra,Bihar,FY2024-25,SO2,23
+Chhapra,Bihar,FY2024-25,CO,5
+Chhapra,Bihar,FY2024-25,O3,5
+Chhapra,Bihar,FY2025-26,PM2.5,41
+Chhapra,Bihar,FY2025-26,PM10,135
+Chhapra,Bihar,FY2025-26,NO2,91
+Chhapra,Bihar,FY2025-26,SO2,1
+Chhapra,Bihar,FY2025-26,O3,6
+Chikkaballapur,Karnataka,FY2024-25,PM2.5,72
+Chikkaballapur,Karnataka,FY2024-25,PM10,221
+Chikkaballapur,Karnataka,FY2024-25,CO,3
+Chikkaballapur,Karnataka,FY2024-25,O3,51
+Chikkaballapur,Karnataka,FY2025-26,PM2.5,54
+Chikkaballapur,Karnataka,FY2025-26,PM10,119
+Chikkaballapur,Karnataka,FY2025-26,NO2,1
+Chikkaballapur,Karnataka,FY2025-26,SO2,4
+Chikkaballapur,Karnataka,FY2025-26,CO,2
+Chikkaballapur,Karnataka,FY2025-26,O3,57
+Chikkamagaluru,Karnataka,FY2024-25,PM2.5,11
+Chikkamagaluru,Karnataka,FY2024-25,PM10,197
+Chikkamagaluru,Karnataka,FY2024-25,NO2,9
+Chikkamagaluru,Karnataka,FY2024-25,CO,21
+Chikkamagaluru,Karnataka,FY2024-25,O3,55
+Chikkamagaluru,Karnataka,FY2025-26,PM2.5,26
+Chikkamagaluru,Karnataka,FY2025-26,PM10,204
+Chikkamagaluru,Karnataka,FY2025-26,NO2,2
+Chikkamagaluru,Karnataka,FY2025-26,CO,8
+Chikkamagaluru,Karnataka,FY2025-26,O3,48
+Chittoor,Andhra Pradesh,FY2024-25,PM2.5,143
+Chittoor,Andhra Pradesh,FY2024-25,PM10,85
+Chittoor,Andhra Pradesh,FY2024-25,CO,7
+Chittoor,Andhra Pradesh,FY2024-25,O3,17
+Chittoor,Andhra Pradesh,FY2025-26,PM2.5,318
+Chittoor,Andhra Pradesh,FY2025-26,PM10,11
+Chittoor,Andhra Pradesh,FY2025-26,CO,2
+Chittoor,Andhra Pradesh,FY2025-26,O3,9
+Chittorgarh,Rajasthan,FY2024-25,PM2.5,67
+Chittorgarh,Rajasthan,FY2024-25,PM10,224
+Chittorgarh,Rajasthan,FY2024-25,CO,1
+Chittorgarh,Rajasthan,FY2024-25,O3,42
+Chittorgarh,Rajasthan,FY2025-26,PM2.5,92
+Chittorgarh,Rajasthan,FY2025-26,PM10,182
+Chittorgarh,Rajasthan,FY2025-26,NO2,1
+Chittorgarh,Rajasthan,FY2025-26,CO,10
+Chittorgarh,Rajasthan,FY2025-26,O3,61
+Churu,Rajasthan,FY2024-25,PM2.5,57
+Churu,Rajasthan,FY2024-25,PM10,194
+Churu,Rajasthan,FY2024-25,CO,3
+Churu,Rajasthan,FY2024-25,O3,72
+Churu,Rajasthan,FY2025-26,PM2.5,39
+Churu,Rajasthan,FY2025-26,PM10,282
+Churu,Rajasthan,FY2025-26,O3,41
+Coimbatore,Tamil Nadu,FY2024-25,PM2.5,153
+Coimbatore,Tamil Nadu,FY2024-25,PM10,101
+Coimbatore,Tamil Nadu,FY2024-25,NO2,1
+Coimbatore,Tamil Nadu,FY2024-25,SO2,42
+Coimbatore,Tamil Nadu,FY2024-25,CO,5
+Coimbatore,Tamil Nadu,FY2024-25,O3,8
+Coimbatore,Tamil Nadu,FY2025-26,PM2.5,233
+Coimbatore,Tamil Nadu,FY2025-26,PM10,84
+Coimbatore,Tamil Nadu,FY2025-26,NO2,1
+Coimbatore,Tamil Nadu,FY2025-26,SO2,3
+Coimbatore,Tamil Nadu,FY2025-26,CO,27
+Coimbatore,Tamil Nadu,FY2025-26,O3,8
+Cuddalore,Tamil Nadu,FY2024-25,PM2.5,174
+Cuddalore,Tamil Nadu,FY2024-25,PM10,112
+Cuddalore,Tamil Nadu,FY2024-25,NO2,13
+Cuddalore,Tamil Nadu,FY2024-25,SO2,2
+Cuddalore,Tamil Nadu,FY2024-25,CO,1
+Cuddalore,Tamil Nadu,FY2024-25,O3,1
+Cuddalore,Tamil Nadu,FY2024-25,NH3,8
+Cuddalore,Tamil Nadu,FY2025-26,PM2.5,185
+Cuddalore,Tamil Nadu,FY2025-26,PM10,89
+Cuddalore,Tamil Nadu,FY2025-26,SO2,4
+Cuttack,Odisha,FY2024-25,PM2.5,60
+Cuttack,Odisha,FY2024-25,PM10,159
+Cuttack,Odisha,FY2024-25,CO,31
+Cuttack,Odisha,FY2024-25,O3,86
+Cuttack,Odisha,FY2025-26,PM2.5,85
+Cuttack,Odisha,FY2025-26,PM10,117
+Cuttack,Odisha,FY2025-26,CO,54
+Cuttack,Odisha,FY2025-26,O3,94
+Damoh,Madhya Pradesh,FY2024-25,PM2.5,40
+Damoh,Madhya Pradesh,FY2024-25,PM10,122
+Damoh,Madhya Pradesh,FY2024-25,SO2,78
+Damoh,Madhya Pradesh,FY2025-26,PM2.5,36
+Damoh,Madhya Pradesh,FY2025-26,PM10,194
+Damoh,Madhya Pradesh,FY2025-26,SO2,35
+Damoh,Madhya Pradesh,FY2025-26,CO,41
+Dausa,Rajasthan,FY2024-25,PM2.5,40
+Dausa,Rajasthan,FY2024-25,PM10,248
+Dausa,Rajasthan,FY2024-25,NO2,10
+Dausa,Rajasthan,FY2024-25,CO,10
+Dausa,Rajasthan,FY2024-25,O3,41
+Dausa,Rajasthan,FY2025-26,PM2.5,40
+Dausa,Rajasthan,FY2025-26,PM10,243
+Dausa,Rajasthan,FY2025-26,CO,16
+Dausa,Rajasthan,FY2025-26,O3,52
+Davanagere,Karnataka,FY2024-25,PM2.5,110
+Davanagere,Karnataka,FY2024-25,PM10,131
+Davanagere,Karnataka,FY2024-25,CO,20
+Davanagere,Karnataka,FY2024-25,O3,34
+Davanagere,Karnataka,FY2025-26,PM2.5,123
+Davanagere,Karnataka,FY2025-26,PM10,70
+Davanagere,Karnataka,FY2025-26,CO,25
+Davanagere,Karnataka,FY2025-26,O3,39
+Dehradun,Uttarakhand,FY2024-25,PM2.5,116
+Dehradun,Uttarakhand,FY2024-25,PM10,133
+Dehradun,Uttarakhand,FY2024-25,CO,33
+Dehradun,Uttarakhand,FY2024-25,O3,66
+Dehradun,Uttarakhand,FY2025-26,PM2.5,174
+Dehradun,Uttarakhand,FY2025-26,PM10,74
+Dehradun,Uttarakhand,FY2025-26,O3,82
+Delhi,Delhi,FY2024-25,PM2.5,174
+Delhi,Delhi,FY2024-25,PM10,133
+Delhi,Delhi,FY2024-25,NO2,5
+Delhi,Delhi,FY2024-25,CO,7
+Delhi,Delhi,FY2024-25,O3,45
+Delhi,Delhi,FY2025-26,PM2.5,143
+Delhi,Delhi,FY2025-26,PM10,125
+Delhi,Delhi,FY2025-26,NO2,7
+Delhi,Delhi,FY2025-26,CO,9
+Delhi,Delhi,FY2025-26,O3,81
+Dewas,Madhya Pradesh,FY2024-25,PM2.5,83
+Dewas,Madhya Pradesh,FY2024-25,PM10,200
+Dewas,Madhya Pradesh,FY2024-25,NO2,29
+Dewas,Madhya Pradesh,FY2024-25,SO2,15
+Dewas,Madhya Pradesh,FY2024-25,O3,6
+Dewas,Madhya Pradesh,FY2025-26,PM2.5,65
+Dewas,Madhya Pradesh,FY2025-26,PM10,203
+Dewas,Madhya Pradesh,FY2025-26,NO2,46
+Dewas,Madhya Pradesh,FY2025-26,SO2,11
+Dewas,Madhya Pradesh,FY2025-26,CO,2
+Dewas,Madhya Pradesh,FY2025-26,O3,8
+Dhanbad,Jharkhand,FY2024-25,PM2.5,12
+Dhanbad,Jharkhand,FY2024-25,PM10,111
+Dhanbad,Jharkhand,FY2024-25,NO2,44
+Dhanbad,Jharkhand,FY2024-25,CO,61
+Dhanbad,Jharkhand,FY2024-25,O3,1
+Dhanbad,Jharkhand,FY2025-26,PM2.5,10
+Dhanbad,Jharkhand,FY2025-26,PM10,159
+Dhanbad,Jharkhand,FY2025-26,NO2,131
+Dhanbad,Jharkhand,FY2025-26,SO2,1
+Dhanbad,Jharkhand,FY2025-26,CO,7
+Dhanbad,Jharkhand,FY2025-26,O3,2
+Dharwad,Karnataka,FY2024-25,PM10,272
+Dharwad,Karnataka,FY2024-25,SO2,2
+Dharwad,Karnataka,FY2024-25,CO,44
+Dharwad,Karnataka,FY2024-25,O3,4
+Dharwad,Karnataka,FY2025-26,PM10,274
+Dharwad,Karnataka,FY2025-26,CO,10
+Dholpur,Rajasthan,FY2024-25,PM2.5,99
+Dholpur,Rajasthan,FY2024-25,PM10,168
+Dholpur,Rajasthan,FY2024-25,O3,48
+Dholpur,Rajasthan,FY2025-26,PM2.5,109
+Dholpur,Rajasthan,FY2025-26,PM10,191
+Dholpur,Rajasthan,FY2025-26,CO,11
+Dholpur,Rajasthan,FY2025-26,O3,18
+Dhule,Maharashtra,FY2024-25,PM2.5,74
+Dhule,Maharashtra,FY2024-25,PM10,246
+Dhule,Maharashtra,FY2024-25,O3,9
+Dhule,Maharashtra,FY2025-26,PM2.5,76
+Dhule,Maharashtra,FY2025-26,PM10,230
+Dhule,Maharashtra,FY2025-26,CO,1
+Dhule,Maharashtra,FY2025-26,O3,18
+Dungarpur,Rajasthan,FY2024-25,PM2.5,58
+Dungarpur,Rajasthan,FY2024-25,PM10,193
+Dungarpur,Rajasthan,FY2024-25,CO,12
+Dungarpur,Rajasthan,FY2024-25,O3,64
+Dungarpur,Rajasthan,FY2025-26,PM2.5,71
+Dungarpur,Rajasthan,FY2025-26,PM10,230
+Dungarpur,Rajasthan,FY2025-26,CO,7
+Dungarpur,Rajasthan,FY2025-26,O3,49
+Durgapur,West Bengal,FY2024-25,PM2.5,184
+Durgapur,West Bengal,FY2024-25,PM10,157
+Durgapur,West Bengal,FY2024-25,SO2,1
+Durgapur,West Bengal,FY2024-25,CO,1
+Durgapur,West Bengal,FY2024-25,O3,20
+Durgapur,West Bengal,FY2025-26,PM2.5,78
+Durgapur,West Bengal,FY2025-26,PM10,235
+Durgapur,West Bengal,FY2025-26,SO2,6
+Durgapur,West Bengal,FY2025-26,CO,21
+Durgapur,West Bengal,FY2025-26,O3,25
+Eloor,Kerala,FY2024-25,PM2.5,132
+Eloor,Kerala,FY2024-25,PM10,2
+Eloor,Kerala,FY2024-25,CO,125
+Eloor,Kerala,FY2025-26,PM2.5,111
+Eloor,Kerala,FY2025-26,PM10,21
+Eloor,Kerala,FY2025-26,CO,133
+Faridabad,Haryana,FY2024-25,PM2.5,200
+Faridabad,Haryana,FY2024-25,PM10,151
+Faridabad,Haryana,FY2024-25,NO2,2
+Faridabad,Haryana,FY2024-25,CO,11
+Faridabad,Haryana,FY2025-26,PM2.5,135
+Faridabad,Haryana,FY2025-26,PM10,52
+Firozabad,Uttar Pradesh,FY2024-25,PM2.5,98
+Firozabad,Uttar Pradesh,FY2024-25,PM10,252
+Firozabad,Uttar Pradesh,FY2024-25,SO2,2
+Firozabad,Uttar Pradesh,FY2024-25,CO,2
+Firozabad,Uttar Pradesh,FY2024-25,O3,1
+Firozabad,Uttar Pradesh,FY2025-26,PM2.5,90
+Firozabad,Uttar Pradesh,FY2025-26,PM10,245
+Firozabad,Uttar Pradesh,FY2025-26,SO2,18
+Firozabad,Uttar Pradesh,FY2025-26,O3,3
+Gadag,Karnataka,FY2024-25,PM2.5,4
+Gadag,Karnataka,FY2024-25,PM10,152
+Gadag,Karnataka,FY2024-25,CO,92
+Gadag,Karnataka,FY2024-25,O3,51
+Gadag,Karnataka,FY2025-26,PM2.5,5
+Gadag,Karnataka,FY2025-26,PM10,30
+Gadag,Karnataka,FY2025-26,SO2,3
+Gadag,Karnataka,FY2025-26,CO,25
+Gadag,Karnataka,FY2025-26,O3,9
+Gandhinagar,Gujarat,FY2024-25,PM2.5,89
+Gandhinagar,Gujarat,FY2024-25,PM10,263
+Gandhinagar,Gujarat,FY2024-25,NO2,2
+Gandhinagar,Gujarat,FY2024-25,CO,3
+Gandhinagar,Gujarat,FY2024-25,O3,2
+Gandhinagar,Gujarat,FY2025-26,PM2.5,79
+Gandhinagar,Gujarat,FY2025-26,PM10,262
+Gandhinagar,Gujarat,FY2025-26,NO2,2
+Gandhinagar,Gujarat,FY2025-26,CO,16
+Gandhinagar,Gujarat,FY2025-26,O3,6
+Gaya,Bihar,FY2024-25,PM2.5,173
+Gaya,Bihar,FY2024-25,PM10,124
+Gaya,Bihar,FY2024-25,NO2,2
+Gaya,Bihar,FY2024-25,CO,16
+Gaya,Bihar,FY2024-25,O3,45
+Gaya,Bihar,FY2025-26,PM2.5,133
+Gaya,Bihar,FY2025-26,PM10,208
+Gaya,Bihar,FY2025-26,NO2,1
+Gaya,Bihar,FY2025-26,CO,19
+Gaya,Bihar,FY2025-26,O3,3
+Ghaziabad,Uttar Pradesh,FY2024-25,PM2.5,172
+Ghaziabad,Uttar Pradesh,FY2024-25,PM10,172
+Ghaziabad,Uttar Pradesh,FY2024-25,NO2,8
+Ghaziabad,Uttar Pradesh,FY2024-25,CO,6
+Ghaziabad,Uttar Pradesh,FY2024-25,O3,6
+Ghaziabad,Uttar Pradesh,FY2025-26,PM2.5,153
+Ghaziabad,Uttar Pradesh,FY2025-26,PM10,182
+Ghaziabad,Uttar Pradesh,FY2025-26,NO2,3
+Ghaziabad,Uttar Pradesh,FY2025-26,CO,10
+Ghaziabad,Uttar Pradesh,FY2025-26,O3,17
+Gorakhpur,Uttar Pradesh,FY2024-25,PM2.5,124
+Gorakhpur,Uttar Pradesh,FY2024-25,PM10,225
+Gorakhpur,Uttar Pradesh,FY2025-26,PM2.5,83
+Gorakhpur,Uttar Pradesh,FY2025-26,PM10,221
+Gorakhpur,Uttar Pradesh,FY2025-26,SO2,19
+Gorakhpur,Uttar Pradesh,FY2025-26,O3,13
+Greater Noida,Uttar Pradesh,FY2024-25,PM2.5,89
+Greater Noida,Uttar Pradesh,FY2024-25,PM10,250
+Greater Noida,Uttar Pradesh,FY2024-25,CO,5
+Greater Noida,Uttar Pradesh,FY2024-25,O3,20
+Greater Noida,Uttar Pradesh,FY2025-26,PM2.5,112
+Greater Noida,Uttar Pradesh,FY2025-26,PM10,236
+Greater Noida,Uttar Pradesh,FY2025-26,NO2,1
+Greater Noida,Uttar Pradesh,FY2025-26,CO,6
+Greater Noida,Uttar Pradesh,FY2025-26,O3,9
+Gummidipoondi,Tamil Nadu,FY2024-25,PM2.5,202
+Gummidipoondi,Tamil Nadu,FY2024-25,PM10,152
+Gummidipoondi,Tamil Nadu,FY2024-25,NO2,1
+Gummidipoondi,Tamil Nadu,FY2025-26,PM2.5,217
+Gummidipoondi,Tamil Nadu,FY2025-26,PM10,136
+Gurugram,Haryana,FY2024-25,PM2.5,225
+Gurugram,Haryana,FY2024-25,PM10,96
+Gurugram,Haryana,FY2024-25,CO,37
+Gurugram,Haryana,FY2024-25,O3,5
+Gurugram,Haryana,FY2025-26,PM2.5,173
+Gurugram,Haryana,FY2025-26,PM10,115
+Gurugram,Haryana,FY2025-26,NO2,2
+Gurugram,Haryana,FY2025-26,CO,8
+Gurugram,Haryana,FY2025-26,O3,37
+Guwahati,Assam,FY2024-25,PM2.5,212
+Guwahati,Assam,FY2024-25,PM10,117
+Guwahati,Assam,FY2024-25,SO2,20
+Guwahati,Assam,FY2024-25,CO,11
+Guwahati,Assam,FY2024-25,O3,4
+Guwahati,Assam,FY2025-26,PM2.5,147
+Guwahati,Assam,FY2025-26,PM10,131
+Guwahati,Assam,FY2025-26,SO2,54
+Guwahati,Assam,FY2025-26,CO,15
+Guwahati,Assam,FY2025-26,O3,18
+Gwalior,Madhya Pradesh,FY2024-25,PM2.5,121
+Gwalior,Madhya Pradesh,FY2024-25,PM10,151
+Gwalior,Madhya Pradesh,FY2024-25,NO2,1
+Gwalior,Madhya Pradesh,FY2024-25,SO2,2
+Gwalior,Madhya Pradesh,FY2024-25,CO,27
+Gwalior,Madhya Pradesh,FY2024-25,O3,62
+Gwalior,Madhya Pradesh,FY2025-26,PM2.5,134
+Gwalior,Madhya Pradesh,FY2025-26,PM10,148
+Gwalior,Madhya Pradesh,FY2025-26,NO2,3
+Gwalior,Madhya Pradesh,FY2025-26,CO,17
+Gwalior,Madhya Pradesh,FY2025-26,O3,63
+Hajipur,Bihar,FY2024-25,PM2.5,214
+Hajipur,Bihar,FY2024-25,PM10,103
+Hajipur,Bihar,FY2024-25,O3,31
+Hajipur,Bihar,FY2025-26,PM2.5,233
+Hajipur,Bihar,FY2025-26,PM10,9
+Hajipur,Bihar,FY2025-26,CO,4
+Hajipur,Bihar,FY2025-26,O3,82
+Haldia,West Bengal,FY2024-25,PM2.5,107
+Haldia,West Bengal,FY2024-25,PM10,202
+Haldia,West Bengal,FY2024-25,CO,29
+Haldia,West Bengal,FY2024-25,O3,20
+Haldia,West Bengal,FY2025-26,PM2.5,133
+Haldia,West Bengal,FY2025-26,PM10,179
+Haldia,West Bengal,FY2025-26,NO2,1
+Haldia,West Bengal,FY2025-26,CO,21
+Haldia,West Bengal,FY2025-26,O3,29
+Hanumangarh,Rajasthan,FY2024-25,PM2.5,100
+Hanumangarh,Rajasthan,FY2024-25,PM10,207
+Hanumangarh,Rajasthan,FY2024-25,CO,4
+Hanumangarh,Rajasthan,FY2024-25,O3,2
+Hanumangarh,Rajasthan,FY2025-26,PM2.5,52
+Hanumangarh,Rajasthan,FY2025-26,PM10,250
+Hanumangarh,Rajasthan,FY2025-26,NO2,24
+Hanumangarh,Rajasthan,FY2025-26,CO,5
+Hanumangarh,Rajasthan,FY2025-26,O3,13
+Hapur,Uttar Pradesh,FY2024-25,PM2.5,143
+Hapur,Uttar Pradesh,FY2024-25,PM10,137
+Hapur,Uttar Pradesh,FY2024-25,NO2,3
+Hapur,Uttar Pradesh,FY2024-25,CO,42
+Hapur,Uttar Pradesh,FY2024-25,O3,23
+Hapur,Uttar Pradesh,FY2025-26,PM2.5,165
+Hapur,Uttar Pradesh,FY2025-26,PM10,116
+Hapur,Uttar Pradesh,FY2025-26,NO2,15
+Hapur,Uttar Pradesh,FY2025-26,SO2,1
+Hapur,Uttar Pradesh,FY2025-26,CO,39
+Hapur,Uttar Pradesh,FY2025-26,O3,13
+Howrah,West Bengal,FY2024-25,PM2.5,151
+Howrah,West Bengal,FY2024-25,PM10,182
+Howrah,West Bengal,FY2024-25,NO2,12
+Howrah,West Bengal,FY2024-25,CO,4
+Howrah,West Bengal,FY2024-25,O3,15
+Howrah,West Bengal,FY2025-26,PM2.5,114
+Howrah,West Bengal,FY2025-26,PM10,139
+Howrah,West Bengal,FY2025-26,NO2,18
+Howrah,West Bengal,FY2025-26,SO2,1
+Howrah,West Bengal,FY2025-26,CO,44
+Howrah,West Bengal,FY2025-26,O3,49
+Hubballi,Karnataka,FY2024-25,PM2.5,56
+Hubballi,Karnataka,FY2024-25,PM10,254
+Hubballi,Karnataka,FY2024-25,NO2,8
+Hubballi,Karnataka,FY2024-25,CO,18
+Hubballi,Karnataka,FY2024-25,O3,10
+Hubballi,Karnataka,FY2025-26,PM10,342
+Hubballi,Karnataka,FY2025-26,NO2,5
+Hubballi,Karnataka,FY2025-26,CO,2
+Hubballi,Karnataka,FY2025-26,NH3,1
+Hyderabad,Telangana,FY2024-25,PM2.5,104
+Hyderabad,Telangana,FY2024-25,PM10,237
+Hyderabad,Telangana,FY2024-25,NO2,5
+Hyderabad,Telangana,FY2024-25,CO,11
+Hyderabad,Telangana,FY2024-25,O3,7
+Hyderabad,Telangana,FY2025-26,PM2.5,116
+Hyderabad,Telangana,FY2025-26,PM10,228
+Hyderabad,Telangana,FY2025-26,NO2,3
+Hyderabad,Telangana,FY2025-26,CO,6
+Hyderabad,Telangana,FY2025-26,O3,12
+Imphal,Manipur,FY2024-25,PM2.5,18
+Imphal,Manipur,FY2024-25,SO2,249
+Imphal,Manipur,FY2025-26,PM10,1
+Imphal,Manipur,FY2025-26,SO2,79
+Indore,Madhya Pradesh,FY2024-25,PM2.5,123
+Indore,Madhya Pradesh,FY2024-25,PM10,155
+Indore,Madhya Pradesh,FY2024-25,NO2,14
+Indore,Madhya Pradesh,FY2024-25,SO2,46
+Indore,Madhya Pradesh,FY2024-25,CO,19
+Indore,Madhya Pradesh,FY2024-25,O3,7
+Indore,Madhya Pradesh,FY2025-26,PM2.5,118
+Indore,Madhya Pradesh,FY2025-26,PM10,164
+Indore,Madhya Pradesh,FY2025-26,NO2,44
+Indore,Madhya Pradesh,FY2025-26,SO2,37
+Indore,Madhya Pradesh,FY2025-26,O3,2
+Jabalpur,Madhya Pradesh,FY2024-25,PM2.5,101
+Jabalpur,Madhya Pradesh,FY2024-25,PM10,122
+Jabalpur,Madhya Pradesh,FY2024-25,NO2,4
+Jabalpur,Madhya Pradesh,FY2024-25,CO,36
+Jabalpur,Madhya Pradesh,FY2024-25,O3,100
+Jabalpur,Madhya Pradesh,FY2025-26,PM2.5,85
+Jabalpur,Madhya Pradesh,FY2025-26,PM10,141
+Jabalpur,Madhya Pradesh,FY2025-26,NO2,18
+Jabalpur,Madhya Pradesh,FY2025-26,SO2,4
+Jabalpur,Madhya Pradesh,FY2025-26,CO,20
+Jabalpur,Madhya Pradesh,FY2025-26,O3,97
+Jaipur,Rajasthan,FY2024-25,PM2.5,97
+Jaipur,Rajasthan,FY2024-25,PM10,175
+Jaipur,Rajasthan,FY2024-25,NO2,6
+Jaipur,Rajasthan,FY2024-25,SO2,1
+Jaipur,Rajasthan,FY2024-25,CO,19
+Jaipur,Rajasthan,FY2024-25,O3,66
+Jaipur,Rajasthan,FY2025-26,PM2.5,113
+Jaipur,Rajasthan,FY2025-26,PM10,133
+Jaipur,Rajasthan,FY2025-26,NO2,55
+Jaipur,Rajasthan,FY2025-26,CO,13
+Jaipur,Rajasthan,FY2025-26,O3,51
+Jaisalmer,Rajasthan,FY2024-25,PM2.5,41
+Jaisalmer,Rajasthan,FY2024-25,PM10,282
+Jaisalmer,Rajasthan,FY2024-25,CO,1
+Jaisalmer,Rajasthan,FY2024-25,O3,33
+Jaisalmer,Rajasthan,FY2025-26,PM2.5,44
+Jaisalmer,Rajasthan,FY2025-26,PM10,287
+Jaisalmer,Rajasthan,FY2025-26,CO,5
+Jaisalmer,Rajasthan,FY2025-26,O3,29
+Jalandhar,Punjab,FY2024-25,PM2.5,76
+Jalandhar,Punjab,FY2024-25,PM10,270
+Jalandhar,Punjab,FY2024-25,CO,3
+Jalandhar,Punjab,FY2024-25,O3,10
+Jalandhar,Punjab,FY2025-26,PM2.5,77
+Jalandhar,Punjab,FY2025-26,PM10,256
+Jalandhar,Punjab,FY2025-26,CO,9
+Jalandhar,Punjab,FY2025-26,O3,20
+Jalgaon,Maharashtra,FY2024-25,PM2.5,82
+Jalgaon,Maharashtra,FY2024-25,PM10,246
+Jalgaon,Maharashtra,FY2024-25,CO,2
+Jalgaon,Maharashtra,FY2024-25,O3,22
+Jalgaon,Maharashtra,FY2025-26,PM2.5,107
+Jalgaon,Maharashtra,FY2025-26,PM10,216
+Jalgaon,Maharashtra,FY2025-26,CO,1
+Jalgaon,Maharashtra,FY2025-26,O3,25
+Jalna,Maharashtra,FY2024-25,PM2.5,141
+Jalna,Maharashtra,FY2024-25,PM10,142
+Jalna,Maharashtra,FY2024-25,NO2,4
+Jalna,Maharashtra,FY2024-25,O3,19
+Jalna,Maharashtra,FY2025-26,PM2.5,55
+Jalna,Maharashtra,FY2025-26,PM10,164
+Jalna,Maharashtra,FY2025-26,NO2,27
+Jalna,Maharashtra,FY2025-26,O3,36
+Jalore,Rajasthan,FY2024-25,PM2.5,41
+Jalore,Rajasthan,FY2024-25,PM10,280
+Jalore,Rajasthan,FY2024-25,O3,27
+Jalore,Rajasthan,FY2025-26,PM2.5,39
+Jalore,Rajasthan,FY2025-26,PM10,296
+Jalore,Rajasthan,FY2025-26,O3,23
+Jhalawar,Rajasthan,FY2024-25,PM2.5,90
+Jhalawar,Rajasthan,FY2024-25,PM10,206
+Jhalawar,Rajasthan,FY2024-25,NO2,2
+Jhalawar,Rajasthan,FY2024-25,CO,7
+Jhalawar,Rajasthan,FY2024-25,O3,49
+Jhalawar,Rajasthan,FY2025-26,PM2.5,101
+Jhalawar,Rajasthan,FY2025-26,PM10,112
+Jhalawar,Rajasthan,FY2025-26,NO2,40
+Jhalawar,Rajasthan,FY2025-26,CO,9
+Jhalawar,Rajasthan,FY2025-26,O3,99
+Jhansi,Uttar Pradesh,FY2024-25,PM2.5,81
+Jhansi,Uttar Pradesh,FY2024-25,PM10,205
+Jhansi,Uttar Pradesh,FY2024-25,SO2,23
+Jhansi,Uttar Pradesh,FY2024-25,O3,19
+Jhansi,Uttar Pradesh,FY2025-26,PM2.5,63
+Jhansi,Uttar Pradesh,FY2025-26,PM10,272
+Jhansi,Uttar Pradesh,FY2025-26,SO2,18
+Jhansi,Uttar Pradesh,FY2025-26,CO,2
+Jhansi,Uttar Pradesh,FY2025-26,O3,1
+Jhunjhunu,Rajasthan,FY2024-25,PM2.5,86
+Jhunjhunu,Rajasthan,FY2024-25,PM10,219
+Jhunjhunu,Rajasthan,FY2024-25,CO,13
+Jhunjhunu,Rajasthan,FY2024-25,O3,39
+Jhunjhunu,Rajasthan,FY2025-26,PM2.5,26
+Jhunjhunu,Rajasthan,FY2025-26,PM10,257
+Jhunjhunu,Rajasthan,FY2025-26,CO,6
+Jhunjhunu,Rajasthan,FY2025-26,O3,71
+Jodhpur,Rajasthan,FY2024-25,PM2.5,62
+Jodhpur,Rajasthan,FY2024-25,PM10,262
+Jodhpur,Rajasthan,FY2024-25,NO2,3
+Jodhpur,Rajasthan,FY2024-25,CO,2
+Jodhpur,Rajasthan,FY2024-25,O3,35
+Jodhpur,Rajasthan,FY2025-26,PM2.5,57
+Jodhpur,Rajasthan,FY2025-26,PM10,243
+Jodhpur,Rajasthan,FY2025-26,CO,2
+Jodhpur,Rajasthan,FY2025-26,O3,63
+Kadapa,Andhra Pradesh,FY2024-25,PM2.5,53
+Kadapa,Andhra Pradesh,FY2024-25,PM10,105
+Kadapa,Andhra Pradesh,FY2024-25,CO,26
+Kadapa,Andhra Pradesh,FY2024-25,O3,52
+Kadapa,Andhra Pradesh,FY2025-26,PM2.5,217
+Kadapa,Andhra Pradesh,FY2025-26,PM10,88
+Kadapa,Andhra Pradesh,FY2025-26,CO,2
+Kadapa,Andhra Pradesh,FY2025-26,O3,7
+Kalaburagi,Karnataka,FY2024-25,PM2.5,28
+Kalaburagi,Karnataka,FY2024-25,PM10,162
+Kalaburagi,Karnataka,FY2024-25,NO2,1
+Kalaburagi,Karnataka,FY2024-25,SO2,16
+Kalaburagi,Karnataka,FY2024-25,CO,133
+Kalaburagi,Karnataka,FY2024-25,O3,14
+Kalaburagi,Karnataka,FY2025-26,PM10,261
+Kalaburagi,Karnataka,FY2025-26,SO2,28
+Kalaburagi,Karnataka,FY2025-26,CO,65
+Kalaburagi,Karnataka,FY2025-26,O3,6
+Kalyan,Maharashtra,FY2024-25,PM2.5,19
+Kalyan,Maharashtra,FY2024-25,PM10,325
+Kalyan,Maharashtra,FY2024-25,NO2,4
+Kalyan,Maharashtra,FY2024-25,CO,1
+Kalyan,Maharashtra,FY2024-25,O3,9
+Kalyan,Maharashtra,FY2025-26,PM2.5,47
+Kalyan,Maharashtra,FY2025-26,PM10,260
+Kalyan,Maharashtra,FY2025-26,CO,30
+Kalyan,Maharashtra,FY2025-26,O3,4
+Kannur,Kerala,FY2024-25,PM2.5,19
+Kannur,Kerala,FY2024-25,PM10,118
+Kannur,Kerala,FY2024-25,CO,52
+Kannur,Kerala,FY2025-26,PM2.5,43
+Kannur,Kerala,FY2025-26,PM10,243
+Kanpur,Uttar Pradesh,FY2024-25,PM2.5,117
+Kanpur,Uttar Pradesh,FY2024-25,PM10,171
+Kanpur,Uttar Pradesh,FY2024-25,NO2,10
+Kanpur,Uttar Pradesh,FY2024-25,SO2,1
+Kanpur,Uttar Pradesh,FY2024-25,CO,28
+Kanpur,Uttar Pradesh,FY2024-25,O3,37
+Kanpur,Uttar Pradesh,FY2025-26,PM2.5,135
+Kanpur,Uttar Pradesh,FY2025-26,PM10,153
+Kanpur,Uttar Pradesh,FY2025-26,NO2,4
+Kanpur,Uttar Pradesh,FY2025-26,SO2,15
+Kanpur,Uttar Pradesh,FY2025-26,CO,47
+Kanpur,Uttar Pradesh,FY2025-26,O3,10
+Karauli,Rajasthan,FY2024-25,PM2.5,44
+Karauli,Rajasthan,FY2024-25,PM10,132
+Karauli,Rajasthan,FY2024-25,NO2,5
+Karauli,Rajasthan,FY2024-25,SO2,1
+Karauli,Rajasthan,FY2024-25,O3,126
+Karauli,Rajasthan,FY2025-26,PM2.5,86
+Karauli,Rajasthan,FY2025-26,PM10,151
+Karauli,Rajasthan,FY2025-26,NO2,13
+Karauli,Rajasthan,FY2025-26,CO,30
+Karauli,Rajasthan,FY2025-26,O3,68
+Karnal,Haryana,FY2024-25,PM2.5,106
+Karnal,Haryana,FY2024-25,PM10,119
+Karnal,Haryana,FY2024-25,SO2,1
+Karnal,Haryana,FY2024-25,CO,6
+Karnal,Haryana,FY2024-25,O3,26
+Karnal,Haryana,FY2025-26,PM2.5,157
+Karnal,Haryana,FY2025-26,PM10,14
+Karnal,Haryana,FY2025-26,O3,2
+Kashipur,Uttarakhand,FY2024-25,PM2.5,152
+Kashipur,Uttarakhand,FY2024-25,PM10,169
+Kashipur,Uttarakhand,FY2024-25,CO,4
+Kashipur,Uttarakhand,FY2024-25,O3,6
+Kashipur,Uttarakhand,FY2025-26,PM2.5,174
+Kashipur,Uttarakhand,FY2025-26,PM10,69
+Kashipur,Uttarakhand,FY2025-26,CO,20
+Kashipur,Uttarakhand,FY2025-26,O3,15
+Katihar,Bihar,FY2024-25,PM2.5,151
+Katihar,Bihar,FY2024-25,PM10,98
+Katihar,Bihar,FY2024-25,CO,35
+Katihar,Bihar,FY2024-25,O3,5
+Katihar,Bihar,FY2025-26,PM2.5,122
+Katihar,Bihar,FY2025-26,PM10,30
+Katihar,Bihar,FY2025-26,SO2,5
+Katihar,Bihar,FY2025-26,CO,130
+Katni,Madhya Pradesh,FY2024-25,PM2.5,25
+Katni,Madhya Pradesh,FY2024-25,PM10,288
+Katni,Madhya Pradesh,FY2024-25,NO2,4
+Katni,Madhya Pradesh,FY2024-25,CO,1
+Katni,Madhya Pradesh,FY2024-25,O3,39
+Katni,Madhya Pradesh,FY2025-26,PM2.5,80
+Katni,Madhya Pradesh,FY2025-26,PM10,231
+Katni,Madhya Pradesh,FY2025-26,NO2,1
+Katni,Madhya Pradesh,FY2025-26,CO,3
+Katni,Madhya Pradesh,FY2025-26,O3,47
+Keonjhar,Odisha,FY2024-25,PM2.5,62
+Keonjhar,Odisha,FY2024-25,PM10,169
+Keonjhar,Odisha,FY2024-25,NO2,2
+Keonjhar,Odisha,FY2024-25,CO,42
+Keonjhar,Odisha,FY2024-25,O3,27
+Keonjhar,Odisha,FY2025-26,PM2.5,32
+Keonjhar,Odisha,FY2025-26,PM10,247
+Keonjhar,Odisha,FY2025-26,SO2,5
+Keonjhar,Odisha,FY2025-26,CO,43
+Khanna,Punjab,FY2024-25,PM2.5,112
+Khanna,Punjab,FY2024-25,PM10,230
+Khanna,Punjab,FY2024-25,CO,14
+Khanna,Punjab,FY2024-25,O3,2
+Khanna,Punjab,FY2025-26,PM2.5,134
+Khanna,Punjab,FY2025-26,PM10,169
+Khanna,Punjab,FY2025-26,NO2,1
+Khanna,Punjab,FY2025-26,CO,28
+Khanna,Punjab,FY2025-26,O3,21
+Khurja,Uttar Pradesh,FY2024-25,PM2.5,87
+Khurja,Uttar Pradesh,FY2024-25,PM10,221
+Khurja,Uttar Pradesh,FY2024-25,SO2,10
+Khurja,Uttar Pradesh,FY2024-25,O3,1
+Khurja,Uttar Pradesh,FY2025-26,PM2.5,62
+Khurja,Uttar Pradesh,FY2025-26,PM10,243
+Khurja,Uttar Pradesh,FY2025-26,SO2,5
+Khurja,Uttar Pradesh,FY2025-26,CO,21
+Khurja,Uttar Pradesh,FY2025-26,O3,3
+Kishanganj,Bihar,FY2024-25,PM2.5,10
+Kishanganj,Bihar,FY2024-25,PM10,238
+Kishanganj,Bihar,FY2024-25,NO2,17
+Kishanganj,Bihar,FY2024-25,CO,2
+Kishanganj,Bihar,FY2024-25,O3,8
+Kishanganj,Bihar,FY2025-26,PM2.5,104
+Kishanganj,Bihar,FY2025-26,PM10,153
+Kishanganj,Bihar,FY2025-26,CO,13
+Kishanganj,Bihar,FY2025-26,O3,3
+Kohima,Nagaland,FY2024-25,PM2.5,168
+Kohima,Nagaland,FY2024-25,PM10,44
+Kohima,Nagaland,FY2024-25,SO2,108
+Kohima,Nagaland,FY2025-26,PM2.5,68
+Kohima,Nagaland,FY2025-26,PM10,8
+Kohima,Nagaland,FY2025-26,SO2,262
+Kolhapur,Maharashtra,FY2024-25,PM2.5,81
+Kolhapur,Maharashtra,FY2024-25,PM10,223
+Kolhapur,Maharashtra,FY2024-25,CO,4
+Kolhapur,Maharashtra,FY2024-25,O3,54
+Kolhapur,Maharashtra,FY2025-26,PM2.5,83
+Kolhapur,Maharashtra,FY2025-26,PM10,232
+Kolhapur,Maharashtra,FY2025-26,NO2,1
+Kolhapur,Maharashtra,FY2025-26,CO,1
+Kolhapur,Maharashtra,FY2025-26,O3,35
+Kolkata,West Bengal,FY2024-25,PM2.5,135
+Kolkata,West Bengal,FY2024-25,PM10,158
+Kolkata,West Bengal,FY2024-25,NO2,31
+Kolkata,West Bengal,FY2024-25,CO,10
+Kolkata,West Bengal,FY2024-25,O3,30
+Kolkata,West Bengal,FY2025-26,PM2.5,173
+Kolkata,West Bengal,FY2025-26,PM10,104
+Kolkata,West Bengal,FY2025-26,NO2,70
+Kolkata,West Bengal,FY2025-26,CO,5
+Kolkata,West Bengal,FY2025-26,O3,13
+Kollam,Kerala,FY2024-25,PM2.5,96
+Kollam,Kerala,FY2024-25,PM10,160
+Kollam,Kerala,FY2024-25,O3,3
+Kollam,Kerala,FY2025-26,PM2.5,60
+Kollam,Kerala,FY2025-26,PM10,155
+Kollam,Kerala,FY2025-26,O3,10
+Koppal,Karnataka,FY2024-25,PM2.5,26
+Koppal,Karnataka,FY2024-25,PM10,48
+Koppal,Karnataka,FY2024-25,NO2,59
+Koppal,Karnataka,FY2024-25,SO2,21
+Koppal,Karnataka,FY2024-25,CO,108
+Koppal,Karnataka,FY2024-25,O3,16
+Koppal,Karnataka,FY2025-26,PM2.5,5
+Koppal,Karnataka,FY2025-26,PM10,66
+Koppal,Karnataka,FY2025-26,NO2,12
+Koppal,Karnataka,FY2025-26,SO2,3
+Koppal,Karnataka,FY2025-26,CO,74
+Koppal,Karnataka,FY2025-26,O3,9
+Korba,Chhattisgarh,FY2024-25,PM2.5,29
+Korba,Chhattisgarh,FY2024-25,PM10,248
+Korba,Chhattisgarh,FY2024-25,NO2,44
+Korba,Chhattisgarh,FY2024-25,CO,19
+Korba,Chhattisgarh,FY2024-25,O3,9
+Korba,Chhattisgarh,FY2025-26,PM2.5,82
+Korba,Chhattisgarh,FY2025-26,PM10,223
+Korba,Chhattisgarh,FY2025-26,NO2,15
+Korba,Chhattisgarh,FY2025-26,SO2,1
+Korba,Chhattisgarh,FY2025-26,CO,13
+Korba,Chhattisgarh,FY2025-26,O3,22
+Kota,Rajasthan,FY2024-25,PM2.5,140
+Kota,Rajasthan,FY2024-25,PM10,182
+Kota,Rajasthan,FY2024-25,CO,9
+Kota,Rajasthan,FY2024-25,O3,33
+Kota,Rajasthan,FY2025-26,PM2.5,141
+Kota,Rajasthan,FY2025-26,PM10,168
+Kota,Rajasthan,FY2025-26,NO2,1
+Kota,Rajasthan,FY2025-26,CO,8
+Kota,Rajasthan,FY2025-26,O3,47
+Kunjemura,Chhattisgarh,FY2024-25,PM2.5,1
+Kunjemura,Chhattisgarh,FY2024-25,PM10,287
+Kunjemura,Chhattisgarh,FY2024-25,NO2,5
+Kunjemura,Chhattisgarh,FY2024-25,CO,36
+Kunjemura,Chhattisgarh,FY2025-26,PM2.5,4
+Kunjemura,Chhattisgarh,FY2025-26,PM10,286
+Kunjemura,Chhattisgarh,FY2025-26,CO,48
+Kunjemura,Chhattisgarh,FY2025-26,O3,1
+Kurukshetra,Haryana,FY2024-25,PM2.5,113
+Kurukshetra,Haryana,FY2024-25,PM10,108
+Kurukshetra,Haryana,FY2024-25,SO2,7
+Kurukshetra,Haryana,FY2024-25,O3,31
+Kurukshetra,Haryana,FY2025-26,PM2.5,124
+Kurukshetra,Haryana,FY2025-26,PM10,49
+Kurukshetra,Haryana,FY2025-26,O3,2
+Latur,Maharashtra,FY2024-25,PM2.5,106
+Latur,Maharashtra,FY2024-25,PM10,177
+Latur,Maharashtra,FY2024-25,CO,7
+Latur,Maharashtra,FY2024-25,O3,69
+Latur,Maharashtra,FY2025-26,PM2.5,92
+Latur,Maharashtra,FY2025-26,PM10,168
+Latur,Maharashtra,FY2025-26,CO,13
+Latur,Maharashtra,FY2025-26,O3,76
+Lucknow,Uttar Pradesh,FY2024-25,PM2.5,207
+Lucknow,Uttar Pradesh,FY2024-25,PM10,133
+Lucknow,Uttar Pradesh,FY2024-25,SO2,1
+Lucknow,Uttar Pradesh,FY2024-25,CO,10
+Lucknow,Uttar Pradesh,FY2024-25,O3,13
+Lucknow,Uttar Pradesh,FY2025-26,PM2.5,165
+Lucknow,Uttar Pradesh,FY2025-26,PM10,150
+Lucknow,Uttar Pradesh,FY2025-26,SO2,11
+Lucknow,Uttar Pradesh,FY2025-26,CO,19
+Lucknow,Uttar Pradesh,FY2025-26,O3,20
+Ludhiana,Punjab,FY2024-25,PM2.5,168
+Ludhiana,Punjab,FY2024-25,PM10,167
+Ludhiana,Punjab,FY2024-25,CO,25
+Ludhiana,Punjab,FY2025-26,PM2.5,84
+Ludhiana,Punjab,FY2025-26,PM10,263
+Ludhiana,Punjab,FY2025-26,CO,10
+Ludhiana,Punjab,FY2025-26,O3,1
+Madikeri,Karnataka,FY2024-25,PM2.5,98
+Madikeri,Karnataka,FY2024-25,PM10,183
+Madikeri,Karnataka,FY2024-25,NO2,16
+Madikeri,Karnataka,FY2024-25,CO,21
+Madikeri,Karnataka,FY2024-25,O3,36
+Madikeri,Karnataka,FY2025-26,PM2.5,208
+Madikeri,Karnataka,FY2025-26,PM10,129
+Madikeri,Karnataka,FY2025-26,NO2,10
+Madikeri,Karnataka,FY2025-26,CO,1
+Madurai,Tamil Nadu,FY2024-25,PM10,159
+Madurai,Tamil Nadu,FY2024-25,CO,1
+Madurai,Tamil Nadu,FY2025-26,PM2.5,2
+Madurai,Tamil Nadu,FY2025-26,PM10,225
+Madurai,Tamil Nadu,FY2025-26,NO2,2
+Madurai,Tamil Nadu,FY2025-26,SO2,17
+Madurai,Tamil Nadu,FY2025-26,CO,16
+Mahad,Maharashtra,FY2024-25,PM2.5,114
+Mahad,Maharashtra,FY2024-25,PM10,205
+Mahad,Maharashtra,FY2024-25,SO2,1
+Mahad,Maharashtra,FY2024-25,CO,1
+Mahad,Maharashtra,FY2024-25,O3,12
+Mahad,Maharashtra,FY2025-26,PM2.5,74
+Mahad,Maharashtra,FY2025-26,PM10,217
+Mahad,Maharashtra,FY2025-26,NO2,1
+Mahad,Maharashtra,FY2025-26,SO2,7
+Mahad,Maharashtra,FY2025-26,CO,6
+Mahad,Maharashtra,FY2025-26,O3,39
+Malegaon,Maharashtra,FY2024-25,PM2.5,133
+Malegaon,Maharashtra,FY2024-25,PM10,198
+Malegaon,Maharashtra,FY2024-25,NO2,1
+Malegaon,Maharashtra,FY2024-25,CO,1
+Malegaon,Maharashtra,FY2024-25,O3,6
+Malegaon,Maharashtra,FY2025-26,PM2.5,52
+Malegaon,Maharashtra,FY2025-26,PM10,269
+Malegaon,Maharashtra,FY2025-26,CO,3
+Malegaon,Maharashtra,FY2025-26,O3,7
+Mandi Gobindgarh,Punjab,FY2024-25,PM2.5,242
+Mandi Gobindgarh,Punjab,FY2024-25,PM10,39
+Mandi Gobindgarh,Punjab,FY2024-25,CO,29
+Mandi Gobindgarh,Punjab,FY2024-25,O3,6
+Mandi Gobindgarh,Punjab,FY2025-26,PM2.5,167
+Mandi Gobindgarh,Punjab,FY2025-26,PM10,91
+Mandi Gobindgarh,Punjab,FY2025-26,CO,52
+Mandi Gobindgarh,Punjab,FY2025-26,O3,9
+Mandideep,Madhya Pradesh,FY2024-25,PM2.5,118
+Mandideep,Madhya Pradesh,FY2024-25,PM10,205
+Mandideep,Madhya Pradesh,FY2024-25,CO,4
+Mandideep,Madhya Pradesh,FY2024-25,O3,18
+Mandideep,Madhya Pradesh,FY2025-26,PM2.5,128
+Mandideep,Madhya Pradesh,FY2025-26,PM10,181
+Mandideep,Madhya Pradesh,FY2025-26,NO2,4
+Mandideep,Madhya Pradesh,FY2025-26,SO2,2
+Mandideep,Madhya Pradesh,FY2025-26,CO,2
+Mandideep,Madhya Pradesh,FY2025-26,O3,6
+Mangalore,Karnataka,FY2024-25,PM2.5,4
+Mangalore,Karnataka,FY2024-25,PM10,280
+Mangalore,Karnataka,FY2024-25,SO2,4
+Mangalore,Karnataka,FY2024-25,CO,10
+Mangalore,Karnataka,FY2024-25,O3,21
+Mangalore,Karnataka,FY2025-26,PM2.5,26
+Mangalore,Karnataka,FY2025-26,PM10,179
+Mangalore,Karnataka,FY2025-26,CO,3
+Mangalore,Karnataka,FY2025-26,O3,14
+Manguraha,Bihar,FY2024-25,PM2.5,52
+Manguraha,Bihar,FY2024-25,PM10,134
+Manguraha,Bihar,FY2024-25,NO2,1
+Manguraha,Bihar,FY2024-25,CO,26
+Manguraha,Bihar,FY2025-26,PM2.5,37
+Manguraha,Bihar,FY2025-26,PM10,191
+Manguraha,Bihar,FY2025-26,NO2,1
+Manguraha,Bihar,FY2025-26,CO,49
+Meerut,Uttar Pradesh,FY2024-25,PM2.5,117
+Meerut,Uttar Pradesh,FY2024-25,PM10,197
+Meerut,Uttar Pradesh,FY2024-25,CO,17
+Meerut,Uttar Pradesh,FY2024-25,O3,32
+Meerut,Uttar Pradesh,FY2024-25,NH3,1
+Meerut,Uttar Pradesh,FY2025-26,PM2.5,95
+Meerut,Uttar Pradesh,FY2025-26,PM10,189
+Meerut,Uttar Pradesh,FY2025-26,NO2,3
+Meerut,Uttar Pradesh,FY2025-26,CO,4
+Meerut,Uttar Pradesh,FY2025-26,O3,74
+Mira-Bhayandar,Maharashtra,FY2024-25,PM2.5,67
+Mira-Bhayandar,Maharashtra,FY2024-25,PM10,236
+Mira-Bhayandar,Maharashtra,FY2024-25,O3,21
+Mira-Bhayandar,Maharashtra,FY2025-26,PM2.5,35
+Mira-Bhayandar,Maharashtra,FY2025-26,PM10,245
+Mira-Bhayandar,Maharashtra,FY2025-26,NO2,10
+Mira-Bhayandar,Maharashtra,FY2025-26,CO,11
+Mira-Bhayandar,Maharashtra,FY2025-26,O3,30
+Moradabad,Uttar Pradesh,FY2024-25,PM2.5,111
+Moradabad,Uttar Pradesh,FY2024-25,PM10,172
+Moradabad,Uttar Pradesh,FY2024-25,NO2,2
+Moradabad,Uttar Pradesh,FY2024-25,SO2,7
+Moradabad,Uttar Pradesh,FY2024-25,CO,18
+Moradabad,Uttar Pradesh,FY2024-25,O3,54
+Moradabad,Uttar Pradesh,FY2025-26,PM2.5,128
+Moradabad,Uttar Pradesh,FY2025-26,PM10,139
+Moradabad,Uttar Pradesh,FY2025-26,SO2,37
+Moradabad,Uttar Pradesh,FY2025-26,CO,20
+Moradabad,Uttar Pradesh,FY2025-26,O3,41
+Motihari,Bihar,FY2024-25,PM2.5,71
+Motihari,Bihar,FY2024-25,PM10,158
+Motihari,Bihar,FY2024-25,NO2,13
+Motihari,Bihar,FY2024-25,SO2,5
+Motihari,Bihar,FY2024-25,CO,20
+Motihari,Bihar,FY2024-25,O3,19
+Motihari,Bihar,FY2025-26,PM2.5,121
+Motihari,Bihar,FY2025-26,PM10,149
+Motihari,Bihar,FY2025-26,CO,15
+Mumbai,Maharashtra,FY2024-25,PM2.5,94
+Mumbai,Maharashtra,FY2024-25,PM10,181
+Mumbai,Maharashtra,FY2024-25,NO2,21
+Mumbai,Maharashtra,FY2024-25,SO2,1
+Mumbai,Maharashtra,FY2024-25,CO,12
+Mumbai,Maharashtra,FY2024-25,O3,55
+Mumbai,Maharashtra,FY2025-26,PM2.5,71
+Mumbai,Maharashtra,FY2025-26,PM10,223
+Mumbai,Maharashtra,FY2025-26,NO2,20
+Mumbai,Maharashtra,FY2025-26,SO2,5
+Mumbai,Maharashtra,FY2025-26,CO,13
+Mumbai,Maharashtra,FY2025-26,O3,33
+Munger,Bihar,FY2024-25,PM2.5,166
+Munger,Bihar,FY2024-25,PM10,99
+Munger,Bihar,FY2024-25,SO2,10
+Munger,Bihar,FY2024-25,CO,37
+Munger,Bihar,FY2024-25,O3,1
+Munger,Bihar,FY2025-26,PM2.5,187
+Munger,Bihar,FY2025-26,PM10,82
+Munger,Bihar,FY2025-26,SO2,14
+Munger,Bihar,FY2025-26,CO,46
+Muzaffarnagar,Uttar Pradesh,FY2024-25,PM2.5,189
+Muzaffarnagar,Uttar Pradesh,FY2024-25,PM10,153
+Muzaffarnagar,Uttar Pradesh,FY2024-25,O3,11
+Muzaffarnagar,Uttar Pradesh,FY2025-26,PM2.5,202
+Muzaffarnagar,Uttar Pradesh,FY2025-26,PM10,101
+Muzaffarnagar,Uttar Pradesh,FY2025-26,CO,17
+Muzaffarnagar,Uttar Pradesh,FY2025-26,O3,34
+Muzaffarpur,Bihar,FY2024-25,PM2.5,237
+Muzaffarpur,Bihar,FY2024-25,PM10,39
+Muzaffarpur,Bihar,FY2024-25,NO2,3
+Muzaffarpur,Bihar,FY2024-25,SO2,1
+Muzaffarpur,Bihar,FY2024-25,CO,22
+Muzaffarpur,Bihar,FY2024-25,O3,62
+Muzaffarpur,Bihar,FY2025-26,PM2.5,230
+Muzaffarpur,Bihar,FY2025-26,PM10,50
+Muzaffarpur,Bihar,FY2025-26,CO,26
+Muzaffarpur,Bihar,FY2025-26,O3,59
+Mysuru,Karnataka,FY2024-25,PM2.5,1
+Mysuru,Karnataka,FY2024-25,PM10,226
+Mysuru,Karnataka,FY2024-25,CO,1
+Mysuru,Karnataka,FY2024-25,O3,107
+Mysuru,Karnataka,FY2025-26,PM10,277
+Mysuru,Karnataka,FY2025-26,CO,1
+Mysuru,Karnataka,FY2025-26,O3,72
+Nagaon,Assam,FY2024-25,PM2.5,143
+Nagaon,Assam,FY2024-25,PM10,69
+Nagaon,Assam,FY2024-25,SO2,3
+Nagaon,Assam,FY2024-25,CO,100
+Nagaon,Assam,FY2024-25,O3,22
+Nagaon,Assam,FY2025-26,PM2.5,205
+Nagaon,Assam,FY2025-26,PM10,93
+Nagaon,Assam,FY2025-26,CO,21
+Nagaur,Rajasthan,FY2024-25,PM2.5,27
+Nagaur,Rajasthan,FY2024-25,PM10,292
+Nagaur,Rajasthan,FY2024-25,CO,1
+Nagaur,Rajasthan,FY2024-25,O3,30
+Nagaur,Rajasthan,FY2025-26,PM2.5,30
+Nagaur,Rajasthan,FY2025-26,PM10,303
+Nagaur,Rajasthan,FY2025-26,CO,1
+Nagaur,Rajasthan,FY2025-26,O3,23
+Nagpur,Maharashtra,FY2024-25,PM2.5,137
+Nagpur,Maharashtra,FY2024-25,PM10,197
+Nagpur,Maharashtra,FY2024-25,CO,16
+Nagpur,Maharashtra,FY2024-25,O3,14
+Nagpur,Maharashtra,FY2025-26,PM2.5,145
+Nagpur,Maharashtra,FY2025-26,PM10,193
+Nagpur,Maharashtra,FY2025-26,CO,19
+Nagpur,Maharashtra,FY2025-26,O3,8
+Naharlagun,Arunachal Pradesh,FY2024-25,PM2.5,82
+Naharlagun,Arunachal Pradesh,FY2024-25,PM10,120
+Naharlagun,Arunachal Pradesh,FY2024-25,CO,5
+Naharlagun,Arunachal Pradesh,FY2025-26,PM2.5,110
+Naharlagun,Arunachal Pradesh,FY2025-26,PM10,145
+Naharlagun,Arunachal Pradesh,FY2025-26,SO2,1
+Naharlagun,Arunachal Pradesh,FY2025-26,CO,3
+Nalbari,Assam,FY2024-25,PM2.5,168
+Nalbari,Assam,FY2024-25,PM10,93
+Nalbari,Assam,FY2024-25,CO,27
+Nalbari,Assam,FY2024-25,O3,20
+Nalbari,Assam,FY2025-26,PM2.5,233
+Nalbari,Assam,FY2025-26,PM10,46
+Nalbari,Assam,FY2025-26,CO,16
+Nalbari,Assam,FY2025-26,O3,8
+Nanded,Maharashtra,FY2024-25,PM2.5,39
+Nanded,Maharashtra,FY2024-25,PM10,186
+Nanded,Maharashtra,FY2024-25,NO2,1
+Nanded,Maharashtra,FY2024-25,CO,2
+Nanded,Maharashtra,FY2024-25,O3,89
+Nanded,Maharashtra,FY2025-26,PM2.5,52
+Nanded,Maharashtra,FY2025-26,PM10,194
+Nanded,Maharashtra,FY2025-26,CO,30
+Nanded,Maharashtra,FY2025-26,O3,54
+Nashik,Maharashtra,FY2024-25,PM2.5,114
+Nashik,Maharashtra,FY2024-25,PM10,200
+Nashik,Maharashtra,FY2024-25,NO2,6
+Nashik,Maharashtra,FY2024-25,CO,21
+Nashik,Maharashtra,FY2024-25,O3,23
+Nashik,Maharashtra,FY2025-26,PM2.5,58
+Nashik,Maharashtra,FY2025-26,PM10,291
+Nashik,Maharashtra,FY2025-26,NO2,3
+Nashik,Maharashtra,FY2025-26,CO,4
+Nashik,Maharashtra,FY2025-26,O3,9
+Navi Mumbai,Maharashtra,FY2024-25,PM2.5,59
+Navi Mumbai,Maharashtra,FY2024-25,PM10,235
+Navi Mumbai,Maharashtra,FY2024-25,NO2,13
+Navi Mumbai,Maharashtra,FY2024-25,CO,26
+Navi Mumbai,Maharashtra,FY2024-25,O3,31
+Navi Mumbai,Maharashtra,FY2025-26,PM2.5,97
+Navi Mumbai,Maharashtra,FY2025-26,PM10,223
+Navi Mumbai,Maharashtra,FY2025-26,NO2,24
+Navi Mumbai,Maharashtra,FY2025-26,CO,15
+Navi Mumbai,Maharashtra,FY2025-26,O3,6
+Nayagarh,Odisha,FY2024-25,PM2.5,103
+Nayagarh,Odisha,FY2024-25,PM10,178
+Nayagarh,Odisha,FY2024-25,NO2,6
+Nayagarh,Odisha,FY2024-25,O3,2
+Nayagarh,Odisha,FY2025-26,PM2.5,29
+Nayagarh,Odisha,FY2025-26,PM10,270
+Nayagarh,Odisha,FY2025-26,NO2,1
+Nayagarh,Odisha,FY2025-26,CO,1
+Nayagarh,Odisha,FY2025-26,O3,12
+Noida,Uttar Pradesh,FY2024-25,PM2.5,115
+Noida,Uttar Pradesh,FY2024-25,PM10,179
+Noida,Uttar Pradesh,FY2024-25,NO2,15
+Noida,Uttar Pradesh,FY2024-25,CO,13
+Noida,Uttar Pradesh,FY2024-25,O3,42
+Noida,Uttar Pradesh,FY2025-26,PM2.5,144
+Noida,Uttar Pradesh,FY2025-26,PM10,158
+Noida,Uttar Pradesh,FY2025-26,NO2,5
+Noida,Uttar Pradesh,FY2025-26,CO,7
+Noida,Uttar Pradesh,FY2025-26,O3,51
+Pali,Rajasthan,FY2024-25,PM2.5,88
+Pali,Rajasthan,FY2024-25,PM10,245
+Pali,Rajasthan,FY2024-25,CO,9
+Pali,Rajasthan,FY2024-25,O3,1
+Pali,Rajasthan,FY2025-26,PM2.5,112
+Pali,Rajasthan,FY2025-26,PM10,237
+Pali,Rajasthan,FY2025-26,CO,4
+Pali,Rajasthan,FY2025-26,O3,3
+Panchgaon,Haryana,FY2025-26,PM2.5,136
+Panchgaon,Haryana,FY2025-26,PM10,95
+Panchgaon,Haryana,FY2025-26,NO2,13
+Panchgaon,Haryana,FY2025-26,CO,16
+Panchgaon,Haryana,FY2025-26,O3,61
+Parbhani,Maharashtra,FY2024-25,PM2.5,54
+Parbhani,Maharashtra,FY2024-25,PM10,186
+Parbhani,Maharashtra,FY2024-25,CO,13
+Parbhani,Maharashtra,FY2024-25,O3,26
+Parbhani,Maharashtra,FY2025-26,PM2.5,67
+Parbhani,Maharashtra,FY2025-26,PM10,147
+Parbhani,Maharashtra,FY2025-26,NO2,9
+Parbhani,Maharashtra,FY2025-26,SO2,1
+Parbhani,Maharashtra,FY2025-26,CO,7
+Parbhani,Maharashtra,FY2025-26,O3,28
+Patiala,Punjab,FY2024-25,PM2.5,80
+Patiala,Punjab,FY2024-25,PM10,240
+Patiala,Punjab,FY2024-25,CO,14
+Patiala,Punjab,FY2024-25,O3,25
+Patiala,Punjab,FY2025-26,PM2.5,31
+Patiala,Punjab,FY2025-26,PM10,284
+Patiala,Punjab,FY2025-26,NO2,5
+Patiala,Punjab,FY2025-26,CO,9
+Patiala,Punjab,FY2025-26,O3,21
+Patna,Bihar,FY2024-25,PM2.5,168
+Patna,Bihar,FY2024-25,PM10,167
+Patna,Bihar,FY2024-25,NO2,1
+Patna,Bihar,FY2024-25,CO,13
+Patna,Bihar,FY2024-25,O3,15
+Patna,Bihar,FY2025-26,PM2.5,124
+Patna,Bihar,FY2025-26,PM10,176
+Patna,Bihar,FY2025-26,NO2,7
+Patna,Bihar,FY2025-26,CO,36
+Patna,Bihar,FY2025-26,O3,22
+Pimpri-Chinchwad,Maharashtra,FY2024-25,PM2.5,113
+Pimpri-Chinchwad,Maharashtra,FY2024-25,PM10,159
+Pimpri-Chinchwad,Maharashtra,FY2024-25,NO2,14
+Pimpri-Chinchwad,Maharashtra,FY2024-25,CO,36
+Pimpri-Chinchwad,Maharashtra,FY2024-25,O3,42
+Pimpri-Chinchwad,Maharashtra,FY2025-26,PM2.5,82
+Pimpri-Chinchwad,Maharashtra,FY2025-26,PM10,215
+Pimpri-Chinchwad,Maharashtra,FY2025-26,NO2,7
+Pimpri-Chinchwad,Maharashtra,FY2025-26,CO,48
+Pimpri-Chinchwad,Maharashtra,FY2025-26,O3,13
+Pithampur,Madhya Pradesh,FY2024-25,PM2.5,97
+Pithampur,Madhya Pradesh,FY2024-25,PM10,213
+Pithampur,Madhya Pradesh,FY2024-25,CO,12
+Pithampur,Madhya Pradesh,FY2024-25,O3,42
+Pithampur,Madhya Pradesh,FY2025-26,PM2.5,126
+Pithampur,Madhya Pradesh,FY2025-26,PM10,202
+Pithampur,Madhya Pradesh,FY2025-26,O3,23
+Pratapgarh,Rajasthan,FY2024-25,PM2.5,52
+Pratapgarh,Rajasthan,FY2024-25,PM10,203
+Pratapgarh,Rajasthan,FY2024-25,CO,4
+Pratapgarh,Rajasthan,FY2024-25,O3,94
+Pratapgarh,Rajasthan,FY2025-26,PM2.5,55
+Pratapgarh,Rajasthan,FY2025-26,PM10,200
+Pratapgarh,Rajasthan,FY2025-26,O3,103
+Prayagraj,Uttar Pradesh,FY2024-25,PM2.5,91
+Prayagraj,Uttar Pradesh,FY2024-25,PM10,207
+Prayagraj,Uttar Pradesh,FY2024-25,SO2,55
+Prayagraj,Uttar Pradesh,FY2024-25,CO,5
+Prayagraj,Uttar Pradesh,FY2024-25,O3,5
+Prayagraj,Uttar Pradesh,FY2025-26,PM2.5,86
+Prayagraj,Uttar Pradesh,FY2025-26,PM10,223
+Prayagraj,Uttar Pradesh,FY2025-26,SO2,50
+Prayagraj,Uttar Pradesh,FY2025-26,O3,6
+Puducherry,Puducherry,FY2024-25,PM2.5,80
+Puducherry,Puducherry,FY2024-25,PM10,48
+Puducherry,Puducherry,FY2024-25,CO,15
+Puducherry,Puducherry,FY2024-25,O3,204
+Puducherry,Puducherry,FY2025-26,PM2.5,98
+Puducherry,Puducherry,FY2025-26,PM10,116
+Puducherry,Puducherry,FY2025-26,NO2,1
+Puducherry,Puducherry,FY2025-26,CO,10
+Puducherry,Puducherry,FY2025-26,O3,88
+Pudukottai,Tamil Nadu,FY2024-25,PM2.5,12
+Pudukottai,Tamil Nadu,FY2024-25,PM10,123
+Pudukottai,Tamil Nadu,FY2024-25,CO,1
+Pudukottai,Tamil Nadu,FY2025-26,PM2.5,16
+Pudukottai,Tamil Nadu,FY2025-26,PM10,248
+Pune,Maharashtra,FY2024-25,PM2.5,113
+Pune,Maharashtra,FY2024-25,PM10,96
+Pune,Maharashtra,FY2024-25,NO2,14
+Pune,Maharashtra,FY2024-25,CO,84
+Pune,Maharashtra,FY2024-25,O3,57
+Pune,Maharashtra,FY2025-26,PM2.5,135
+Pune,Maharashtra,FY2025-26,PM10,126
+Pune,Maharashtra,FY2025-26,NO2,9
+Pune,Maharashtra,FY2025-26,SO2,1
+Pune,Maharashtra,FY2025-26,CO,71
+Pune,Maharashtra,FY2025-26,O3,23
+Purnia,Bihar,FY2024-25,PM2.5,181
+Purnia,Bihar,FY2024-25,PM10,51
+Purnia,Bihar,FY2024-25,CO,40
+Purnia,Bihar,FY2025-26,PM2.5,192
+Purnia,Bihar,FY2025-26,PM10,70
+Purnia,Bihar,FY2025-26,SO2,4
+Purnia,Bihar,FY2025-26,CO,38
+Purnia,Bihar,FY2025-26,O3,4
+Raipur,Chhattisgarh,FY2024-25,PM2.5,70
+Raipur,Chhattisgarh,FY2024-25,PM10,266
+Raipur,Chhattisgarh,FY2024-25,NO2,15
+Raipur,Chhattisgarh,FY2024-25,SO2,1
+Raipur,Chhattisgarh,FY2024-25,CO,11
+Raipur,Chhattisgarh,FY2025-26,PM2.5,41
+Raipur,Chhattisgarh,FY2025-26,PM10,267
+Raipur,Chhattisgarh,FY2025-26,NO2,22
+Raipur,Chhattisgarh,FY2025-26,SO2,1
+Raipur,Chhattisgarh,FY2025-26,CO,32
+Raipur,Chhattisgarh,FY2025-26,O3,2
+Rairangpur,Odisha,FY2024-25,PM2.5,134
+Rairangpur,Odisha,FY2024-25,PM10,150
+Rairangpur,Odisha,FY2024-25,CO,3
+Rairangpur,Odisha,FY2024-25,O3,29
+Rairangpur,Odisha,FY2025-26,PM2.5,49
+Rairangpur,Odisha,FY2025-26,PM10,241
+Rairangpur,Odisha,FY2025-26,CO,11
+Rajamahendravaram,Andhra Pradesh,FY2024-25,PM2.5,58
+Rajamahendravaram,Andhra Pradesh,FY2024-25,PM10,164
+Rajamahendravaram,Andhra Pradesh,FY2024-25,NO2,2
+Rajamahendravaram,Andhra Pradesh,FY2024-25,SO2,1
+Rajamahendravaram,Andhra Pradesh,FY2024-25,CO,86
+Rajamahendravaram,Andhra Pradesh,FY2024-25,O3,43
+Rajamahendravaram,Andhra Pradesh,FY2025-26,PM2.5,76
+Rajamahendravaram,Andhra Pradesh,FY2025-26,PM10,254
+Rajamahendravaram,Andhra Pradesh,FY2025-26,NO2,1
+Rajamahendravaram,Andhra Pradesh,FY2025-26,CO,20
+Rajamahendravaram,Andhra Pradesh,FY2025-26,O3,3
+Rajsamand,Rajasthan,FY2024-25,PM2.5,83
+Rajsamand,Rajasthan,FY2024-25,PM10,85
+Rajsamand,Rajasthan,FY2024-25,CO,29
+Rajsamand,Rajasthan,FY2024-25,O3,147
+Rajsamand,Rajasthan,FY2025-26,PM2.5,66
+Rajsamand,Rajasthan,FY2025-26,PM10,74
+Rajsamand,Rajasthan,FY2025-26,SO2,1
+Rajsamand,Rajasthan,FY2025-26,O3,211
+Ramanagara,Karnataka,FY2024-25,PM2.5,108
+Ramanagara,Karnataka,FY2024-25,PM10,56
+Ramanagara,Karnataka,FY2024-25,NO2,5
+Ramanagara,Karnataka,FY2024-25,SO2,29
+Ramanagara,Karnataka,FY2024-25,CO,20
+Ramanagara,Karnataka,FY2024-25,O3,115
+Ramanagara,Karnataka,FY2025-26,PM2.5,27
+Ramanagara,Karnataka,FY2025-26,PM10,88
+Ramanagara,Karnataka,FY2025-26,NO2,19
+Ramanagara,Karnataka,FY2025-26,SO2,3
+Ramanagara,Karnataka,FY2025-26,CO,24
+Ramanagara,Karnataka,FY2025-26,O3,20
+Ramanathapuram,Tamil Nadu,FY2024-25,PM2.5,19
+Ramanathapuram,Tamil Nadu,FY2024-25,PM10,254
+Ramanathapuram,Tamil Nadu,FY2024-25,SO2,1
+Ramanathapuram,Tamil Nadu,FY2024-25,O3,6
+Ramanathapuram,Tamil Nadu,FY2025-26,PM2.5,26
+Ramanathapuram,Tamil Nadu,FY2025-26,PM10,198
+Ramanathapuram,Tamil Nadu,FY2025-26,CO,28
+Ratlam,Madhya Pradesh,FY2024-25,PM2.5,14
+Ratlam,Madhya Pradesh,FY2024-25,PM10,309
+Ratlam,Madhya Pradesh,FY2024-25,NO2,1
+Ratlam,Madhya Pradesh,FY2024-25,SO2,26
+Ratlam,Madhya Pradesh,FY2025-26,PM2.5,7
+Ratlam,Madhya Pradesh,FY2025-26,PM10,315
+Ratlam,Madhya Pradesh,FY2025-26,NO2,18
+Rishikesh,Uttarakhand,FY2024-25,PM2.5,69
+Rishikesh,Uttarakhand,FY2024-25,PM10,165
+Rishikesh,Uttarakhand,FY2024-25,CO,13
+Rishikesh,Uttarakhand,FY2024-25,O3,84
+Rishikesh,Uttarakhand,FY2025-26,PM2.5,53
+Rishikesh,Uttarakhand,FY2025-26,PM10,103
+Rishikesh,Uttarakhand,FY2025-26,CO,36
+Rishikesh,Uttarakhand,FY2025-26,O3,95
+Rohtak,Haryana,FY2024-25,PM2.5,228
+Rohtak,Haryana,FY2024-25,PM10,22
+Rohtak,Haryana,FY2024-25,NO2,9
+Rohtak,Haryana,FY2024-25,SO2,1
+Rohtak,Haryana,FY2024-25,CO,2
+Rohtak,Haryana,FY2024-25,O3,32
+Rohtak,Haryana,FY2025-26,PM2.5,129
+Rohtak,Haryana,FY2025-26,PM10,5
+Rohtak,Haryana,FY2025-26,CO,2
+Rohtak,Haryana,FY2025-26,O3,1
+Rourkela,Odisha,FY2024-25,PM2.5,172
+Rourkela,Odisha,FY2024-25,PM10,153
+Rourkela,Odisha,FY2024-25,NO2,7
+Rourkela,Odisha,FY2024-25,CO,29
+Rourkela,Odisha,FY2024-25,O3,1
+Rourkela,Odisha,FY2025-26,PM2.5,144
+Rourkela,Odisha,FY2025-26,PM10,179
+Rourkela,Odisha,FY2025-26,CO,17
+Rourkela,Odisha,FY2025-26,O3,16
+Rupnagar,Punjab,FY2024-25,PM2.5,74
+Rupnagar,Punjab,FY2024-25,PM10,198
+Rupnagar,Punjab,FY2024-25,NO2,3
+Rupnagar,Punjab,FY2024-25,CO,49
+Rupnagar,Punjab,FY2025-26,PM2.5,69
+Rupnagar,Punjab,FY2025-26,PM10,94
+Rupnagar,Punjab,FY2025-26,NO2,8
+Rupnagar,Punjab,FY2025-26,CO,71
+Sagar,Madhya Pradesh,FY2024-25,PM2.5,42
+Sagar,Madhya Pradesh,FY2024-25,PM10,188
+Sagar,Madhya Pradesh,FY2024-25,NO2,2
+Sagar,Madhya Pradesh,FY2024-25,CO,46
+Sagar,Madhya Pradesh,FY2024-25,O3,85
+Sagar,Madhya Pradesh,FY2025-26,PM2.5,76
+Sagar,Madhya Pradesh,FY2025-26,PM10,182
+Sagar,Madhya Pradesh,FY2025-26,CO,64
+Sagar,Madhya Pradesh,FY2025-26,O3,38
+Saharsa,Bihar,FY2024-25,PM2.5,134
+Saharsa,Bihar,FY2024-25,PM10,133
+Saharsa,Bihar,FY2024-25,SO2,1
+Saharsa,Bihar,FY2024-25,CO,37
+Saharsa,Bihar,FY2024-25,O3,9
+Saharsa,Bihar,FY2025-26,PM2.5,64
+Saharsa,Bihar,FY2025-26,PM10,206
+Saharsa,Bihar,FY2025-26,CO,15
+Saharsa,Bihar,FY2025-26,O3,1
+Samastipur,Bihar,FY2024-25,PM2.5,75
+Samastipur,Bihar,FY2024-25,PM10,92
+Samastipur,Bihar,FY2024-25,SO2,6
+Samastipur,Bihar,FY2024-25,CO,107
+Samastipur,Bihar,FY2025-26,PM2.5,165
+Samastipur,Bihar,FY2025-26,PM10,89
+Samastipur,Bihar,FY2025-26,NO2,1
+Samastipur,Bihar,FY2025-26,SO2,3
+Samastipur,Bihar,FY2025-26,CO,26
+Sangli,Maharashtra,FY2024-25,PM2.5,2
+Sangli,Maharashtra,FY2024-25,PM10,183
+Sangli,Maharashtra,FY2024-25,CO,1
+Sangli,Maharashtra,FY2024-25,O3,134
+Sangli,Maharashtra,FY2025-26,PM2.5,111
+Sangli,Maharashtra,FY2025-26,PM10,183
+Sangli,Maharashtra,FY2025-26,CO,1
+Sangli,Maharashtra,FY2025-26,O3,22
+Sasaram,Bihar,FY2024-25,PM2.5,131
+Sasaram,Bihar,FY2024-25,PM10,66
+Sasaram,Bihar,FY2024-25,NO2,2
+Sasaram,Bihar,FY2024-25,CO,113
+Sasaram,Bihar,FY2024-25,O3,14
+Sasaram,Bihar,FY2025-26,PM2.5,56
+Sasaram,Bihar,FY2025-26,PM10,144
+Sasaram,Bihar,FY2025-26,CO,74
+Satna,Madhya Pradesh,FY2024-25,PM2.5,12
+Satna,Madhya Pradesh,FY2024-25,PM10,226
+Satna,Madhya Pradesh,FY2024-25,NO2,29
+Satna,Madhya Pradesh,FY2024-25,CO,53
+Satna,Madhya Pradesh,FY2024-25,O3,17
+Satna,Madhya Pradesh,FY2025-26,PM10,246
+Satna,Madhya Pradesh,FY2025-26,NO2,7
+Satna,Madhya Pradesh,FY2025-26,CO,14
+Sawai Madhopur,Rajasthan,FY2024-25,PM2.5,27
+Sawai Madhopur,Rajasthan,FY2024-25,PM10,213
+Sawai Madhopur,Rajasthan,FY2024-25,CO,10
+Sawai Madhopur,Rajasthan,FY2024-25,O3,80
+Sawai Madhopur,Rajasthan,FY2025-26,PM2.5,14
+Sawai Madhopur,Rajasthan,FY2025-26,PM10,218
+Sawai Madhopur,Rajasthan,FY2025-26,CO,42
+Sawai Madhopur,Rajasthan,FY2025-26,O3,83
+Shillong,Meghalaya,FY2024-25,PM2.5,60
+Shillong,Meghalaya,FY2024-25,PM10,14
+Shillong,Meghalaya,FY2024-25,SO2,37
+Shillong,Meghalaya,FY2024-25,CO,2
+Shillong,Meghalaya,FY2024-25,O3,35
+Shillong,Meghalaya,FY2025-26,PM2.5,63
+Shillong,Meghalaya,FY2025-26,PM10,122
+Shillong,Meghalaya,FY2025-26,NO2,1
+Shillong,Meghalaya,FY2025-26,SO2,2
+Shillong,Meghalaya,FY2025-26,CO,25
+Shillong,Meghalaya,FY2025-26,O3,104
+Shillong,Meghalaya,FY2025-26,NH3,2
+Shivamogga,Karnataka,FY2024-25,PM10,205
+Shivamogga,Karnataka,FY2024-25,NO2,2
+Shivamogga,Karnataka,FY2024-25,O3,135
+Shivamogga,Karnataka,FY2025-26,PM2.5,3
+Shivamogga,Karnataka,FY2025-26,PM10,221
+Shivamogga,Karnataka,FY2025-26,NO2,2
+Shivamogga,Karnataka,FY2025-26,CO,6
+Shivamogga,Karnataka,FY2025-26,O3,109
+Shivamogga,Karnataka,FY2025-26,NH3,1
+Sikar,Rajasthan,FY2024-25,PM2.5,60
+Sikar,Rajasthan,FY2024-25,PM10,240
+Sikar,Rajasthan,FY2024-25,CO,2
+Sikar,Rajasthan,FY2024-25,O3,52
+Sikar,Rajasthan,FY2025-26,PM2.5,74
+Sikar,Rajasthan,FY2025-26,PM10,231
+Sikar,Rajasthan,FY2025-26,CO,7
+Sikar,Rajasthan,FY2025-26,O3,48
+Silchar,Assam,FY2024-25,PM2.5,47
+Silchar,Assam,FY2024-25,PM10,297
+Silchar,Assam,FY2024-25,CO,5
+Silchar,Assam,FY2025-26,PM2.5,32
+Silchar,Assam,FY2025-26,PM10,310
+Silchar,Assam,FY2025-26,CO,21
+Siliguri,West Bengal,FY2024-25,PM2.5,68
+Siliguri,West Bengal,FY2024-25,PM10,288
+Siliguri,West Bengal,FY2024-25,CO,2
+Siliguri,West Bengal,FY2024-25,O3,1
+Siliguri,West Bengal,FY2025-26,PM2.5,42
+Siliguri,West Bengal,FY2025-26,PM10,218
+Siliguri,West Bengal,FY2025-26,NO2,7
+Siliguri,West Bengal,FY2025-26,CO,46
+Siliguri,West Bengal,FY2025-26,O3,34
+Singrauli,Madhya Pradesh,FY2024-25,PM2.5,126
+Singrauli,Madhya Pradesh,FY2024-25,PM10,127
+Singrauli,Madhya Pradesh,FY2024-25,SO2,12
+Singrauli,Madhya Pradesh,FY2024-25,CO,20
+Singrauli,Madhya Pradesh,FY2024-25,O3,34
+Singrauli,Madhya Pradesh,FY2025-26,PM2.5,138
+Singrauli,Madhya Pradesh,FY2025-26,PM10,152
+Singrauli,Madhya Pradesh,FY2025-26,NO2,2
+Singrauli,Madhya Pradesh,FY2025-26,SO2,16
+Singrauli,Madhya Pradesh,FY2025-26,O3,16
+Sirohi,Rajasthan,FY2024-25,PM2.5,43
+Sirohi,Rajasthan,FY2024-25,PM10,202
+Sirohi,Rajasthan,FY2024-25,CO,4
+Sirohi,Rajasthan,FY2024-25,O3,82
+Sirohi,Rajasthan,FY2025-26,PM2.5,29
+Sirohi,Rajasthan,FY2025-26,PM10,276
+Sirohi,Rajasthan,FY2025-26,CO,6
+Sirohi,Rajasthan,FY2025-26,O3,44
+Sivasagar,Assam,FY2024-25,PM2.5,33
+Sivasagar,Assam,FY2024-25,PM10,323
+Sivasagar,Assam,FY2024-25,NO2,3
+Sivasagar,Assam,FY2025-26,PM2.5,114
+Sivasagar,Assam,FY2025-26,PM10,170
+Sivasagar,Assam,FY2025-26,NO2,6
+Sivasagar,Assam,FY2025-26,O3,65
+Solapur,Maharashtra,FY2024-25,PM2.5,69
+Solapur,Maharashtra,FY2024-25,PM10,261
+Solapur,Maharashtra,FY2024-25,NO2,2
+Solapur,Maharashtra,FY2024-25,SO2,1
+Solapur,Maharashtra,FY2024-25,CO,8
+Solapur,Maharashtra,FY2024-25,O3,21
+Solapur,Maharashtra,FY2025-26,PM2.5,62
+Solapur,Maharashtra,FY2025-26,PM10,281
+Solapur,Maharashtra,FY2025-26,CO,5
+Solapur,Maharashtra,FY2025-26,O3,15
+Sri Ganganagar,Rajasthan,FY2024-25,PM2.5,90
+Sri Ganganagar,Rajasthan,FY2024-25,PM10,210
+Sri Ganganagar,Rajasthan,FY2024-25,NO2,4
+Sri Ganganagar,Rajasthan,FY2024-25,CO,9
+Sri Ganganagar,Rajasthan,FY2024-25,O3,5
+Sri Ganganagar,Rajasthan,FY2025-26,PM2.5,59
+Sri Ganganagar,Rajasthan,FY2025-26,PM10,240
+Sri Ganganagar,Rajasthan,FY2025-26,NO2,4
+Sri Ganganagar,Rajasthan,FY2025-26,CO,8
+Sri Ganganagar,Rajasthan,FY2025-26,O3,43
+Suakati,Odisha,FY2024-25,PM2.5,64
+Suakati,Odisha,FY2024-25,PM10,166
+Suakati,Odisha,FY2024-25,O3,100
+Suakati,Odisha,FY2025-26,PM2.5,59
+Suakati,Odisha,FY2025-26,PM10,141
+Suakati,Odisha,FY2025-26,SO2,1
+Suakati,Odisha,FY2025-26,O3,21
+Surat,Gujarat,FY2024-25,PM2.5,44
+Surat,Gujarat,FY2024-25,PM10,69
+Surat,Gujarat,FY2024-25,NO2,47
+Surat,Gujarat,FY2024-25,SO2,8
+Surat,Gujarat,FY2024-25,CO,102
+Surat,Gujarat,FY2025-26,PM2.5,73
+Surat,Gujarat,FY2025-26,PM10,135
+Surat,Gujarat,FY2025-26,SO2,52
+Surat,Gujarat,FY2025-26,CO,41
+Talcher,Odisha,FY2024-25,PM2.5,176
+Talcher,Odisha,FY2024-25,PM10,64
+Talcher,Odisha,FY2024-25,CO,79
+Talcher,Odisha,FY2024-25,O3,13
+Talcher,Odisha,FY2025-26,PM2.5,135
+Talcher,Odisha,FY2025-26,PM10,109
+Talcher,Odisha,FY2025-26,NO2,19
+Talcher,Odisha,FY2025-26,SO2,6
+Talcher,Odisha,FY2025-26,CO,42
+Talcher,Odisha,FY2025-26,O3,1
+Tensa,Odisha,FY2024-25,PM2.5,60
+Tensa,Odisha,FY2024-25,PM10,218
+Tensa,Odisha,FY2024-25,NO2,35
+Tensa,Odisha,FY2024-25,CO,1
+Tensa,Odisha,FY2024-25,O3,28
+Tensa,Odisha,FY2025-26,PM2.5,8
+Tensa,Odisha,FY2025-26,PM10,207
+Tensa,Odisha,FY2025-26,NO2,4
+Tensa,Odisha,FY2025-26,CO,22
+Tensa,Odisha,FY2025-26,O3,14
+Thane,Maharashtra,FY2024-25,PM2.5,71
+Thane,Maharashtra,FY2024-25,PM10,235
+Thane,Maharashtra,FY2024-25,SO2,2
+Thane,Maharashtra,FY2024-25,CO,27
+Thane,Maharashtra,FY2024-25,O3,29
+Thane,Maharashtra,FY2025-26,PM2.5,22
+Thane,Maharashtra,FY2025-26,PM10,310
+Thane,Maharashtra,FY2025-26,CO,24
+Thane,Maharashtra,FY2025-26,O3,9
+Thiruvananthapuram,Kerala,FY2024-25,PM2.5,32
+Thiruvananthapuram,Kerala,FY2024-25,PM10,293
+Thiruvananthapuram,Kerala,FY2024-25,NO2,24
+Thiruvananthapuram,Kerala,FY2024-25,CO,14
+Thiruvananthapuram,Kerala,FY2025-26,PM2.5,91
+Thiruvananthapuram,Kerala,FY2025-26,PM10,208
+Thiruvananthapuram,Kerala,FY2025-26,NO2,43
+Thiruvananthapuram,Kerala,FY2025-26,CO,14
+Thiruvananthapuram,Kerala,FY2025-26,O3,9
+Thrissur,Kerala,FY2024-25,PM2.5,18
+Thrissur,Kerala,FY2024-25,PM10,274
+Thrissur,Kerala,FY2024-25,CO,15
+Thrissur,Kerala,FY2025-26,PM2.5,51
+Thrissur,Kerala,FY2025-26,PM10,267
+Thrissur,Kerala,FY2025-26,CO,3
+Tirumala,Andhra Pradesh,FY2024-25,PM2.5,55
+Tirumala,Andhra Pradesh,FY2024-25,PM10,10
+Tirumala,Andhra Pradesh,FY2024-25,CO,2
+Tirumala,Andhra Pradesh,FY2024-25,O3,3
+Tirumala,Andhra Pradesh,FY2025-26,PM2.5,151
+Tirumala,Andhra Pradesh,FY2025-26,PM10,123
+Tirumala,Andhra Pradesh,FY2025-26,NO2,15
+Tirumala,Andhra Pradesh,FY2025-26,CO,53
+Tirumala,Andhra Pradesh,FY2025-26,O3,18
+Tirupati,Andhra Pradesh,FY2024-25,PM2.5,162
+Tirupati,Andhra Pradesh,FY2024-25,PM10,114
+Tirupati,Andhra Pradesh,FY2024-25,NO2,9
+Tirupati,Andhra Pradesh,FY2024-25,CO,28
+Tirupati,Andhra Pradesh,FY2024-25,O3,8
+Tirupati,Andhra Pradesh,FY2025-26,PM2.5,192
+Tirupati,Andhra Pradesh,FY2025-26,PM10,64
+Tirupur,Tamil Nadu,FY2024-25,PM10,213
+Tirupur,Tamil Nadu,FY2024-25,SO2,13
+Tirupur,Tamil Nadu,FY2024-25,CO,35
+Tirupur,Tamil Nadu,FY2025-26,PM2.5,30
+Tirupur,Tamil Nadu,FY2025-26,PM10,189
+Tirupur,Tamil Nadu,FY2025-26,CO,6
+Tonk,Rajasthan,FY2024-25,PM2.5,39
+Tonk,Rajasthan,FY2024-25,PM10,223
+Tonk,Rajasthan,FY2024-25,O3,42
+Tonk,Rajasthan,FY2025-26,PM2.5,95
+Tonk,Rajasthan,FY2025-26,PM10,254
+Tonk,Rajasthan,FY2025-26,O3,5
+Tumakuru,Karnataka,FY2024-25,PM2.5,20
+Tumakuru,Karnataka,FY2024-25,PM10,264
+Tumakuru,Karnataka,FY2024-25,NO2,2
+Tumakuru,Karnataka,FY2024-25,CO,19
+Tumakuru,Karnataka,FY2024-25,O3,3
+Tumakuru,Karnataka,FY2025-26,PM2.5,45
+Tumakuru,Karnataka,FY2025-26,PM10,75
+Tumakuru,Karnataka,FY2025-26,CO,2
+Tumidih,Chhattisgarh,FY2024-25,PM2.5,8
+Tumidih,Chhattisgarh,FY2024-25,PM10,100
+Tumidih,Chhattisgarh,FY2024-25,NO2,1
+Tumidih,Chhattisgarh,FY2024-25,O3,2
+Tumidih,Chhattisgarh,FY2025-26,PM2.5,14
+Tumidih,Chhattisgarh,FY2025-26,PM10,250
+Tumidih,Chhattisgarh,FY2025-26,NO2,7
+Tumidih,Chhattisgarh,FY2025-26,CO,7
+Tumidih,Chhattisgarh,FY2025-26,O3,27
+Udaipur,Rajasthan,FY2024-25,PM2.5,74
+Udaipur,Rajasthan,FY2024-25,PM10,254
+Udaipur,Rajasthan,FY2024-25,NO2,15
+Udaipur,Rajasthan,FY2024-25,CO,20
+Udaipur,Rajasthan,FY2025-26,PM2.5,64
+Udaipur,Rajasthan,FY2025-26,PM10,260
+Udaipur,Rajasthan,FY2025-26,NO2,3
+Udaipur,Rajasthan,FY2025-26,CO,18
+Udaipur,Rajasthan,FY2025-26,O3,6
+Ujjain,Madhya Pradesh,FY2024-25,PM2.5,50
+Ujjain,Madhya Pradesh,FY2024-25,PM10,169
+Ujjain,Madhya Pradesh,FY2024-25,NO2,10
+Ujjain,Madhya Pradesh,FY2024-25,O3,104
+Ujjain,Madhya Pradesh,FY2025-26,PM2.5,43
+Ujjain,Madhya Pradesh,FY2025-26,PM10,43
+Ujjain,Madhya Pradesh,FY2025-26,NO2,1
+Ujjain,Madhya Pradesh,FY2025-26,CO,2
+Ujjain,Madhya Pradesh,FY2025-26,O3,3
+Ulhasnagar,Maharashtra,FY2024-25,PM2.5,86
+Ulhasnagar,Maharashtra,FY2024-25,PM10,223
+Ulhasnagar,Maharashtra,FY2024-25,CO,1
+Ulhasnagar,Maharashtra,FY2024-25,O3,34
+Ulhasnagar,Maharashtra,FY2025-26,PM2.5,54
+Ulhasnagar,Maharashtra,FY2025-26,PM10,287
+Ulhasnagar,Maharashtra,FY2025-26,NO2,6
+Ulhasnagar,Maharashtra,FY2025-26,O3,11
+Vapi,Gujarat,FY2024-25,PM2.5,174
+Vapi,Gujarat,FY2024-25,PM10,72
+Vapi,Gujarat,FY2024-25,SO2,79
+Vapi,Gujarat,FY2025-26,PM2.5,112
+Vapi,Gujarat,FY2025-26,PM10,193
+Vapi,Gujarat,FY2025-26,SO2,10
+Varanasi,Uttar Pradesh,FY2024-25,PM2.5,82
+Varanasi,Uttar Pradesh,FY2024-25,PM10,210
+Varanasi,Uttar Pradesh,FY2024-25,NO2,16
+Varanasi,Uttar Pradesh,FY2024-25,SO2,42
+Varanasi,Uttar Pradesh,FY2024-25,CO,3
+Varanasi,Uttar Pradesh,FY2024-25,O3,11
+Varanasi,Uttar Pradesh,FY2025-26,PM2.5,69
+Varanasi,Uttar Pradesh,FY2025-26,PM10,236
+Varanasi,Uttar Pradesh,FY2025-26,NO2,13
+Varanasi,Uttar Pradesh,FY2025-26,SO2,46
+Varanasi,Uttar Pradesh,FY2025-26,O3,1
+Vatva,Gujarat,FY2024-25,PM2.5,42
+Vatva,Gujarat,FY2024-25,PM10,287
+Vatva,Gujarat,FY2024-25,NO2,13
+Vatva,Gujarat,FY2024-25,CO,1
+Vatva,Gujarat,FY2024-25,O3,6
+Vatva,Gujarat,FY2025-26,PM2.5,123
+Vatva,Gujarat,FY2025-26,PM10,206
+Vatva,Gujarat,FY2025-26,NO2,2
+Vatva,Gujarat,FY2025-26,SO2,2
+Vatva,Gujarat,FY2025-26,CO,4
+Vijayapura,Karnataka,FY2024-25,PM2.5,35
+Vijayapura,Karnataka,FY2024-25,PM10,216
+Vijayapura,Karnataka,FY2024-25,SO2,8
+Vijayapura,Karnataka,FY2024-25,CO,47
+Vijayapura,Karnataka,FY2025-26,PM10,257
+Vijayawada,Andhra Pradesh,FY2024-25,PM2.5,112
+Vijayawada,Andhra Pradesh,FY2024-25,PM10,203
+Vijayawada,Andhra Pradesh,FY2024-25,NO2,10
+Vijayawada,Andhra Pradesh,FY2024-25,CO,2
+Vijayawada,Andhra Pradesh,FY2024-25,O3,12
+Vijayawada,Andhra Pradesh,FY2025-26,PM2.5,221
+Vijayawada,Andhra Pradesh,FY2025-26,PM10,85
+Vijayawada,Andhra Pradesh,FY2025-26,NO2,2
+Vijayawada,Andhra Pradesh,FY2025-26,CO,2
+Vijayawada,Andhra Pradesh,FY2025-26,O3,38
+Virar,Maharashtra,FY2024-25,PM2.5,77
+Virar,Maharashtra,FY2024-25,PM10,232
+Virar,Maharashtra,FY2024-25,CO,6
+Virar,Maharashtra,FY2024-25,O3,28
+Virar,Maharashtra,FY2025-26,PM2.5,38
+Virar,Maharashtra,FY2025-26,PM10,240
+Virar,Maharashtra,FY2025-26,CO,43
+Virar,Maharashtra,FY2025-26,O3,23
+Visakhapatnam,Andhra Pradesh,FY2024-25,PM2.5,80
+Visakhapatnam,Andhra Pradesh,FY2024-25,PM10,243
+Visakhapatnam,Andhra Pradesh,FY2024-25,NO2,11
+Visakhapatnam,Andhra Pradesh,FY2024-25,O3,10
+Visakhapatnam,Andhra Pradesh,FY2025-26,PM2.5,70
+Visakhapatnam,Andhra Pradesh,FY2025-26,PM10,262
+Visakhapatnam,Andhra Pradesh,FY2025-26,NO2,8
+Visakhapatnam,Andhra Pradesh,FY2025-26,CO,2
+Visakhapatnam,Andhra Pradesh,FY2025-26,O3,4
+Vrindavan,Uttar Pradesh,FY2024-25,PM2.5,5
+Vrindavan,Uttar Pradesh,FY2024-25,PM10,327
+Vrindavan,Uttar Pradesh,FY2024-25,SO2,4
+Vrindavan,Uttar Pradesh,FY2024-25,CO,7
+Vrindavan,Uttar Pradesh,FY2025-26,PM2.5,12
+Vrindavan,Uttar Pradesh,FY2025-26,PM10,326
+Vrindavan,Uttar Pradesh,FY2025-26,SO2,9
+Vrindavan,Uttar Pradesh,FY2025-26,CO,1
+Vrindavan,Uttar Pradesh,FY2025-26,O3,3
+Yadgir,Karnataka,FY2024-25,PM2.5,114
+Yadgir,Karnataka,FY2024-25,PM10,185
+Yadgir,Karnataka,FY2024-25,SO2,2
+Yadgir,Karnataka,FY2024-25,CO,7
+Yadgir,Karnataka,FY2024-25,O3,4
+Yadgir,Karnataka,FY2025-26,PM2.5,58
+Yadgir,Karnataka,FY2025-26,PM10,161
+Yadgir,Karnataka,FY2025-26,NO2,102
+Yadgir,Karnataka,FY2025-26,CO,6

@@ -18,10 +18,14 @@ export interface Period {
   days: number;
 }
 
+/** Which screen's data a dataset provides; "all" covers both. */
+export type DatasetScope = 'all' | 'overview' | 'hourly';
+
 export interface Dataset {
   name: string;
   source: string;
   synthetic: boolean;
+  scope: DatasetScope;
   imported_at: string;
 }
 
@@ -40,7 +44,10 @@ export interface CoverageRules {
 }
 
 export interface Meta {
+  /** The newest dataset loaded; `datasets` says where each screen's numbers come from. */
   dataset: Dataset | null;
+  /** Absent in answers cached from before the API reported it per screen. */
+  datasets?: { overview: Dataset | null; hourly: Dataset | null };
   periods: Period[];
   default_base: string | null;
   default_comparison: string | null;

@@ -25,6 +25,12 @@ CITY_GROUP_INFO: dict[str, tuple[str, str]] = {
     "STATE_CAPITALS": ("State Capitals", "State and union territory capitals"),
 }
 
+# Which screen's data a loaded dataset provides: city aggregates for the Overview, station hours
+# for the Hourly screen, or both. Each screen states its own source, so real Overview numbers and
+# demo hourly data can be served together without either being mislabelled.
+DatasetScope = Literal["all", "overview", "hourly"]
+DATASET_SCOPES: tuple[str, ...] = get_args(DatasetScope)
+
 AqiCategory = Literal["good", "satisfactory", "moderate", "poor", "very_poor", "severe"]
 AQI_CATEGORIES: tuple[str, ...] = get_args(AqiCategory)
 
