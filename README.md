@@ -91,6 +91,18 @@ the data and the rules, and changes how you reach them.
 - **Hourly follows one station, its city's current estimate first.** Of the source's 12 charts,
   it keeps those that answer different questions. The pollution clock is dropped: it repeated the
   hour-of-day chart.
+- **Hourly reads at a glance.** The station is the screen's title, and tapping it changes the
+  station. The live estimate sits on a bar of CPCB's six bands (0–500), so "80" reads as "low
+  Satisfactory". Night hours (19:00–06:00) are shaded behind the hour-of-day bars, so a night-time
+  peak stands out. The share of hours above the Indian and WHO limits is drawn as a meter.
+- **Each year in days.** A city's detail shows each financial year as 365 squares, one per day,
+  grouped by category, with empty squares for days without data. Side by side, the two years show
+  how the mix shifted and how much is missing. The caption says the squares aren't in date order,
+  so no one reads square N as the same day in both years.
+- **Groups explained.** In the filters, NCAP, MPC and IGP are cards that say what they are
+  ("Indo-Gangetic Plain cities") instead of bare acronyms.
+- **Feels native.** A haptic tick confirms a changed choice and each point crossed while scrubbing
+  the trend, but it is never the only feedback. Both tabs pull to refresh.
 
 Five additions, and why each matters to someone checking air quality on a phone:
 
@@ -268,6 +280,19 @@ What was checked, what broke and how it was fixed: [docs/accessibility.md](docs/
   use. The first version, a data.gov.in scraper with station matching, is in the git history.
 - **Tested on iOS only.** Android and TalkBack haven't been tried. The code uses cross-platform
   APIs, and TalkBack gets explicit announcements where it behaves differently.
+- **System font and Expo's icon.** The app keeps the system font, and Expo Go shows its own icon
+  and splash, so a brand typeface and a custom icon were left for a development build.
+
+### Next steps
+
+- **Home-screen widget and Live Activity** for a chosen station's estimate. These need a
+  development build, not Expo Go.
+- **A daily calendar per station:** the "year in days" in date order. It needs a daily endpoint
+  built from `station_hourly`, using CPCB's 16-valid-hours rule.
+- **A peek card on the map** in place of the callout, and loading skeletons shaped like the
+  content.
+- **A CPCB monitor feed** for the live card, if a data.gov.in key becomes available. The first
+  version of the scraper is in the git history.
 
 ## Backend
 

@@ -7,9 +7,9 @@ The two main screens are covered: Overview & Comparison, and Hourly Analysis.
 
 | Check | How | Result |
 |---|---|---|
-| Colour contrast (text 4.5:1, UI parts 3:1) | `npm run check:contrast` ([`mobile/scripts/check-contrast.mjs`](../mobile/scripts/check-contrast.mjs)), which checks every text/background pairing in the light and dark palettes and the label colour on every AQI category and pollutant colour | 59 / 59 pairings pass |
+| Colour contrast (text 4.5:1, UI parts 3:1) | `npm run check:contrast` ([`mobile/scripts/check-contrast.mjs`](../mobile/scripts/check-contrast.mjs)), which checks every text/background pairing in the light and dark palettes and the label colour on every AQI category and pollutant colour | 61 / 61 pairings pass (16 Sep; 59 on 15 Sep, before the night shading's two pairings were added) |
 | Largest text sizes (Dynamic Type) | iPhone 17 simulator at the *Accessibility Large* text size, both screens and the sheets | 8 problems found, all fixed (below) |
-| Small screen, 375 pt wide (iPhone SE width) | The same React Native layout rendered at 375 × 667 in a browser; on 16 Sep, the Overview on the iPhone SE (3rd gen) simulator | Fits without truncation. On the SE the Overview's verdict is fully visible without scrolling. **The Hourly screen on the SE simulator is still to check.** |
+| Small screen, 375 pt wide (iPhone SE width) | The same React Native layout rendered at 375 × 667 in a browser; on 16 Sep, the Overview on the iPhone SE (3rd gen) simulator | Fits without truncation. On the SE the Overview's verdict is fully visible without scrolling, and the Hourly screen fits top to bottom (16 Sep). |
 | Standard phone, 402 pt (iPhone 17) | iOS simulator | Fits |
 | Dark mode | iPhone 17 simulator | All text, chips, badges and the chart stay readable ([screenshot](accessibility/iphone17-dark-hourly.png)) |
 | Nested interactive elements | Dev build in a browser, which rejects a `<button>` inside a `<button>` | 1 problem found and fixed (below) |
@@ -53,6 +53,40 @@ and at the largest one (*Accessibility XXXL*). Screenshots: [`redesign/`](redesi
   it switches to Change, so the pinned controls below it don't jump.
 - **Good green.** `#00B050` → `#009A47`, so Good and Satisfactory are easier to tell apart (see
   the README). The contrast check still passes all 59 pairings.
+
+### 16 Sep: Hourly and the rest, on the iPhone SE
+
+The Hourly screen, the filters sheet and the city detail were checked the same way, on the iPhone
+SE (3rd gen) in light and dark mode, at the default size and at *Accessibility XXXL*. What broke at
+the largest size, and the fixes:
+
+- **Screen titles broke mid-word** ("Hourly analysi / s"). Titles are 28 pt, already large text, so
+  they now grow at most 2×. The verdict sentence (22 pt) gets the same cap.
+- **The AQI badge ran out of its card** ("Satisfactory" is one long word). Badge labels grow at most
+  2× and can shrink to fit. The category is also in every badge's spoken label.
+- **The live card's figure squeezed its details** to a word per line. At large text sizes the
+  figure, badge and details now stack, and the 44 pt figure grows at most 1.5×.
+- **The Filters button squeezed the filter summary** beside it. They now stack.
+- **Still open:** at *Accessibility XXXL* a single word wider than the screen, such as
+  "measurements" in the demo banner, wraps mid-word. That's how iOS wraps any word that doesn't fit
+  a line. Nothing overlaps or is cut off.
+
+New elements and how they reach screen readers:
+
+- **CPCB scale bar** under the live AQI: "On CPCB's 0 to 500 scale, 80 is in the Satisfactory band,
+  51 to 100."
+- **Night shading** on the hour-of-day chart is decorative, and the chart's subtitle says what it
+  means in words. Its caption colour is in the contrast check (4.62:1 light, 8.19:1 dark).
+- **"The year in days"** grids each speak their year's sentence, e.g. "FY 2024-25: 210 good,
+  69 satisfactory, 7 moderate and 3 poor days, and 76 days without data."
+- **City group cards** in the filters are radio buttons whose label includes the explanation
+  ("IGP: Indo-Gangetic Plain cities"), with a check and a thicker outline when selected.
+- **Haptics** confirm a changed choice and each point crossed while scrubbing. They're never the
+  only feedback, and iOS turns them off with System Haptics.
+
+Screenshots: [Hourly on the SE](redesign/hourly-iphonese-light.png),
+[night hours shaded](redesign/hourly-night-hours-iphonese.png),
+[the year in days](redesign/city-year-in-days-iphone16pro.png).
 
 ## Screen reader design
 
