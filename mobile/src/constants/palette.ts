@@ -52,7 +52,7 @@ export const pollutantColors = {
 
 /** CPCB AQI category colours, unchanged from the source dashboard so users recognise them. */
 export const aqiColors = {
-  good: '#00B050',
+  good: '#009A47',
   satisfactory: '#92D050',
   moderate: '#FFFF00',
   poor: '#FF9900',
