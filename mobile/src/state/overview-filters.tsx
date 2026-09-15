@@ -73,6 +73,16 @@ export function describeFilters(filters: OverviewFilters): string {
   return `${place} · ${group} · ${scope} by ${metric}, ${order}`;
 }
 
+/**
+ * The filters sheet's button: how many cities the drafted filters will list, before they are
+ * applied. `eligible` is how many cities in the drafted state and group pass the data rules.
+ */
+export function describeMatches(eligible: number, top: TopN): string {
+  const noun = eligible === 1 ? 'city' : 'cities';
+  if (top === 'all' || eligible <= top) return `Show ${eligible} ${noun}`;
+  return `Show top ${top} of ${eligible} ${noun}`;
+}
+
 export function countActiveFilters(filters: OverviewFilters): number {
   return (Object.keys(DEFAULT_FILTERS) as (keyof OverviewFilters)[]).filter(
     (key) => filters[key] !== DEFAULT_FILTERS[key],

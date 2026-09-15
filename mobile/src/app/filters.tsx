@@ -3,7 +3,7 @@ import { useState, type ReactNode } from 'react';
 import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useMeta } from '@/api/history';
+import { useMeta, useOverview } from '@/api/history';
 import type { CityGroup } from '@/api/types';
 import { ChoiceCard } from '@/components/choice-card';
 import { ChoiceChip } from '@/components/choice-chip';
@@ -16,8 +16,10 @@ import { useTheme } from '@/hooks/use-theme';
 import { lightImpact } from '@/lib/haptics';
 import {
   DEFAULT_FILTERS,
+  describeMatches,
   GROUP_LABELS,
   RANK_METRICS,
+  toOverviewParams,
   useOverviewFilters,
   type OverviewFilters,
   type TopN,
@@ -39,6 +41,14 @@ export default function FiltersScreen() {
   const [stateQuery, setStateQuery] = useState('');
   const update = (patch: Partial<OverviewFilters>) =>
     setDraft((current) => ({ ...current, ...patch }));
+  // The drafted filters' own Overview request: its answer gives the button its count, and it is
+  // already cached when the sheet closes, so the list appears at once. While a new count loads,
+  // the button says "Show results" rather than keep the previous filters' count.
+  const preview = useOverview(toOverviewParams(draft));
+  const applyLabel =
+    preview.data && !preview.isPlaceholderData
+      ? describeMatches(preview.data.eligible, draft.top)
+      : 'Show results';
 
   const financialYears = (meta.data?.periods ?? []).filter((p) => p.frequency === 'FY');
   const groups =
@@ -181,15 +191,19 @@ export default function FiltersScreen() {
       <SafeAreaView edges={['bottom']} style={[styles.footer, { borderTopColor: theme.border }]}>
         <FocusablePressable
           role="button"
-          aria-label="Show results"
+          aria-label={applyLabel}
           onPress={() => {
             lightImpact();
             setFilters(draft);
             router.back();
           }}
           style={[styles.primaryButton, { backgroundColor: theme.accent }]}>
-          <ThemedText type="smallBold" style={{ color: theme.onAccent }}>
-            Show results
+          {/* TalkBack reads the new count when it arrives; VoiceOver reads it on the button. */}
+          <ThemedText
+            type="smallBold"
+            accessibilityLiveRegion="polite"
+            style={{ color: theme.onAccent }}>
+            {applyLabel}
           </ThemedText>
         </FocusablePressable>
       </SafeAreaView>

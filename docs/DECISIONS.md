@@ -47,6 +47,7 @@ simplest to explain. The README has the longer reasoning.
 ## Mobile design
 
 - **Filters sit in a sheet behind one button.** The button shows how many filters changed, and one "Show results" sends one request.
+- **The sheet's button counts the matches before you apply.** It sends the drafted filters' own Overview request, so it reads "Show top 10 of 96 cities", and the list is already cached when the sheet closes.
 - **"Rank by" is a metric plus best or worst first.** It gives the same outcomes as the source's 11-option radio with two controls.
 - **The periods are a toggle: FY 24-25 · FY 25-26 · Change.** Change states the difference in words and arrows instead of leaving two bars to compare.
 - **The verdict comes first.** It is one sentence worked out from the listed cities, and the same sentence is its screen-reader label.

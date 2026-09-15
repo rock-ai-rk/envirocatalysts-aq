@@ -87,8 +87,9 @@ years sit in side-by-side panels, and "All cities" draws a chart 325 rows tall. 
 the data and the rules, and changes how you reach them.
 
 - **Filters behind one button.** A one-line summary ("All India · NCAP · Top 10 by good days")
-  opens a filters sheet, and one *Show results* sends one request. The 11-option "Rank by" radio
-  is now two choices: a metric, and best or worst first.
+  opens a filters sheet. Its button counts the matches before you apply ("Show top 10 of 96
+  cities"), and applying sends one request. The 11-option "Rank by" radio is now two choices: a
+  metric, and best or worst first.
 - **One year at a time, plus Change.** The panels became a toggle: *FY 24-25 · FY 25-26 · Change*.
   Change states the difference ("▲ +18 good days · better") instead of leaving you to compare two
   bars.
