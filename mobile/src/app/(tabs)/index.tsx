@@ -6,6 +6,7 @@ import { useMeta, useOverview } from '@/api/history';
 import type { Pollutant } from '@/api/live';
 import type { OverviewCity } from '@/api/types';
 import { Legend } from '@/components/charts/legend';
+import { ChoiceChip } from '@/components/choice-chip';
 import { CityMap, type MapColour } from '@/components/city-map';
 import { useScreenDataset } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
@@ -13,6 +14,7 @@ import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
 import { OverviewDeck, type MapColourBy, type OverviewMetric } from '@/components/overview-deck';
 import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
+import { OverviewTable } from '@/components/overview-table';
 import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
 import { StatusCapsules } from '@/components/status-capsules';
 import { StatusMessage } from '@/components/status-message';
@@ -31,13 +33,14 @@ import { toOverviewParams, useOverviewFilters } from '@/state/overview-filters';
 
 /**
  * The list's items: the controls deck (pinned while scrolling), the map for the Map lens, the
- * colour key, then one row per city.
+ * colour key with the table switch, then one row per city, or the whole table.
  */
 type ListItem =
   | { kind: 'deck' }
   | { kind: 'map' }
   | { kind: 'legend' }
-  | { kind: 'city'; city: OverviewCity };
+  | { kind: 'city'; city: OverviewCity }
+  | { kind: 'table' };
 
 // The deck is the first item; index 0 is the list header.
 const DECK_INDEX = 1;
@@ -56,6 +59,7 @@ export default function OverviewScreen() {
   const [metric, setMetric] = useState<OverviewMetric>('aqi_days');
   const [pollutant, setPollutant] = useState<Pollutant>('PM2.5');
   const [mapColourBy, setMapColourBy] = useState<MapColourBy>('category');
+  const [asTable, setAsTable] = useState(false);
   // At large text sizes the controls take up much of the screen, so they scroll away instead.
   const largeText = useLargeText();
   const refresh = usePullToRefresh();
@@ -126,11 +130,27 @@ export default function OverviewScreen() {
             { kind: 'deck' },
             ...(metric === 'map' ? [{ kind: 'map' as const }] : []),
             { kind: 'legend' },
-            ...cities.map((city) => ({ kind: 'city' as const, city })),
+            ...(asTable ? [{ kind: 'table' as const }] : cities.map((city) => ({ kind: 'city' as const, city }))),
           ]
         : [],
-    [cities, metric],
+    [cities, metric, asTable],
   );
+
+  // Concentrations are coloured by the CPCB band they fall in, so their key gives each band's range.
+  const legend =
+    rowMetric === 'pollutants' ? (
+      <Legend
+        title={`Yearly average ${pollutant} (${unitFor(pollutant)}), by CPCB band`}
+        items={concentrationBands(pollutant).map(({ category, range }) => ({
+          key: category.key,
+          label: `${category.label} ${range}`,
+          color: category.color,
+          category,
+        }))}
+      />
+    ) : (
+      <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
+    );
 
   const renderItem = ({ item }: { item: ListItem }) => {
     switch (item.kind) {
@@ -139,20 +159,24 @@ export default function OverviewScreen() {
       case 'map':
         return <CityMap cities={cities} view={view} colour={mapColour} onSelect={openCity} />;
       case 'legend':
-        // Concentrations are coloured by the CPCB band they fall in, so the key gives each band's range.
-        return rowMetric === 'pollutants' ? (
-          <Legend
-            title={`Yearly average ${pollutant} (${unitFor(pollutant)}), by CPCB band`}
-            items={concentrationBands(pollutant).map(({ category, range }) => ({
-              key: category.key,
-              label: `${category.label} ${range}`,
-              color: category.color,
-              category,
-            }))}
-          />
-        ) : (
-          <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
+        return (
+          <View style={styles.listTools}>
+            <View style={styles.tableSwitch}>
+              <ChoiceChip
+                kind="checkbox"
+                label="View as table"
+                selected={asTable}
+                onPress={() => setAsTable((current) => !current)}
+              />
+            </View>
+            {/* The table has its own column headings; only the map still needs a colour key. */}
+            {asTable && metric !== 'map' ? null : legend}
+          </View>
         );
+      case 'table':
+        return periods ? (
+          <OverviewTable cities={cities} metric={rowMetric} view={view} periods={periods} onPress={openCity} />
+        ) : null;
       case 'city':
         return periods ? (
           <OverviewCityRow
@@ -271,6 +295,12 @@ export default function OverviewScreen() {
 const styles = StyleSheet.create({
   header: {
     gap: Spacing.three,
+  },
+  listTools: {
+    gap: Spacing.two,
+  },
+  tableSwitch: {
+    alignSelf: 'flex-end',
   },
   eyebrow: {
     textTransform: 'uppercase',

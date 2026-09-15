@@ -105,6 +105,9 @@ the data and the rules, and changes how you reach them.
   scroll with the page.
 - **A list, not a chart that grows.** Each city is a fixed-height row in a virtualised list, so
   "All cities" is just a longer scroll.
+- **Every lens as a table.** *View as table* swaps the bars for the numbers: each category or
+  pollutant in its own column, for either year or as the change. The city column stays put while
+  the numbers scroll sideways, and a screen reader reads each row as one sentence.
 - **Hourly follows one station, its city's current estimate first.** Of the source's 12 charts,
   it keeps those that answer different questions. The pollution clock is dropped: it repeated the
   hour-of-day chart.
