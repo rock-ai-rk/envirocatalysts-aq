@@ -15,6 +15,7 @@ Both compare **FY 2024-25** (base) with **FY 2025-26** (comparison), as the brie
 | `mobile/` | React Native (Expo) app |
 | `docs/discovery.md` | Analysis of the existing Streamlit dashboard, and the design proposals |
 | `docs/accessibility.md` | Accessibility check results: what was tested, what broke and how it was fixed |
+| `docs/DECISIONS.md` | Every design and engineering decision, one line each, with the reason |
 
 > **Data note.**
 > - **Overview:** EnviroCatalysts' source files never arrived, so the numbers come from their

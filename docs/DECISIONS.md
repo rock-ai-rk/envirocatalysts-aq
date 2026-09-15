@@ -1,0 +1,83 @@
+# Decisions
+
+One line per decision, and why. Where the brief said nothing, I picked the option that is
+simplest to explain. The README has the longer reasoning.
+
+## Stack
+
+- **React Native with Expo (TypeScript), not Flutter.** Native views give VoiceOver and TalkBack real semantics and Dynamic Type without extra work, and the chart's drag runs on the UI thread with Reanimated.
+- **FastAPI, SQLAlchemy and Alembic.** The source dashboard is Python, and Pydantic validates every query parameter and generates the `/docs` page.
+- **SQLite by default, PostgreSQL-ready.** Reviewers can run the API without a database server, and the same models, migrations and tests run on PostgreSQL.
+- **The scheduler runs inside the API process (APScheduler), not as a separate worker.** There is one process to start, and a failed run is caught and logged without taking the API down.
+- **One repository for the app and the API.** A change to an endpoint and to the screen that uses it land in the same commit.
+- **Expo Go for development, a release APK for Android phones.** Development needs no Apple developer account, and the APK installs without Expo Go.
+
+## Data
+
+- **Overview numbers come from the dashboard's own "Download CSV" buttons.** The source files never arrived, and the downloads match the dashboard: 218 ranked cities, the same top 10, and 96 NCAP cities.
+- **Downloaded twice, once with each year as the base.** The dashboard lists only the cities that pass the 70% rule in its base year.
+- **The Hourly station history is labelled demo data.** Reusing two years of CPCB's hourly data needs CPCB's approval, so the demo banner appears on that screen only.
+- **FY 2024-25 against FY 2025-26 only.** The brief fixes this scope. The period table already holds calendar years and months, so adding them means loading the data and adding picker options.
+- **Hourly covers the two financial years, not 2015 onwards.** The same scope rule applies. The series endpoint takes any window up to 400 days.
+- **Timestamps mark the end of each hour, in IST.** CPCB labels its hours that way, so imported files need no shifting.
+- **CSV files are loaded once.** The importer loads them into the database, and no endpoint reads a file.
+
+## API
+
+- **Every path is under `/v1`.** Installed apps keep working if the API changes shape later.
+- **Screen-shaped endpoints alongside the resource ones.** `/v1/overview` returns a whole screen's data in one request, so switching the period or the lens needs no new request.
+- **The coverage rules live in the API.** The 70% rule and the PM2.5 floor (> 2 µg/m³) come back as reason codes (`low_coverage`, `pm25_floor`, `no_data`), and the app only turns them into words.
+- **The manual scrape needs a shared secret.** `POST /v1/admin/scrape` checks the `X-Admin-Token` header, and without an `ADMIN_TOKEN` set it refuses every call.
+
+## Scraper
+
+- **Open-Meteo (the CAMS model), not CPCB on data.gov.in.** A data.gov.in key needs a government sign-up with a phone number, and its shared sample key answered "Rate limit exceeded" on 15 Sep 2026.
+- **Terms checked on 15 Sep 2026.** It is free for non-commercial use under 10,000 calls a day, and the data is CC BY 4.0 with credit, which both live cards show, linked.
+- **An official JSON API, not HTML scraping.** A JSON API is quicker to build, doesn't break when a page layout changes, and is easier to explain.
+- **Every live number is labelled an estimate.** The values are a model's estimate for a ~45 km square, not a monitor reading.
+- **Ozone is stored but left out of the estimated AQI.** CAMS ozone over India runs 42–108 µg/m³ too high (a 2025 study), and with ozone included Delhi showed as "Poor".
+- **Runs at :35 past each hour, IST.** The model's hours fall on the UTC hour, which is :30 in India, so each run stores the hour that started five minutes earlier.
+- **Each run fetches yesterday and today.** A new database has a full day of data after one run, and the next run fills in a missed one.
+- **Stored hours are never rewritten.** Inserts use `ON CONFLICT DO NOTHING`, so a second run of the same hour adds nothing.
+- **Answers are checked before they are stored.** If the units are wrong or the arrays don't line up, that city is skipped rather than stored misread.
+- **Live readings are kept for 30 days.** That is enough for the 24-hour averages, and the table stays small.
+- **A polite client.** It asks for 50 cities per request, waits 1 second between requests, sends a real User-Agent and backs off on 429 and 5xx answers.
+- **Old data is never shown as fresh.** Every live value shows its hour and age, and cities with no reading in the last 3 hours drop out of "Right now".
+
+## Mobile design
+
+- **Filters sit in a sheet behind one button.** The button shows how many filters changed, and one "Show results" sends one request.
+- **"Rank by" is a metric plus best or worst first.** It gives the same outcomes as the source's 11-option radio with two controls.
+- **The periods are a toggle: FY 24-25 · FY 25-26 · Change.** Change states the difference in words and arrows instead of leaving two bars to compare.
+- **The verdict comes first.** It is one sentence worked out from the listed cities, and the same sentence is its screen-reader label.
+- **Status notes are capsules, not banners.** Offline, demo data, data age and not-ranked cities fit in one row, and each opens its explanation.
+- **The controls stay pinned while the list scrolls, except at large text sizes,** where they would cover most of the list.
+- **Fixed-height rows in a virtualised list.** "All cities" is a longer scroll, never a taller chart.
+- **Hourly follows one station, and the station's name is the title.** Tapping it opens a searchable picker with favourites and recents.
+- **Hourly opens on the latest 7 days of hours.** A week shows the daily cycle clearly, and 30 days or the full year is one tap away.
+- **The estimated AQI sits on CPCB's 0–500 bands,** so "80" reads as low Satisfactory.
+- **Night hours (19:00–06:00) are shaded** on the hour-of-day chart, so a night-time peak stands out.
+- **The pollution clock was dropped.** It showed the same data as the hour-of-day chart.
+- **Category checkboxes that hide bar segments were skipped.** A legend that is also a filter is hard to use by touch and to explain to a screen reader.
+- **CSV download was skipped.** It isn't a phone task, and the API serves the same data as JSON.
+- **Apple Maps on iOS.** It needs no key, and the source's map was covered by an "API KEY REQUIRED" watermark.
+- **Haptics only confirm a change.** A tick marks a changed choice or a crossed chart point, and the screen always changes too.
+- **System font and Expo's icon.** A brand typeface and a custom icon need a development build.
+
+## Colour and accessibility
+
+- **Category colours stay CPCB's,** so people recognise them. The label on each is black or white, whichever contrasts more; the lowest is 5.25:1, on Very Poor.
+- **Good is `#009A47`, not `#00B050`.** Good and Satisfactory were ΔE 14.0 apart (OKLab), and now the closest neighbouring pair is 19.6. The label on Good is black, at 5.71:1.
+- **Moderate stays `#FFFF00`.** It is 1.07:1 on white, so badges and swatches get an outline that passes 3:1, and every category also shows its name and a level meter.
+- **Halogen blue for the app's own colours** (accent `#1F5A8C` light, `#8FC2F0` dark). No CPCB category is blue, so buttons and selections never look like an air-quality reading.
+- **Pollutant colours are the Okabe-Ito palette,** which stays distinguishable with colour-vision deficiencies.
+- **Contrast is checked by a script.** `npm run check:contrast` tests all 61 pairings, light and dark, against WCAG 2.1 AA.
+- **Every chart has a generated sentence** that is both its caption and its spoken label.
+- **The hourly trend is an adjustable element,** with actions that jump to the highest and lowest values.
+- **Text scaling is capped only where it would break the layout** (titles at 2×, the AQI figure at 1.5×). Everything else follows the system size.
+
+## Android
+
+- **`removeClippedSubviews={false}` on the Overview list.** With the pinned controls, Android's default clipping crashed Fabric ("addViewAt: failed to insert view") when the rows arrived.
+- **The release build allows plain http** (`usesCleartextTraffic`), so a phone can reach the API over the same Wi-Fi. A deployed API would use https and drop this setting.
+- **The APK is built for arm64 only.** Current Android phones are arm64, and one architecture keeps the build within an 8 GB machine's memory.
