@@ -11,7 +11,6 @@ os.environ["DATABASE_URL"] = os.environ.get(
 )
 os.environ["SCRAPER_ENABLED"] = "false"
 os.environ["ADMIN_TOKEN"] = "test-admin-token"
-os.environ["DATAGOV_API_KEY"] = ""
 
 import pytest
 from alembic.config import Config

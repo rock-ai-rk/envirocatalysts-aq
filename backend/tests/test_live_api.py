@@ -1,113 +1,156 @@
-from app.api.admin import get_record_source
-from app.scraper.service import run_scrape
-from tests.factories import FakeSource, make_record
+from app.api.admin import get_place_source
+from app.models import CityGroupMember
+from tests.factories import FakeSource, add_city, add_readings, last_hours, om_answer
 
 ADMIN = {"X-Admin-Token": "test-admin-token"}
-
-
-def seed(session, records: list[dict]) -> None:
-    run_scrape(session, FakeSource(records), retention_days=30)
+# Enough for an AQI: three pollutants including a particulate, over the last 24 hours.
+MODERATE = {"pm25": 75.0, "pm10": 100.0, "no2": 20.0}  # PM2.5 sub-index 150
+POOR = {"pm25": 105.0, "pm10": 100.0, "no2": 20.0}  # 250
+SATISFACTORY = {"pm25": 45.0, "pm10": 60.0, "no2": 20.0}  # 75
 
 
 def test_health(api):
     assert api.get("/health").json() == {"status": "ok", "database": "ok"}
 
 
-def test_latest_groups_readings_by_station_in_pollutant_order(api, session):
-    seed(
-        session,
-        [
-            make_record(pollutant="PM10", avg="210"),
-            make_record(pollutant="PM2.5"),
-            make_record(station="Bawana, Delhi - DPCC", avg="95"),
-        ],
+# --- /v1/live/cities
+
+
+def test_cities_are_ranked_by_estimated_aqi_worst_first(api, session):
+    add_readings(session, add_city(session, "Agra"), last_hours(24), **MODERATE)
+    add_readings(session, add_city(session, "Delhi", "Delhi"), last_hours(24), **POOR)
+    add_readings(
+        session, add_city(session, "Bhopal", "Madhya Pradesh"), last_hours(24), **SATISFACTORY
     )
 
-    body = api.get("/v1/live/latest", params={"city": "delhi"}).json()
+    body = api.get("/v1/live/cities").json()
 
-    assert [s["name"] for s in body["stations"]] == [
-        "Anand Vihar, Delhi - DPCC",
-        "Bawana, Delhi - DPCC",
+    assert [
+        (c["city"]["name"], c["aqi"]["value"], c["aqi"]["category"]) for c in body["cities"]
+    ] == [
+        ("Delhi", 250, "poor"),
+        ("Agra", 150, "moderate"),
+        ("Bhopal", 75, "satisfactory"),
     ]
-    readings = body["stations"][0]["readings"]
-    assert [r["pollutant"] for r in readings] == ["PM2.5", "PM10"]
-    assert (readings[0]["avg"], readings[0]["stale"]) == (120.0, False)
+    assert body["cities"][0]["aqi"]["dominant"] == "PM2.5"
+    assert body["source"] == "open_meteo_cams"
+    assert "Open-Meteo" in body["attribution"] and body["attribution_url"].startswith("https://")
 
 
-def test_latest_returns_only_the_newest_reading_per_pollutant(api, session):
-    seed(session, [make_record(avg="150", hours_ago=2), make_record(avg="120", hours_ago=0)])
+def test_cities_can_be_ranked_best_first_and_limited(api, session):
+    add_readings(session, add_city(session, "Agra"), last_hours(24), **MODERATE)
+    add_readings(session, add_city(session, "Delhi", "Delhi"), last_hours(24), **POOR)
 
-    readings = api.get("/v1/live/latest").json()["stations"][0]["readings"]
+    body = api.get("/v1/live/cities", params={"order": "asc", "limit": 1}).json()
 
-    assert [r["avg"] for r in readings] == [120.0]
-
-
-def test_latest_flags_stale_readings_and_drops_very_old_ones(api, session):
-    seed(
-        session,
-        [make_record(pollutant="PM2.5", hours_ago=5), make_record(pollutant="PM10", hours_ago=72)],
-    )
-
-    readings = api.get("/v1/live/latest").json()["stations"][0]["readings"]
-
-    assert [(r["pollutant"], r["stale"]) for r in readings] == [("PM2.5", True)]
+    assert [c["city"]["name"] for c in body["cities"]] == ["Agra"]
 
 
-def test_latest_filters_by_state(api, session):
-    seed(
-        session,
-        [
-            make_record(),
-            make_record(station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh"),
-        ],
-    )
+def test_cities_filter_by_state_and_group(api, session):
+    agra = add_city(session, "Agra")
+    add_readings(session, agra, last_hours(24), **MODERATE)
+    add_readings(session, add_city(session, "Delhi", "Delhi"), last_hours(24), **POOR)
+    session.add(CityGroupMember(city_id=agra.id, code="IGP"))
+    session.commit()
 
-    body = api.get("/v1/live/latest", params={"state": "Uttar Pradesh"}).json()
+    by_state = api.get("/v1/live/cities", params={"state": "uttar pradesh"}).json()
+    by_group = api.get("/v1/live/cities", params={"group": "IGP"}).json()
 
-    assert [s["city"] for s in body["stations"]] == ["Noida"]
+    assert [c["city"]["name"] for c in by_state["cities"]] == ["Agra"]
+    assert [c["city"]["name"] for c in by_group["cities"]] == ["Agra"]
 
 
-def test_cities_ranks_city_means_and_ignores_stale_stations(api, session):
-    seed(
-        session,
-        [
-            make_record(station="Anand Vihar, Delhi - DPCC", avg="200"),
-            make_record(station="Bawana, Delhi - DPCC", avg="100"),
-            make_record(
-                station="Sector 62, Noida - IMD", city="Noida", state="Uttar_Pradesh", avg="90"
-            ),
-            make_record(
-                station="Sanjay Palace, Agra - UPPCB",
-                city="Agra",
-                state="Uttar_Pradesh",
-                avg="400",
-                hours_ago=6,
-            ),
-        ],
-    )
+def test_cities_leave_out_stale_cities_and_those_without_an_aqi(api, session):
+    add_readings(session, add_city(session, "Agra"), last_hours(24, ending_hours_ago=5), **POOR)
+    add_readings(session, add_city(session, "Delhi", "Delhi"), last_hours(24), pm25=105.0)
+    add_readings(session, add_city(session, "Bhopal", "Madhya Pradesh"), last_hours(24), **MODERATE)
 
-    worst_first = api.get("/v1/live/cities", params={"pollutant": "PM2.5"}).json()["cities"]
-    best_first = api.get("/v1/live/cities", params={"order": "asc", "limit": 1}).json()["cities"]
+    body = api.get("/v1/live/cities").json()
 
-    assert [(c["city"], c["avg"], c["station_count"]) for c in worst_first] == [
-        ("Delhi", 150.0, 2),
-        ("Noida", 90.0, 1),
+    assert [c["city"]["name"] for c in body["cities"]] == ["Bhopal"]
+
+
+def test_cities_reject_unknown_groups(api):
+    assert api.get("/v1/live/cities", params={"group": "XYZ"}).status_code == 422
+
+
+# --- /v1/live/cities/{id}
+
+
+def test_city_latest_has_the_newest_hour_and_the_aqi(api, session):
+    city = add_city(session)
+    add_readings(session, city, last_hours(24), **MODERATE, co=0.8)
+
+    body = api.get(f"/v1/live/cities/{city.id}").json()
+
+    assert (body["status"], body["measure"]) == ("ok", "model_estimate")
+    assert body["aqi"] == {
+        "value": 150,
+        "category": "moderate",
+        "dominant": "PM2.5",
+        "sub_indices": {"PM2.5": 150, "PM10": 100, "NO2": 25, "CO": 40},
+    }
+    assert [(r["pollutant"], r["value"], r["unit"]) for r in body["readings"]] == [
+        ("PM2.5", 75.0, "µg/m³"),
+        ("PM10", 100.0, "µg/m³"),
+        ("NO2", 20.0, "µg/m³"),
+        ("CO", 0.8, "mg/m³"),
     ]
-    assert [c["city"] for c in best_first] == ["Noida"]
+    assert body["observed_at"].endswith("+05:30")
+    assert body["city"]["name"] == "Agra"
 
 
-def test_cities_rejects_unknown_pollutants(api):
-    assert api.get("/v1/live/cities", params={"pollutant": "XYZ"}).status_code == 422
+def test_city_latest_flags_stale_data(api, session):
+    city = add_city(session)
+    add_readings(session, city, last_hours(24, ending_hours_ago=5), **MODERATE)
+
+    body = api.get(f"/v1/live/cities/{city.id}").json()
+
+    assert body["status"] == "stale"
+    assert body["aqi"]["value"] == 150
+
+
+def test_city_latest_without_enough_data_for_an_aqi(api, session):
+    city = add_city(session)
+    add_readings(session, city, last_hours(3), **MODERATE)
+
+    body = api.get(f"/v1/live/cities/{city.id}").json()
+
+    assert (body["status"], body["aqi"], len(body["readings"])) == ("ok", None, 3)
+
+
+def test_city_latest_ignores_readings_older_than_two_days(api, session):
+    city = add_city(session)
+    add_readings(session, city, last_hours(1, ending_hours_ago=72), **MODERATE)
+
+    body = api.get(f"/v1/live/cities/{city.id}").json()
+
+    assert (body["status"], body["readings"]) == ("no_recent_readings", [])
+
+
+def test_city_latest_for_a_city_without_coordinates(api, session):
+    city = add_city(session, "Dimapur", "Nagaland", latitude=None, longitude=None)
+
+    assert api.get(f"/v1/live/cities/{city.id}").json()["status"] == "not_in_feed"
+
+
+def test_city_latest_unknown_city_is_404(api):
+    assert api.get("/v1/live/cities/9999").status_code == 404
+
+
+# --- /v1/live/status and the admin trigger
 
 
 def test_status_reports_the_last_run(api, session):
-    seed(session, [make_record()])
+    add_city(session)
+    api.app.dependency_overrides[get_place_source] = lambda: FakeSource(om_answer(last_hours(2)))
+    api.post("/v1/admin/scrape", headers=ADMIN)
 
     body = api.get("/v1/live/status").json()
 
     assert body["last_run"]["status"] == "success"
     assert body["last_success"]["id"] == body["last_run"]["id"]
-    assert body["station_count"] == 1
+    assert body["cities_with_readings"] == 1
     assert body["data_as_of"] is not None
 
 
@@ -116,17 +159,11 @@ def test_admin_scrape_requires_the_token(api):
     assert api.post("/v1/admin/scrape", headers={"X-Admin-Token": "wrong"}).status_code == 401
 
 
-def test_admin_scrape_needs_an_api_key(api):
-    response = api.post("/v1/admin/scrape", headers=ADMIN)
-
-    assert response.status_code == 503
-    assert "DATAGOV_API_KEY" in response.json()["detail"]
-
-
-def test_admin_scrape_runs_the_scraper(api):
-    api.app.dependency_overrides[get_record_source] = lambda: FakeSource([make_record()])
+def test_admin_scrape_runs_the_scraper(api, session):
+    add_city(session)
+    api.app.dependency_overrides[get_place_source] = lambda: FakeSource(om_answer(last_hours(1)))
 
     response = api.post("/v1/admin/scrape", headers=ADMIN)
 
     assert response.status_code == 200
-    assert response.json()["readings_inserted"] == 1
+    assert (response.json()["cities_seen"], response.json()["readings_inserted"]) == (1, 6)

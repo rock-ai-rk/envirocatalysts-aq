@@ -216,6 +216,12 @@ GET  /health
 
 ## 8. Scraper
 
+> **Update, 15 Sep 2026: replaced.** Getting a data.gov.in key needs a government sign-up
+> (MeriPehchaan) with a phone number, and the shared sample key answered "Rate limit exceeded". The
+> scraper now reads Open-Meteo's keyless air-quality API (the CAMS model, CC BY 4.0), one point per
+> city, and the app shows an estimated AQI from it. See the README's Scraper section. The plan below
+> is kept as it was written.
+
 - **Source:** *"Real time Air Quality Index from various locations"* on data.gov.in (OGD Platform India), published by CPCB.
   API: `https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69`. It was confirmed live on 12 Sep 2026: without a key it returns `400 "Authorization field missing"`.
 - **Licence:** Government Open Data License – India (GODL). It allows use, adaptation and redistribution for commercial and non-commercial purposes, **with attribution** to the provider, source and licence. The README must include the attribution statement.
@@ -239,7 +245,7 @@ GET  /health
 ## 9. Blockers and open questions
 
 1. **Source repo and data files.** These are needed to seed the database. When requesting them, also ask *where the hourly station data lives*: the Hourly page serves 2015–present for 54 Delhi stations, so it's probably Parquet files or a database rather than CSV.
-2. **data.gov.in API key.** The author registers for it.
+2. **data.gov.in API key.** The author registers for it. *(15 Sep: not needed any more; the scraper moved to Open-Meteo, see §8.)*
 3. **How much hourly history to import.** Proposal: all stations for FY 2024-25 and FY 2025-26, plus yearly means from 2015 on if the source has them, for a small "long-term" strip.
 4. **Map provider.** Maps of India must follow the official (Survey of India) boundaries. Google Maps shows those boundaries to users in India; a generic open GeoJSON outline may not. Options:
    - `react-native-maps`: Apple Maps on iOS, and Google on Android, which needs a key

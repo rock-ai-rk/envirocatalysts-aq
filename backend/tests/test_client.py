@@ -1,140 +1,110 @@
-from datetime import UTC, datetime
-
 import httpx
 import pytest
 
-from app.scraper.client import DataGovClient, DataGovError
+from app.scraper.client import OpenMeteoClient, OpenMeteoError, Place
+
+PLACES = [Place(1, 28.6139, 77.209), Place(2, 19.076, 72.8777), Place(3, 13.0827, 80.2707)]
 
 
-def make_client(handler, page_size: int = 2) -> DataGovClient:
-    return DataGovClient(
-        api_key="secret-key",
-        resource_id="resource-id",
-        base_url="https://example.test/resource",
-        page_size=page_size,
+def make_client(handler, batch_size: int = 2) -> OpenMeteoClient:
+    return OpenMeteoClient(
+        base_url="https://example.test/v1/air-quality",
+        batch_size=batch_size,
         backoff_seconds=0,
-        page_delay_seconds=0,
+        request_delay_seconds=0,
         user_agent="test-agent/1.0",
         http=httpx.Client(transport=httpx.MockTransport(handler)),
     )
 
 
-def test_identifies_itself_with_the_configured_user_agent():
-    agents = []
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        agents.append(request.headers["user-agent"])
-        return httpx.Response(200, json={"total": 0, "records": []})
-
-    list(make_client(handler).fetch_all())
-
-    assert agents == ["test-agent/1.0"]
+def echo(request: httpx.Request) -> httpx.Response:
+    """Answer each coordinate pair with its latitude, the way the API answers in order."""
+    latitudes = request.url.params["latitude"].split(",")
+    answers = [{"latitude": float(lat)} for lat in latitudes]
+    return httpx.Response(200, json=answers if len(answers) > 1 else answers[0])
 
 
-def test_updated_at_asks_for_one_record_and_reads_the_metadata():
+def test_asks_for_the_six_pollutants_hourly_in_utc_without_a_key():
     seen = {}
 
     def handler(request: httpx.Request) -> httpx.Response:
         seen.update(request.url.params)
-        # As the live API returns it (13 Sep 2026).
-        return httpx.Response(
-            200,
-            json={
-                "updated": 1789279333,
-                "updated_date": "2026-09-13T06:02:13Z",
-                "total": 3402,
-                "records": [{}],
-            },
-        )
+        seen["agent"] = request.headers["user-agent"]
+        return echo(request)
 
-    assert make_client(handler).updated_at() == datetime(2026, 9, 13, 6, 2, 13, tzinfo=UTC)
-    assert seen["limit"] == "1"
+    list(make_client(handler, batch_size=3).fetch(PLACES))
+
+    assert seen["hourly"] == "pm2_5,pm10,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide,ozone"
+    assert (seen["timezone"], seen["domains"]) == ("GMT", "cams_global")
+    assert (seen["past_days"], seen["forecast_days"]) == ("1", "1")
+    assert seen["latitude"] == "28.6139,19.0760,13.0827"
+    assert seen["agent"] == "test-agent/1.0"
+    assert not any("key" in name for name in seen)
 
 
-def test_updated_at_falls_back_to_the_iso_date_then_to_none():
-    iso_only = make_client(
-        lambda r: httpx.Response(200, json={"updated_date": "2026-09-13T06:02:13Z"})
-    )
-    neither = make_client(lambda r: httpx.Response(200, json={"total": 1, "records": []}))
-
-    assert iso_only.updated_at() == datetime(2026, 9, 13, 6, 2, 13, tzinfo=UTC)
-    assert neither.updated_at() is None
-
-
-def test_follows_pagination_until_total():
-    offsets = []
+def test_batches_places_and_pairs_each_with_its_answer():
+    requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
-        offset = int(request.url.params["offset"])
-        offsets.append(offset)
-        records = [{"n": n} for n in range(offset, min(offset + 2, 3))]
-        return httpx.Response(200, json={"status": "ok", "total": 3, "records": records})
+        requests.append(request.url.params["latitude"])
+        return echo(request)
 
-    assert [r["n"] for r in make_client(handler).fetch_all()] == [0, 1, 2]
-    assert offsets == [0, 2]
+    pairs = list(make_client(handler, batch_size=2).fetch(PLACES))
 
-
-def test_sends_key_and_asks_for_json():
-    seen = {}
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        seen.update(request.url.params)
-        return httpx.Response(200, json={"total": 0, "records": []})
-
-    list(make_client(handler).fetch_all())
-
-    assert seen["api-key"] == "secret-key"
-    assert seen["format"] == "json"
-    assert (seen["limit"], seen["offset"]) == ("2", "0")
+    assert requests == ["28.6139,19.0760", "13.0827"]  # the last batch has one place
+    assert [(place.city_id, answer["latitude"]) for place, answer in pairs] == [
+        (1, 28.6139),
+        (2, 19.076),
+        (3, 13.0827),
+    ]
 
 
-def test_retries_server_errors_and_network_failures():
-    responses = iter(
-        [
-            httpx.Response(503),
-            httpx.ConnectError("offline"),
-            httpx.Response(200, json={"total": 1, "records": [{"n": 1}]}),
-        ]
-    )
+def test_a_short_answer_is_an_error():
+    client = make_client(lambda request: httpx.Response(200, json=[{"latitude": 1}]))
+
+    with pytest.raises(OpenMeteoError, match="asked for 2 places, got 1"):
+        list(client.fetch(PLACES[:2]))
+
+
+def test_retries_rate_limits_server_errors_and_network_failures():
+    outcomes = iter([httpx.Response(429), httpx.ConnectError("offline"), httpx.Response(503)])
 
     def handler(request: httpx.Request) -> httpx.Response:
-        outcome = next(responses)
+        outcome = next(outcomes, None)
         if isinstance(outcome, Exception):
             raise outcome
-        return outcome
+        return outcome or echo(request)
 
-    assert list(make_client(handler).fetch_all()) == [{"n": 1}]
+    client = OpenMeteoClient(
+        max_retries=4,
+        backoff_seconds=0,
+        http=httpx.Client(transport=httpx.MockTransport(handler)),
+    )
+
+    assert [place.city_id for place, _ in client.fetch(PLACES[:1])] == [1]
 
 
 def test_gives_up_after_max_retries():
     client = make_client(lambda request: httpx.Response(500))
 
-    with pytest.raises(DataGovError, match="HTTP 500 after 3 attempts"):
-        list(client.fetch_all())
+    with pytest.raises(OpenMeteoError, match="HTTP 500 after 3 attempts"):
+        list(client.fetch(PLACES))
 
 
-def test_client_errors_surface_the_api_message():
+def test_a_refused_request_surfaces_the_api_reason():
+    # As the API answers a latitude out of range (15 Sep 2026).
     client = make_client(
-        lambda request: httpx.Response(400, json={"error": "Authorization field missing"})
+        lambda request: httpx.Response(
+            400, json={"reason": "Latitude must be in range of -90 to 90°.", "error": True}
+        )
     )
 
-    with pytest.raises(DataGovError, match="Authorization field missing"):
-        list(client.fetch_all())
+    with pytest.raises(OpenMeteoError, match="HTTP 400: Latitude must be in range"):
+        list(client.fetch(PLACES))
 
 
-def test_error_status_in_body_raises():
-    client = make_client(
-        lambda request: httpx.Response(200, json={"status": "error", "message": "Invalid key"})
-    )
+def test_no_places_means_no_requests():
+    def handler(request: httpx.Request) -> httpx.Response:
+        raise AssertionError("no request expected")
 
-    with pytest.raises(DataGovError, match="Invalid key"):
-        list(client.fetch_all())
-
-
-def test_redact_hides_the_api_key():
-    client = make_client(lambda request: httpx.Response(200))
-
-    assert (
-        client.redact("GET /resource?api-key=secret-key&limit=2")
-        == "GET /resource?api-key=***&limit=2"
-    )
+    assert list(make_client(handler).fetch([])) == []

@@ -40,7 +40,7 @@ def test_hourly_dataset_attaches_stations_without_touching_cities(session, tmp_p
 
     report = load_directory(session, hourly_dataset(tmp_path / "hourly"), replace=True)
 
-    assert report.counts == {"stations": 1, "station_hourly": 1, "station_links": 0}
+    assert report.counts == {"stations": 1, "station_hourly": 1}
     agra = session.scalar(select(City).where(City.name == "Agra"))
     assert agra.group_codes == ["IGP", "NCAP"]  # still as the overview dataset set them
     assert [d.scope for d in session.scalars(select(Dataset).order_by(Dataset.id))] == [

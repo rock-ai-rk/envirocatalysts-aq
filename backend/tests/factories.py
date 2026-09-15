@@ -1,73 +1,95 @@
-"""Test helpers: feed records shaped like the data.gov.in response, a fake record source, and
-small canonical datasets for the importer and the history endpoints."""
+"""Test helpers: Open-Meteo answers, a fake place source, cities with live readings, and small
+canonical datasets for the importer and the history endpoints."""
 
 import csv
 import json
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+from sqlalchemy.orm import Session
+
+from app.db import utcnow
 from app.importer.canonical import HEADERS
-from app.scraper.normalize import IST
+from app.models import City, LiveReading
+from app.scraper.normalize import VARIABLES
 
 
-def feed_time(hours_ago: float = 0) -> str:
-    """A `last_update` string in the feed's format (dd-mm-YYYY HH:MM:SS, IST), on the hour."""
-    moment = datetime.now(IST) - timedelta(hours=hours_ago)
-    return moment.replace(minute=0, second=0, microsecond=0).strftime("%d-%m-%Y %H:%M:%S")
+def last_hours(count: int, ending_hours_ago: int = 0) -> list[datetime]:
+    """`count` whole hours (UTC), oldest first, the newest `ending_hours_ago` before this hour."""
+    newest = utcnow().replace(minute=0, second=0, microsecond=0) - timedelta(hours=ending_hours_ago)
+    return [newest - timedelta(hours=back) for back in reversed(range(count))]
 
 
-def make_record(
-    station: str = "Anand Vihar, Delhi - DPCC",
-    city: str = "Delhi",
-    state: str = "Delhi",
-    pollutant: str = "PM2.5",
-    avg: str = "120",
-    low: str = "80",
-    high: str = "190",
-    hours_ago: float = 0,
-    latitude: str = "28.646835",
-    longitude: str = "77.316032",
-) -> dict:
+def om_answer(hours: list[datetime], **values: float | None | list[float | None]) -> dict:
+    """Open-Meteo's answer for one place, as the API returns it (GMT times, µg/m³).
+
+    `values` gives each variable (pm2_5, carbon_monoxide, ...) one number for every hour or a list
+    with one per hour; variables not given are 10 throughout.
+    """
+    hourly: dict[str, list] = {"time": [hour.strftime("%Y-%m-%dT%H:%M") for hour in hours]}
+    for variable in VARIABLES:
+        given = values.get(variable, 10.0)
+        hourly[variable] = list(given) if isinstance(given, list) else [given] * len(hours)
     return {
-        "country": "India",
-        "state": state,
-        "city": city,
-        "station": station,
-        "last_update": feed_time(hours_ago),
-        "latitude": latitude,
-        "longitude": longitude,
-        "pollutant_id": pollutant,
-        "min_value": low,
-        "max_value": high,
-        "avg_value": avg,
+        "latitude": 27.2,
+        "longitude": 78.0,
+        "timezone": "GMT",
+        "hourly_units": {"time": "iso8601", **{variable: "μg/m³" for variable in VARIABLES}},
+        "hourly": hourly,
     }
 
 
 class FakeSource:
-    """Stands in for DataGovClient: returns canned records or raises."""
+    """Stands in for OpenMeteoClient: answers every place with `answer`, or per city from
+    `answers`, or raises `error`."""
 
     def __init__(
         self,
-        records: list[dict] = (),
+        answer: dict | None = None,
+        answers: dict[int, dict] | None = None,
         error: Exception | None = None,
-        updated: datetime | None = None,
     ) -> None:
-        self.records = list(records)
+        self.answer = answer
+        self.answers = answers or {}
         self.error = error
-        self.updated = updated
-        self.fetches = 0
+        self.asked: list[int] = []
 
-    def updated_at(self) -> datetime | None:
-        return self.updated
-
-    def fetch_all(self):
-        self.fetches += 1
+    def fetch(self, places):
+        self.asked = [place.city_id for place in places]
         if self.error:
             raise self.error
-        return iter(self.records)
+        for place in places:
+            yield place, self.answers.get(place.city_id, self.answer)
 
-    def redact(self, text: str) -> str:
-        return text.replace("secret-key", "***")
+
+def add_city(
+    session: Session,
+    name: str = "Agra",
+    state: str = "Uttar Pradesh",
+    latitude: float | None = 27.18,
+    longitude: float | None = 78.01,
+) -> City:
+    city = City(name=name, state=state, latitude=latitude, longitude=longitude)
+    session.add(city)
+    session.commit()
+    return city
+
+
+def add_readings(session: Session, city: City, hours: list[datetime], **values: float) -> None:
+    """Store the same value for each pollutant (by name: PM2.5 as pm25, ...) at every hour."""
+    names = {"pm25": "PM2.5", "pm10": "PM10", "no2": "NO2", "so2": "SO2", "co": "CO", "o3": "O3"}
+    session.add_all(
+        LiveReading(
+            city_id=city.id,
+            pollutant=names[key],
+            value=value,
+            observed_at=hour,
+            fetched_at=hour.astimezone(UTC),
+        )
+        for key, value in values.items()
+        for hour in hours
+    )
+    session.commit()
 
 
 def write_dataset(

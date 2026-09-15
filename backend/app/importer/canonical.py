@@ -41,7 +41,6 @@ from sqlalchemy.orm import Session
 
 from app.db import insert_for
 from app.domain import AQI_CATEGORIES, CITY_GROUPS, DATASET_SCOPES, HOURLY_COLUMNS, IST, POLLUTANTS
-from app.linking import refresh_links
 from app.models import (
     City,
     CityAqiDays,
@@ -49,10 +48,10 @@ from app.models import (
     CityGroupMember,
     CityPollutantMean,
     Dataset,
+    LiveReading,
     Period,
     Station,
     StationHourly,
-    StationLink,
 )
 from app.periods import parse_period
 
@@ -104,8 +103,6 @@ def load_directory(session: Session, directory: Path, replace: bool = False) -> 
         if scope != "overview":
             stations = _load_stations(session, directory, cities, report)
             _load_hourly(session, directory, stations, report)
-        # Live stations may already be known from earlier scrapes.
-        report.add("station_links", refresh_links(session).linked)
         session.add(Dataset(**manifest))
         session.commit()
         return report
@@ -135,15 +132,17 @@ def _read_manifest(directory: Path) -> dict:
 
 def _clear_history(session: Session, scope: str) -> None:
     """Delete what a dataset of this scope replaces."""
-    station_data = (StationLink, StationHourly, Station)
+    station_data = (StationHourly, Station)
     if scope == "hourly":
         for model in station_data:
             session.execute(delete(model))
         session.execute(delete(Dataset).where(Dataset.scope == "hourly"))
         return
-    # Stations belong to cities, so replacing the cities replaces them too.
+    # Stations and live readings belong to cities, so replacing the cities replaces them too. The
+    # next scrape fetches the live readings again for the new cities.
     for model in (
         *station_data,
+        LiveReading,
         CityDominantDays,
         CityPollutantMean,
         CityAqiDays,

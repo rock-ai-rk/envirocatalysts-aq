@@ -96,7 +96,7 @@ export default function HourlyScreen() {
         </ThemedText>
       </FocusablePressable>
 
-      {station ? <LiveReadingCard stationId={station.id} /> : null}
+      {entry && station ? <LiveReadingCard cityId={entry.city.id} cityName={entry.city.name} /> : null}
 
       <ThemedText type="sectionTitle" role="heading" style={styles.historyHeading}>
         History

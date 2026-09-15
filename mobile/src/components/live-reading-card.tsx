@@ -1,50 +1,52 @@
 import { StyleSheet, View } from 'react-native';
 
-import { useStationLatest, type StationLatest } from '@/api/live';
+import { useCityLive, type CityLive } from '@/api/live';
 import { AqiBadge } from '@/components/aqi-badge';
+import { SourceCredit } from '@/components/source-credit';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { categoryByKey } from '@/constants/aqi';
-import { POLLUTANT_ORDER } from '@/constants/pollutants';
+import { POLLUTANT_ORDER, spokenUnitFor } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
 import { useNow } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
-import { formatAge, formatIstClock, formatIstTimestamp, formatReading } from '@/lib/format';
+import { formatAge, formatConcentration, formatIstClock, formatIstTimestamp } from '@/lib/format';
 
 /**
- * The station's newest reading from the scraper's live table, as the screen's headline.
+ * The newest model values for the station's city, as the screen's headline.
  *
- * It is set apart from the historical cards below (outlined, not filled, with a LIVE tag) and says
- * what its numbers are: provisional CPCB sub-indices on the 0-500 AQI scale, not concentrations.
+ * It is set apart from the historical cards below (outlined, not filled, with an ESTIMATE tag) and
+ * says what its numbers are: the CAMS model's values for the area around the city, with CPCB's
+ * AQI formula applied, not a measurement at the station.
  */
-export function LiveReadingCard({ stationId }: { stationId: number }) {
+export function LiveReadingCard({ cityId, cityName }: { cityId: number; cityName: string }) {
   const theme = useTheme();
-  const query = useStationLatest(stationId);
+  const query = useCityLive(cityId);
   const data = query.data;
 
   return (
     <View style={[styles.card, { borderColor: theme.accent, backgroundColor: theme.background }]}>
       <View style={styles.header}>
-        <View style={[styles.liveTag, { backgroundColor: theme.accent }]}>
-          <View style={[styles.liveDot, { backgroundColor: theme.onAccent }]} />
+        <View style={[styles.tag, { backgroundColor: theme.accent }]}>
+          <View style={[styles.dot, { backgroundColor: theme.onAccent }]} />
           <ThemedText type="smallBold" style={{ color: theme.onAccent }}>
-            LIVE
+            ESTIMATE
           </ThemedText>
         </View>
         <ThemedText type="sectionTitle" role="heading" style={styles.title}>
-          Right now
+          {`Right now in ${cityName}`}
         </ThemedText>
       </View>
       <ThemedText type="small" themeColor="textSecondary">
-        CPCB real-time feed. Provisional: published without manual checks.
+        {`From an air-quality model of the area around ${cityName}, not measured at this station.`}
       </ThemedText>
 
       {query.isPending ? (
-        <StatusMessage kind="loading" message="Checking the live feed…" />
+        <StatusMessage kind="loading" message="Loading the latest estimate…" />
       ) : !data ? (
         <StatusMessage
           kind="error"
-          message={query.error?.message ?? 'Couldn’t load the live reading.'}
+          message={query.error?.message ?? 'Couldn’t load the latest estimate.'}
           onRetry={() => query.refetch()}
         />
       ) : (
@@ -61,16 +63,16 @@ export function LiveReadingCard({ stationId }: { stationId: number }) {
   );
 }
 
-function LiveBody({ data }: { data: StationLatest }) {
+function LiveBody({ data }: { data: CityLive }) {
   const theme = useTheme();
   const now = useNow();
 
-  if (data.status === 'no_live_station') {
+  if (data.status === 'not_in_feed') {
     return (
       <StatusMessage
         kind="empty"
-        title="No live feed for this station"
-        message="CPCB’s real-time feed has no station matching this one, so only historical data is shown."
+        title="No estimate for this city"
+        message="The data has no coordinates for this city, so the model can’t be read there."
       />
     );
   }
@@ -78,8 +80,8 @@ function LiveBody({ data }: { data: StationLatest }) {
     return (
       <StatusMessage
         kind="empty"
-        title="No recent readings"
-        message={`${data.link?.live_station_name ?? 'This station'} hasn’t reported to the live feed in the last two days.`}
+        title="No recent values"
+        message={`Nothing has been stored for ${data.city.name} in the last two days.`}
       />
     );
   }
@@ -90,8 +92,10 @@ function LiveBody({ data }: { data: StationLatest }) {
     data.status === 'stale' ||
     now - Date.parse(data.observed_at) > data.stale_after_hours * 60 * 60 * 1000;
   const category = data.aqi ? categoryByKey(data.aqi.category) : null;
-  const readings = [...data.readings]
-    .filter((r) => r.observed_at === data.observed_at)
+  // Ozone isn't part of the estimate (the model overestimates it over India), so it isn't shown
+  // next to the pollutants that are.
+  const readings = data.readings
+    .filter((r) => r.pollutant !== 'O3')
     .sort((a, b) => POLLUTANT_ORDER.indexOf(a.pollutant) - POLLUTANT_ORDER.indexOf(b.pollutant));
   const when = `${formatIstTimestamp(data.observed_at)} IST`;
 
@@ -101,41 +105,41 @@ function LiveBody({ data }: { data: StationLatest }) {
         <View
           accessible
           aria-label={
-            `Air quality index ${data.aqi.value}, ${category.label}, driven by ${data.aqi.dominant}. ` +
-            `Reading for ${when}${stale ? `, out of date, ${formatAge(data.observed_at, true)}` : ''}.`
+            `Estimated air quality index ${data.aqi.value}, ${category.label}, driven by ${data.aqi.dominant}. ` +
+            `For ${when}${stale ? `, out of date, ${formatAge(data.observed_at, true)}` : ''}.`
           }
           style={styles.headline}>
           <View style={styles.aqiNumber}>
             <ThemedText style={styles.aqiValue}>{data.aqi.value}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
-              AQI
+              AQI (est.)
             </ThemedText>
           </View>
           <View style={styles.headlineText}>
             <AqiBadge category={category} />
             <ThemedText type="small">{`Driven by ${data.aqi.dominant}`}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
-              {`Reading for ${formatIstClock(data.observed_at)} · ${formatAge(data.observed_at)}`}
+              {`For ${formatIstClock(data.observed_at)} · ${formatAge(data.observed_at)}`}
             </ThemedText>
           </View>
         </View>
       ) : (
         <ThemedText type="small">
-          {`Not enough pollutants reported at ${formatIstClock(data.observed_at)} for an AQI: CPCB needs three, including PM2.5 or PM10.`}
+          {`No AQI yet for ${formatIstClock(data.observed_at)}: CPCB’s formula needs a day of values for three pollutants, including PM2.5 or PM10.`}
         </ThemedText>
       )}
 
       {stale ? (
         <ThemedText type="smallBold" style={{ color: theme.worse }}>
-          {`⚠ Out of date: the last reading was ${formatAge(data.observed_at)}.`}
+          {`⚠ Out of date: the newest value is from ${formatAge(data.observed_at)}.`}
         </ThemedText>
       ) : null}
 
       {readings.length ? (
         <View
           accessible
-          aria-label={`Sub-index by pollutant: ${readings
-            .map((r) => `${r.pollutant} ${formatReading(r.avg)}`)
+          aria-label={`At ${formatIstClock(data.observed_at)}: ${readings
+            .map((r) => `${r.pollutant} ${formatConcentration(r.value, r.pollutant)} ${spokenUnitFor(r.pollutant)}`)
             .join(', ')}`}
           style={styles.readings}>
           {readings.map((r) => (
@@ -143,15 +147,20 @@ function LiveBody({ data }: { data: StationLatest }) {
               <ThemedText type="small" themeColor="textSecondary">
                 {r.pollutant}
               </ThemedText>
-              <ThemedText type="smallBold">{formatReading(r.avg)}</ThemedText>
+              <ThemedText type="smallBold">{formatConcentration(r.value, r.pollutant)}</ThemedText>
+              <ThemedText type="small" themeColor="textSecondary">
+                {r.unit}
+              </ThemedText>
             </View>
           ))}
         </View>
       ) : null}
 
       <ThemedText type="small" themeColor="textSecondary">
-        {`Sub-indices on CPCB’s 0–500 AQI scale, not concentrations. Station in the feed: ${data.link?.live_station_name}.`}
+        The AQI uses CPCB’s formula on 24-hour averages (the highest 8-hour average for CO). Ozone is
+        left out: the model overestimates it over India.
       </ThemedText>
+      <SourceCredit attribution={data.attribution} url={data.attribution_url} />
     </View>
   );
 }
@@ -171,7 +180,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
   },
-  liveTag: {
+  tag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.one,
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.half,
     borderRadius: Spacing.two,
   },
-  liveDot: {
+  dot: {
     width: 8,
     height: 8,
     borderRadius: 4,

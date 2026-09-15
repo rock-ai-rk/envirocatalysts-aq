@@ -1,75 +1,119 @@
 from datetime import timedelta
 
-import pytest
 from sqlalchemy import func, select
 
 from app.db import utcnow
-from app.models import LiveReading, LiveStation, ScrapeRun
+from app.models import LiveReading, ScrapeRun
 from app.scraper.service import run_scrape
-from tests.factories import FakeSource, make_record
+from tests.factories import FakeSource, add_city, last_hours, om_answer
 
 RETENTION_DAYS = 30
-
-
-def feed() -> list[dict]:
-    return [
-        make_record(pollutant="PM2.5"),
-        make_record(pollutant="PM10", avg="210"),
-        make_record(station="Bawana, Delhi - DPCC", pollutant="PM2.5", avg="95"),
-        make_record(pollutant="BENZENE"),  # not a pollutant we track
-    ]
 
 
 def count(session, model) -> int:
     return session.scalar(select(func.count()).select_from(model))
 
 
-def test_first_run_stores_stations_and_readings(session):
-    run = run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
+def test_reads_every_city_with_coordinates(session):
+    agra = add_city(session, "Agra")
+    delhi = add_city(session, "Delhi", "Delhi", 28.61, 77.21)
+    add_city(session, "Dimapur", "Nagaland", latitude=None, longitude=None)
+    source = FakeSource(om_answer(last_hours(3)))
+
+    run = run_scrape(session, source, RETENTION_DAYS)
 
     assert run.status == "success"
-    assert (run.records_seen, run.records_skipped, run.stations_seen, run.readings_inserted) == (
-        4,
-        1,
-        2,
-        3,
-    )
-    assert count(session, LiveStation) == 2
-    assert count(session, LiveReading) == 3
+    assert source.asked == [agra.id, delhi.id]  # Dimapur has no coordinates
+    assert (run.cities_requested, run.cities_seen) == (2, 2)
+    assert (run.records_seen, run.records_skipped, run.readings_inserted) == (36, 0, 36)
+    assert count(session, LiveReading) == 2 * 6 * 3
 
 
 def test_repeating_a_run_inserts_nothing_new(session):
-    run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
-    second = run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
+    add_city(session)
+    answer = om_answer(last_hours(3))
+    run_scrape(session, FakeSource(answer), RETENTION_DAYS)
 
-    assert second.status == "success"
-    assert second.readings_inserted == 0
-    assert count(session, LiveStation) == 2
-    assert count(session, LiveReading) == 3
+    second = run_scrape(session, FakeSource(answer), RETENTION_DAYS)
+
+    assert (second.status, second.readings_inserted) == ("success", 0)
+    assert count(session, LiveReading) == 18
 
 
-def test_new_hour_adds_readings_and_refreshes_the_station(session):
-    run_scrape(session, FakeSource([make_record(hours_ago=1)]), RETENTION_DAYS)
-    run_scrape(session, FakeSource([make_record(hours_ago=0, latitude="28.7")]), RETENTION_DAYS)
+def test_a_new_hour_adds_readings_and_keeps_the_stored_ones(session):
+    add_city(session)
+    run_scrape(session, FakeSource(om_answer(last_hours(2, ending_hours_ago=1))), RETENTION_DAYS)
 
-    assert count(session, LiveReading) == 2
-    assert session.scalars(select(LiveStation)).one().latitude == pytest.approx(28.7)
+    # The next run overlaps the first and revises the shared hour; only the new hour is added.
+    run = run_scrape(session, FakeSource(om_answer(last_hours(2), pm2_5=99.0)), RETENTION_DAYS)
+
+    assert run.readings_inserted == 6
+    values = session.scalars(
+        select(LiveReading.value)
+        .where(LiveReading.pollutant == "PM2.5")
+        .order_by(LiveReading.observed_at)
+    ).all()
+    assert values == [10.0, 10.0, 99.0]
+
+
+def test_empty_hours_are_counted(session):
+    add_city(session)
+    answer = om_answer(last_hours(3), ozone=[None, None, 30.0])
+
+    run = run_scrape(session, FakeSource(answer), RETENTION_DAYS)
+
+    assert (run.records_seen, run.records_skipped, run.readings_inserted) == (18, 2, 16)
+
+
+def test_a_malformed_answer_skips_that_city_only(session):
+    agra = add_city(session, "Agra")
+    add_city(session, "Delhi", "Delhi", 28.61, 77.21)
+    broken = om_answer(last_hours(3))
+    broken["hourly_units"]["pm10"] = "ppb"
+
+    run = run_scrape(
+        session, FakeSource(om_answer(last_hours(3)), answers={agra.id: broken}), RETENTION_DAYS
+    )
+
+    assert (run.status, run.cities_requested, run.cities_seen) == ("success", 2, 1)
+    assert count(session, LiveReading) == 18
 
 
 def test_readings_past_retention_are_purged(session):
-    records = [make_record(hours_ago=24 * 40), make_record(pollutant="PM10")]
+    city = add_city(session)
+    old = utcnow() - timedelta(days=RETENTION_DAYS + 1)
+    session.add(LiveReading(city_id=city.id, pollutant="PM2.5", value=40, observed_at=old))
+    session.commit()
 
-    run = run_scrape(session, FakeSource(records), RETENTION_DAYS)
+    run = run_scrape(session, FakeSource(om_answer(last_hours(1))), RETENTION_DAYS)
 
     assert run.readings_purged == 1
-    assert count(session, LiveReading) == 1
+    assert count(session, LiveReading) == 6
 
 
-def test_failure_is_recorded_with_the_key_redacted(session):
-    run = run_scrape(session, FakeSource(error=RuntimeError("boom for secret-key")), RETENTION_DAYS)
+def test_readings_record_their_source_and_run(session):
+    add_city(session)
 
-    assert run.status == "failed"
-    assert run.error == "RuntimeError: boom for ***"
+    run = run_scrape(session, FakeSource(om_answer(last_hours(1))), RETENTION_DAYS)
+
+    assert set(session.scalars(select(LiveReading.source))) == {"open_meteo_cams"}
+    assert set(session.scalars(select(LiveReading.scrape_run_id))) == {run.id}
+
+
+def test_without_cities_the_run_succeeds_with_nothing_to_do(session):
+    source = FakeSource(om_answer(last_hours(1)))
+
+    run = run_scrape(session, source, RETENTION_DAYS)
+
+    assert (run.status, run.cities_requested, run.readings_inserted) == ("success", 0, 0)
+
+
+def test_failure_is_recorded(session):
+    add_city(session)
+
+    run = run_scrape(session, FakeSource(error=RuntimeError("HTTP 500")), RETENTION_DAYS)
+
+    assert (run.status, run.error) == ("failed", "RuntimeError: HTTP 500")
     assert run.finished_at is not None
     assert count(session, LiveReading) == 0
 
@@ -78,65 +122,7 @@ def test_skips_while_another_run_is_in_progress(session):
     session.add(ScrapeRun(source="test", status="running"))
     session.commit()
 
-    assert run_scrape(session, FakeSource(feed()), RETENTION_DAYS) is None
-
-
-def test_readings_record_their_source(session):
-    run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
-
-    assert set(session.scalars(select(LiveReading.source))) == {"datagov_cpcb_realtime"}
-
-
-def test_an_unchanged_feed_is_not_fetched_again(session):
-    updated = utcnow().replace(microsecond=0)
-    run_scrape(session, FakeSource(feed(), updated=updated), RETENTION_DAYS)
-    source = FakeSource(feed(), updated=updated)
-
-    run = run_scrape(session, source, RETENTION_DAYS)
-
-    assert (run.status, run.unchanged, run.source_updated_at) == ("success", True, updated)
-    assert (run.records_seen, run.readings_inserted) == (0, 0)
-    assert source.fetches == 0
-
-
-def test_a_newer_feed_is_fetched(session):
-    earlier = utcnow().replace(microsecond=0) - timedelta(hours=1)
-    run_scrape(session, FakeSource(feed(), updated=earlier), RETENTION_DAYS)
-    source = FakeSource(feed(), updated=earlier + timedelta(hours=1))
-
-    run = run_scrape(session, source, RETENTION_DAYS)
-
-    assert run.unchanged is False
-    assert source.fetches == 1
-
-
-def test_force_fetches_an_unchanged_feed(session):
-    updated = utcnow().replace(microsecond=0)
-    run_scrape(session, FakeSource(feed(), updated=updated), RETENTION_DAYS)
-    source = FakeSource(feed(), updated=updated)
-
-    run = run_scrape(session, source, RETENTION_DAYS, force=True)
-
-    assert (run.unchanged, run.records_seen) == (False, 4)
-    assert source.fetches == 1
-
-
-def test_a_failed_run_does_not_count_as_the_last_update(session):
-    updated = utcnow().replace(microsecond=0)
-    run_scrape(session, FakeSource(error=RuntimeError("boom"), updated=updated), RETENTION_DAYS)
-    source = FakeSource(feed(), updated=updated)
-
-    assert run_scrape(session, source, RETENTION_DAYS).unchanged is False
-    assert source.fetches == 1
-
-
-def test_without_an_update_time_the_feed_is_always_fetched(session):
-    run_scrape(session, FakeSource(feed()), RETENTION_DAYS)
-    source = FakeSource(feed())
-
-    run_scrape(session, source, RETENTION_DAYS)
-
-    assert source.fetches == 1
+    assert run_scrape(session, FakeSource(), RETENTION_DAYS) is None
 
 
 def test_a_crashed_run_stops_blocking_after_the_timeout(session):
@@ -145,4 +131,4 @@ def test_a_crashed_run_stops_blocking_after_the_timeout(session):
     )
     session.commit()
 
-    assert run_scrape(session, FakeSource(feed()), RETENTION_DAYS).status == "success"
+    assert run_scrape(session, FakeSource(), RETENTION_DAYS).status == "success"

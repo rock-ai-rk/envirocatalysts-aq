@@ -1,29 +1,24 @@
-"""Run one scrape from the command line: `python -m app.scraper [--force]` (for cron or a demo)."""
+"""Run one scrape from the command line: `python -m app.scraper` (for cron or a demo)."""
 
 import argparse
 import json
 import logging
 import sys
 
-from app.config import get_settings
 from app.schemas import ScrapeRunOut
 from app.scraper.scheduler import scrape_once
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(prog="python -m app.scraper")
-    parser.add_argument(
-        "--force", action="store_true", help="fetch everything even if the feed hasn't changed"
-    )
-    args = parser.parse_args()
+    argparse.ArgumentParser(
+        prog="python -m app.scraper",
+        description="Read the CAMS model at every city with coordinates and store new hours.",
+    ).parse_args()
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
     )
-    if not get_settings().datagov_api_key:
-        print("DATAGOV_API_KEY is not set (see backend/.env.example)", file=sys.stderr)
-        return 2
 
-    run = scrape_once(force=args.force)
+    run = scrape_once()
     if run is None:
         print("Another scrape is already running", file=sys.stderr)
         return 1

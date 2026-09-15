@@ -1,66 +1,63 @@
 /**
- * Hooks for the readings the scraper stores from CPCB's real-time feed. Types mirror
- * backend/app/schemas/live.py.
+ * Hooks for the values the scraper stores from Open-Meteo (the CAMS air-quality model). Types
+ * mirror backend/app/schemas/live.py.
  *
- * The feed's values are AQI sub-indices (0-500), not concentrations, so they are never shown
- * with a unit.
+ * The values are model estimates for the ~45 km area around a city, not station measurements, and
+ * the AQI is CPCB's formula applied to them, so the cards always say so and show the source credit
+ * that the data's licence asks for.
  */
 
 import { useQuery } from '@tanstack/react-query';
 
 import { apiGet } from './client';
-import type { AqiCategoryKey, City, Station } from './types';
+import type { AqiCategoryKey, City, CityGroup } from './types';
 
 export type Pollutant = 'PM2.5' | 'PM10' | 'NO2' | 'SO2' | 'CO' | 'O3' | 'NH3';
 
-export interface PollutantReading {
+export interface LiveReading {
   pollutant: Pollutant;
-  avg: number | null;
-  min: number | null;
-  max: number | null;
+  value: number;
+  unit: string;
   observed_at: string;
-  stale: boolean;
 }
 
-/** GET /v1/stations/{id}/latest */
-export interface StationLatest {
-  station: Station;
-  city: City;
-  status: 'ok' | 'stale' | 'no_recent_readings' | 'no_live_station';
+export interface EstimatedAqi {
+  value: number;
+  category: AqiCategoryKey;
+  dominant: Pollutant;
+  sub_indices: Partial<Record<Pollutant, number>>;
+}
+
+/** Where live values come from; `attribution` must be shown, linked, next to them. */
+export interface LiveSource {
   source: string;
-  measure: 'aqi_sub_index';
-  link: {
-    live_station_id: number;
-    live_station_name: string;
-    method: 'name' | 'distance' | 'manual';
-    distance_m: number | null;
-  } | null;
+  attribution: string;
+  attribution_url: string;
+  stale_after_hours: number;
+}
+
+/** GET /v1/live/cities/{id} */
+export interface CityLive extends LiveSource {
+  city: City;
+  status: 'ok' | 'stale' | 'no_recent_readings' | 'not_in_feed';
+  measure: 'model_estimate';
   observed_at: string | null;
   fetched_at: string | null;
-  stale_after_hours: number;
-  aqi: { value: number; category: AqiCategoryKey; dominant: Pollutant; pollutants_used: number } | null;
-  readings: PollutantReading[];
+  aqi: EstimatedAqi | null;
+  readings: LiveReading[];
 }
 
-export interface CityLatest {
-  city: string;
-  state: string;
-  avg: number;
-  station_count: number;
-  observed_at: string;
+/** GET /v1/live/cities */
+export interface LiveCitiesResponse extends LiveSource {
+  cities: { city: City; aqi: EstimatedAqi; observed_at: string }[];
 }
 
-export interface LiveCitiesResponse {
-  pollutant: Pollutant;
-  cities: CityLatest[];
-}
-
-// CPCB publishes roughly hourly, so refetching more often than this is wasted work.
+// The scraper stores a new hour once an hour, so refetching more often than this is wasted work.
 const LIVE_STALE_TIME_MS = 5 * 60 * 1000;
 
 export function useLiveCities(params: {
-  pollutant?: Pollutant;
   state?: string | null;
+  group?: CityGroup | null;
   order?: 'asc' | 'desc';
   limit?: number;
 }) {
@@ -71,13 +68,13 @@ export function useLiveCities(params: {
   });
 }
 
-export function useStationLatest(stationId: number | null) {
+export function useCityLive(cityId: number | null) {
   return useQuery({
-    queryKey: ['live', 'station', stationId],
-    queryFn: () => apiGet<StationLatest>(`/v1/stations/${stationId}/latest`),
-    enabled: stationId !== null,
+    queryKey: ['live', 'city', cityId],
+    queryFn: () => apiGet<CityLive>(`/v1/live/cities/${cityId}`),
+    enabled: cityId !== null,
     staleTime: LIVE_STALE_TIME_MS,
-    // The screen stays open while the feed moves on; check again every quarter hour.
+    // The screen stays open while new hours arrive; check again every quarter hour.
     refetchInterval: 15 * 60 * 1000,
   });
 }

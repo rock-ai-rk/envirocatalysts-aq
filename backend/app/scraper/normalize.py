@@ -1,117 +1,67 @@
-"""Turn raw data.gov.in records into typed readings.
+"""Turn Open-Meteo's answer for one place into typed readings.
 
-The feed returns every value as a string, uses "NA" for missing values, underscores in place names
-("Uttar_Pradesh") and "OZONE" for O3. Its field names have changed over the years
-(pollutant_avg -> avg_value), so both spellings are accepted.
+The answer holds parallel arrays: `hourly.time` (ISO 8601 hours, UTC because the client asks for
+GMT) and one array per variable, with null where the model has no value. Every variable comes in
+µg/m³; CO is converted to mg/m³, the unit CPCB and the historical data use. Hours after `now` are
+still forecasts, so they are left out.
 """
 
-import logging
-from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 
-from app.domain import IST
-
-logger = logging.getLogger(__name__)
-
-TIMESTAMP_FORMATS = ("%d-%m-%Y %H:%M:%S", "%Y-%m-%d %H:%M:%S")
-POLLUTANT_ALIASES = {
-    "PM2.5": "PM2.5",
-    "PM10": "PM10",
-    "NO2": "NO2",
-    "SO2": "SO2",
-    "CO": "CO",
-    "OZONE": "O3",
-    "O3": "O3",
-    "NH3": "NH3",
+# Open-Meteo variable -> pollutant. NH3 is only modelled for Europe, so it isn't asked for.
+VARIABLES: dict[str, str] = {
+    "pm2_5": "PM2.5",
+    "pm10": "PM10",
+    "nitrogen_dioxide": "NO2",
+    "sulphur_dioxide": "SO2",
+    "carbon_monoxide": "CO",
+    "ozone": "O3",
 }
-MISSING = {"", "NA", "N/A", "NONE", "NULL", "-"}
+# The API writes the micro sign as a Greek mu (U+03BC); accept either spelling.
+MICROGRAMS = {"μg/m³", "µg/m³"}
 
 
-class InvalidRecord(ValueError):
-    """A record that can't be stored (no station, unknown pollutant, bad timestamp, no values)."""
+class InvalidAnswer(ValueError):
+    """An answer that can't be read: missing arrays, arrays of different lengths, or a new unit."""
 
 
 @dataclass(frozen=True)
 class Reading:
-    station: str
-    city: str
-    state: str
-    latitude: float | None
-    longitude: float | None
     pollutant: str
-    avg_value: float | None
-    min_value: float | None
-    max_value: float | None
+    value: float
     observed_at: datetime
 
 
-def parse_record(raw: dict) -> Reading:
-    station = _text(raw.get("station"))
-    if not station:
-        raise InvalidRecord("missing station")
+def parse_answer(answer: dict, now: datetime) -> tuple[list[Reading], int]:
+    """The readings for hours up to `now`, and how many of those hours had no value."""
+    hourly = answer.get("hourly") or {}
+    units = answer.get("hourly_units") or {}
+    times = hourly.get("time")
+    if not isinstance(times, list):
+        raise InvalidAnswer("no hourly times")
+    hours = [_hour(stamp) for stamp in times]
+    past = [index for index, hour in enumerate(hours) if hour <= now]
 
-    pollutant = POLLUTANT_ALIASES.get(_text(raw.get("pollutant_id")).upper())
-    if pollutant is None:
-        raise InvalidRecord(f"unknown pollutant {raw.get('pollutant_id')!r}")
-
-    avg, low, high = (
-        _number(raw.get(f"{kind}_value", raw.get(f"pollutant_{kind}")))
-        for kind in ("avg", "min", "max")
-    )
-    if avg is None and low is None and high is None:
-        raise InvalidRecord("no pollutant values")
-
-    return Reading(
-        station=station,
-        city=_place(raw.get("city")),
-        state=_place(raw.get("state")),
-        latitude=_number(raw.get("latitude")),
-        longitude=_number(raw.get("longitude")),
-        pollutant=pollutant,
-        avg_value=avg,
-        min_value=low,
-        max_value=high,
-        observed_at=_timestamp(raw.get("last_update")),
-    )
-
-
-def parse_records(records: Iterable[dict]) -> tuple[list[Reading], int]:
-    """Parse every record, returning the usable readings and how many were skipped."""
     readings: list[Reading] = []
-    skipped = 0
-    for raw in records:
-        try:
-            readings.append(parse_record(raw))
-        except InvalidRecord as exc:
-            skipped += 1
-            logger.debug("Skipping record %s: %s", raw.get("station"), exc)
-    return readings, skipped
+    missing = 0
+    for variable, pollutant in VARIABLES.items():
+        values = hourly.get(variable)
+        if not isinstance(values, list) or len(values) != len(times):
+            raise InvalidAnswer(f"{variable} is missing or doesn't match the hours")
+        if units.get(variable) not in MICROGRAMS:
+            raise InvalidAnswer(f"{variable} is in {units.get(variable)!r}, expected µg/m³")
+        scale = 0.001 if pollutant == "CO" else 1.0  # CO: µg/m³ -> mg/m³
+        for index in past:
+            if values[index] is None:
+                missing += 1
+            else:
+                readings.append(Reading(pollutant, round(values[index] * scale, 3), hours[index]))
+    return readings, missing
 
 
-def _text(value: object) -> str:
-    return str(value).strip() if value is not None else ""
-
-
-def _place(value: object) -> str:
-    return _text(value).replace("_", " ")
-
-
-def _number(value: object) -> float | None:
-    text = _text(value)
-    if text.upper() in MISSING:
-        return None
+def _hour(stamp: object) -> datetime:
     try:
-        return float(text)
+        return datetime.fromisoformat(str(stamp)).replace(tzinfo=UTC)
     except ValueError:
-        return None
-
-
-def _timestamp(value: object) -> datetime:
-    text = _text(value)
-    for fmt in TIMESTAMP_FORMATS:
-        try:
-            return datetime.strptime(text, fmt).replace(tzinfo=IST)
-        except ValueError:
-            continue
-    raise InvalidRecord(f"unparseable last_update {value!r}")
+        raise InvalidAnswer(f"unparseable time {stamp!r}") from None

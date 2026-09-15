@@ -7,8 +7,12 @@ from zoneinfo import ZoneInfo
 # CPCB timestamps, and every "day" in the app, are Indian Standard Time.
 IST = ZoneInfo("Asia/Kolkata")
 
-# Where scraped readings come from: CPCB's real-time feed on data.gov.in.
-LIVE_SOURCE = "datagov_cpcb_realtime"
+# Where scraped readings come from: the CAMS global air-quality forecast model, served by
+# Open-Meteo's free API (no key or account). Its CC BY 4.0 licence asks for this credit, with a
+# link, wherever the data is shown.
+LIVE_SOURCE = "open_meteo_cams"
+LIVE_ATTRIBUTION = "CAMS air-quality model (Copernicus), via Open-Meteo.com, CC BY 4.0"
+LIVE_ATTRIBUTION_URL = "https://open-meteo.com/"
 
 Pollutant = Literal["PM2.5", "PM10", "NO2", "SO2", "CO", "O3", "NH3"]
 POLLUTANTS: tuple[str, ...] = get_args(Pollutant)

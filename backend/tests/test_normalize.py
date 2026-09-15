@@ -1,74 +1,68 @@
+from datetime import UTC, datetime, timedelta
+
 import pytest
 
-from app.scraper.normalize import InvalidRecord, parse_record, parse_records
-from tests.factories import make_record
+from app.scraper.normalize import InvalidAnswer, parse_answer
+from tests.factories import om_answer
+
+NOW = datetime(2026, 9, 15, 17, 5, tzinfo=UTC)
+HOURS = [NOW.replace(minute=0) + timedelta(hours=offset) for offset in (-2, -1, 0, 1, 2)]
 
 
-def test_parses_current_field_names():
-    reading = parse_record(make_record(avg="120", low="80", high="190"))
+def test_reads_every_pollutant_for_hours_up_to_now():
+    readings, missing = parse_answer(om_answer(HOURS, pm2_5=55.2), NOW)
 
-    assert (reading.station, reading.city, reading.state) == (
-        "Anand Vihar, Delhi - DPCC",
-        "Delhi",
-        "Delhi",
-    )
-    assert reading.pollutant == "PM2.5"
-    assert (reading.avg_value, reading.min_value, reading.max_value) == (120.0, 80.0, 190.0)
-    assert reading.latitude == pytest.approx(28.646835)
+    # Three hours have passed (15:00, 16:00, 17:00); 18:00 and 19:00 are still forecasts.
+    assert missing == 0
+    assert len(readings) == 6 * 3
+    pm25 = [r for r in readings if r.pollutant == "PM2.5"]
+    assert [(r.observed_at.hour, r.value) for r in pm25] == [(15, 55.2), (16, 55.2), (17, 55.2)]
+    assert pm25[0].observed_at.tzinfo is UTC
 
 
-def test_accepts_legacy_field_names():
-    raw = make_record()
-    for kind in ("avg", "min", "max"):
-        raw[f"pollutant_{kind}"] = raw.pop(f"{kind}_value")
+def test_carbon_monoxide_becomes_milligrams():
+    readings, _ = parse_answer(om_answer(HOURS, carbon_monoxide=834.0), NOW)
 
-    assert parse_record(raw).avg_value == 120.0
+    assert {r.value for r in readings if r.pollutant == "CO"} == {0.834}
 
 
-def test_timestamps_are_read_as_ist():
-    raw = make_record() | {"last_update": "12-09-2026 14:00:00"}
+def test_empty_hours_are_counted_not_stored():
+    answer = om_answer(HOURS, ozone=[None, 40.0, None, 41.0, 42.0])
 
-    assert parse_record(raw).observed_at.isoformat() == "2026-09-12T14:00:00+05:30"
+    readings, missing = parse_answer(answer, NOW)
 
-
-def test_normalises_place_names_and_pollutant_ids():
-    reading = parse_record(
-        make_record(state="Uttar_Pradesh", city="Greater_Noida", pollutant="OZONE")
-    )
-
-    assert (reading.state, reading.city, reading.pollutant) == (
-        "Uttar Pradesh",
-        "Greater Noida",
-        "O3",
-    )
+    assert missing == 2
+    assert [r.observed_at.hour for r in readings if r.pollutant == "O3"] == [16]
 
 
-def test_missing_values_become_none():
-    reading = parse_record(make_record(low="NA", high="", latitude="NA"))
+def test_a_new_unit_is_rejected_rather_than_misread():
+    answer = om_answer(HOURS)
+    answer["hourly_units"]["carbon_monoxide"] = "mg/m³"
 
-    assert reading.min_value is None
-    assert reading.max_value is None
-    assert reading.latitude is None
-    assert reading.avg_value == 120.0
+    with pytest.raises(InvalidAnswer, match="carbon_monoxide is in 'mg/m³'"):
+        parse_answer(answer, NOW)
+
+
+def test_both_spellings_of_the_micro_sign_are_accepted():
+    answer = om_answer(HOURS)
+    answer["hourly_units"]["pm10"] = "µg/m³"  # U+00B5 rather than the API's U+03BC
+
+    assert parse_answer(answer, NOW)[0]
 
 
 @pytest.mark.parametrize(
-    "change",
+    "broken",
     [
-        {"station": " "},
-        {"pollutant_id": "BENZENE"},
-        {"last_update": "yesterday"},
-        {"avg_value": "NA", "min_value": "NA", "max_value": "NA"},
+        lambda answer: answer.pop("hourly"),
+        lambda answer: answer["hourly"].pop("pm10"),
+        lambda answer: answer["hourly"]["pm10"].pop(),
+        lambda answer: answer["hourly"]["time"].__setitem__(0, "yesterday"),
     ],
-    ids=["no-station", "unknown-pollutant", "bad-timestamp", "no-values"],
+    ids=["no hourly block", "variable missing", "arrays differ in length", "bad time"],
 )
-def test_rejects_unusable_records(change):
-    with pytest.raises(InvalidRecord):
-        parse_record(make_record() | change)
+def test_malformed_answers_are_rejected(broken):
+    answer = om_answer(HOURS)
+    broken(answer)
 
-
-def test_parse_records_counts_skipped_records():
-    readings, skipped = parse_records([make_record(), make_record(pollutant="BENZENE")])
-
-    assert len(readings) == 1
-    assert skipped == 1
+    with pytest.raises(InvalidAnswer):
+        parse_answer(answer, NOW)

@@ -3,8 +3,7 @@
 import pytest
 
 from app.importer.canonical import load_directory
-from app.scraper.service import run_scrape
-from tests.factories import FakeSource, make_record, small_dataset
+from tests.factories import small_dataset
 
 
 @pytest.fixture
@@ -232,78 +231,3 @@ def test_hourly_unknown_station_is_404(loaded):
     )
 
     assert response.status_code == 404
-
-
-# --- /v1/stations/{id}/latest
-
-
-def scrape_agra(session, hours_ago: float = 0, **values: str) -> None:
-    records = [
-        make_record(
-            station="Sanjay Palace, Agra - UPPCB",
-            city="Agra",
-            state="Uttar_Pradesh",
-            pollutant=pollutant,
-            avg=avg,
-            hours_ago=hours_ago,
-            latitude="27.1987",
-            longitude="78.0061",
-        )
-        for pollutant, avg in values.items()
-    ]
-    run_scrape(session, FakeSource(records), retention_days=30)
-
-
-def test_latest_without_a_matching_live_station(loaded):
-    body = loaded.get(f"/v1/stations/{station_id(loaded, 'Shahjahan Garden')}/latest").json()
-
-    assert body["status"] == "no_live_station"
-    assert (body["link"], body["aqi"], body["readings"]) == (None, None, [])
-    assert body["measure"] == "aqi_sub_index"
-
-
-def test_latest_reads_the_linked_live_station_and_computes_the_aqi(loaded, session):
-    scrape_agra(session, **{"CO": "25", "PM10": "88", "PM2.5": "46"})
-
-    body = loaded.get(f"/v1/stations/{station_id(loaded, 'Sanjay Palace')}/latest").json()
-
-    assert body["status"] == "ok"
-    assert body["source"] == "datagov_cpcb_realtime"
-    assert body["link"]["live_station_name"] == "Sanjay Palace, Agra - UPPCB"
-    assert body["link"]["method"] == "name"
-    assert body["aqi"] == {
-        "value": 88,
-        "category": "satisfactory",
-        "dominant": "PM10",
-        "pollutants_used": 3,
-    }
-    assert [(r["pollutant"], r["avg"]) for r in body["readings"]] == [
-        ("PM2.5", 46.0),
-        ("PM10", 88.0),
-        ("CO", 25.0),
-    ]
-    assert body["observed_at"].endswith("+05:30")
-
-
-def test_latest_flags_stale_readings(loaded, session):
-    scrape_agra(session, hours_ago=5, **{"PM2.5": "120", "PM10": "150", "NO2": "40"})
-
-    body = loaded.get(f"/v1/stations/{station_id(loaded, 'Sanjay Palace')}/latest").json()
-
-    assert body["status"] == "stale"
-    assert body["aqi"]["value"] == 150
-    assert all(r["stale"] for r in body["readings"])
-
-
-def test_latest_ignores_readings_older_than_two_days(loaded, session):
-    scrape_agra(session, hours_ago=72, **{"PM2.5": "120"})
-
-    body = loaded.get(f"/v1/stations/{station_id(loaded, 'Sanjay Palace')}/latest").json()
-
-    assert body["status"] == "no_recent_readings"
-    assert body["link"] is not None
-    assert body["readings"] == []
-
-
-def test_latest_unknown_station_is_404(loaded):
-    assert loaded.get("/v1/stations/9999/latest").status_code == 404

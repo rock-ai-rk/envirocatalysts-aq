@@ -52,7 +52,7 @@ Screenshot after the fixes, at Accessibility Large: [Overview rows](accessibilit
   - Rules show ✓/✗ and the words "met" / "not met".
   - The two years in the Change view are told apart by solid versus dashed lines.
   - Warnings carry a ⚠ and words.
-- **Live data.** The live card says "LIVE", "provisional" and "sub-indices, not concentrations" in words, and its AQI is read as one sentence.
+- **Live data.** The live cards say "ESTIMATE" and "from an air-quality model, not measured at this station" in words, and the AQI is read as one sentence ("Estimated air quality index 98, Satisfactory, driven by PM2.5…"). Units are spoken in full ("micrograms per cubic metre"). The source credit is a link with a 44 pt target.
 - **Changes on screen.**
   - The offline banner and loading/empty/error messages are polite live regions.
   - Moving the trend window announces the new dates.

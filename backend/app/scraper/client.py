@@ -1,23 +1,27 @@
-"""HTTP client for the data.gov.in "Real time Air Quality Index from various locations" resource."""
+"""HTTP client for Open-Meteo's air-quality API, which serves the CAMS global model.
+
+No key or account is needed. One request can carry many places: the coordinates go in as
+comma-separated lists, and the answer is a JSON list in the same order (a single object when only
+one place was asked for).
+"""
 
 import logging
 import time
-from collections.abc import Iterator
-from datetime import UTC, datetime
+from collections.abc import Iterator, Sequence
+from dataclasses import dataclass
+from itertools import batched
 from typing import Self
 
 import httpx
 
 from app.config import Settings
+from app.scraper.normalize import VARIABLES
 
 logger = logging.getLogger(__name__)
-
-# httpx logs every request URL at INFO level, and data.gov.in takes the API key as a query
-# parameter, so those logs would leak the key.
-logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)  # one INFO line per request is noise
 
 
-class DataGovError(RuntimeError):
+class OpenMeteoError(RuntimeError):
     """The API refused the request or kept failing after retries."""
 
 
@@ -25,36 +29,43 @@ class _Retryable(Exception):
     pass
 
 
-class DataGovClient:
+@dataclass(frozen=True)
+class Place:
+    """A point to read the model at: a city in the database and its coordinates."""
+
+    city_id: int
+    latitude: float
+    longitude: float
+
+
+class OpenMeteoClient:
     def __init__(
         self,
-        api_key: str,
-        resource_id: str,
-        base_url: str = "https://api.data.gov.in/resource",
-        page_size: int = 1000,
+        base_url: str = "https://air-quality-api.open-meteo.com/v1/air-quality",
+        batch_size: int = 50,
+        past_days: int = 1,
         max_retries: int = 3,
         backoff_seconds: float = 2.0,
-        page_delay_seconds: float = 1.0,
+        request_delay_seconds: float = 1.0,
         user_agent: str = "envirocatalysts-aq-scraper",
         http: httpx.Client | None = None,
     ) -> None:
-        self._api_key = api_key
-        self._url = f"{base_url.rstrip('/')}/{resource_id}"
-        self._page_size = page_size
+        self._url = base_url
+        self._batch_size = batch_size
+        self._past_days = past_days
         self._max_retries = max_retries
         self._backoff_seconds = backoff_seconds
-        self._page_delay_seconds = page_delay_seconds
+        self._request_delay_seconds = request_delay_seconds
         self._http = http or httpx.Client(timeout=30.0)
         self._http.headers["User-Agent"] = user_agent
 
     @classmethod
     def from_settings(cls, settings: Settings) -> Self:
         return cls(
-            api_key=settings.datagov_api_key,
-            resource_id=settings.datagov_resource_id,
-            base_url=settings.datagov_base_url,
-            page_size=settings.datagov_page_size,
-            page_delay_seconds=settings.scraper_page_delay_seconds,
+            base_url=settings.openmeteo_url,
+            batch_size=settings.openmeteo_batch_size,
+            past_days=settings.openmeteo_past_days,
+            request_delay_seconds=settings.scraper_request_delay_seconds,
             user_agent=settings.scraper_user_agent,
         )
 
@@ -64,57 +75,38 @@ class DataGovClient:
     def __exit__(self, *exc_info) -> None:
         self._http.close()
 
-    def updated_at(self) -> datetime | None:
-        """When data.gov.in last updated the resource, from a one-record request.
+    def fetch(self, places: Sequence[Place]) -> Iterator[tuple[Place, dict]]:
+        """Yield each place with the API's answer for it, `batch_size` places per request."""
+        for number, batch in enumerate(batched(places, self._batch_size)):
+            if number:
+                time.sleep(self._request_delay_seconds)  # spread the requests out
+            answers = self._get(batch)
+            if len(answers) != len(batch):
+                raise OpenMeteoError(f"asked for {len(batch)} places, got {len(answers)} answers")
+            yield from zip(batch, answers, strict=True)
 
-        The response metadata carries `updated` (Unix seconds) and `updated_date` (ISO 8601).
-        Returns None if neither is present, so the caller falls back to a full fetch.
-        """
-        page = self._get_page(offset=0, limit=1)
-        try:
-            return datetime.fromtimestamp(int(page["updated"]), UTC)
-        except (KeyError, TypeError, ValueError):
-            pass
-        try:
-            return datetime.fromisoformat(str(page["updated_date"])).astimezone(UTC)
-        except (KeyError, ValueError):
-            return None
-
-    def fetch_all(self) -> Iterator[dict]:
-        """Yield every record in the resource, following limit/offset pagination."""
-        offset = 0
-        while True:
-            if offset:
-                time.sleep(self._page_delay_seconds)  # spread the pages out
-            page = self._get_page(offset)
-            records = page.get("records") or []
-            yield from records
-            offset += len(records)
-            if not records or offset >= int(page.get("total") or 0):
-                return
-
-    def redact(self, text: str) -> str:
-        return text.replace(self._api_key, "***") if self._api_key else text
-
-    def _get_page(self, offset: int, limit: int | None = None) -> dict:
+    def _get(self, batch: Sequence[Place]) -> list[dict]:
         params = {
-            "api-key": self._api_key,
-            "format": "json",
-            "limit": limit or self._page_size,
-            "offset": offset,
+            "latitude": ",".join(f"{place.latitude:.4f}" for place in batch),
+            "longitude": ",".join(f"{place.longitude:.4f}" for place in batch),
+            "hourly": ",".join(VARIABLES),
+            "domains": "cams_global",
+            "past_days": self._past_days,
+            "forecast_days": 1,
+            "timezone": "GMT",  # hours come back as UTC
         }
         for attempt in range(1, self._max_retries + 1):
             try:
                 return self._request(params)
             except _Retryable as exc:
                 if attempt == self._max_retries:
-                    raise DataGovError(f"{exc} after {attempt} attempts") from None
+                    raise OpenMeteoError(f"{exc} after {attempt} attempts") from None
                 delay = self._backoff_seconds * 2 ** (attempt - 1)
-                logger.warning("data.gov.in: %s (attempt %s), retrying in %ss", exc, attempt, delay)
+                logger.warning("Open-Meteo: %s (attempt %s), retrying in %ss", exc, attempt, delay)
                 time.sleep(delay)
         raise AssertionError("unreachable")
 
-    def _request(self, params: dict) -> dict:
+    def _request(self, params: dict) -> list[dict]:
         try:
             response = self._http.get(self._url, params=params)
         except httpx.TransportError as exc:
@@ -123,25 +115,15 @@ class DataGovClient:
         if response.status_code == 429 or response.status_code >= 500:
             raise _Retryable(f"HTTP {response.status_code}")
 
-        body = _json_or_none(response)
-        if response.status_code >= 400:
-            raise DataGovError(f"HTTP {response.status_code}: {_api_message(body, response)}")
-        if body is None:
-            raise DataGovError("response was not JSON")
-        if str(body.get("status", "")).lower() == "error":
-            raise DataGovError(_api_message(body, response))
-        return body
-
-
-def _json_or_none(response: httpx.Response) -> dict | None:
-    try:
-        body = response.json()
-    except ValueError:
-        return None
-    return body if isinstance(body, dict) else None
-
-
-def _api_message(body: dict | None, response: httpx.Response) -> str:
-    if body:
-        return str(body.get("error") or body.get("message") or body)[:300]
-    return response.text[:300]
+        try:
+            body = response.json()
+        except ValueError:
+            body = None
+        if response.status_code >= 400 or (isinstance(body, dict) and body.get("error")):
+            reason = body.get("reason") if isinstance(body, dict) else None
+            raise OpenMeteoError(f"HTTP {response.status_code}: {reason or response.text[:300]}")
+        if isinstance(body, dict):
+            return [body]
+        if isinstance(body, list):
+            return body
+        raise OpenMeteoError("response was not JSON")

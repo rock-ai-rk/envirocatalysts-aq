@@ -10,24 +10,21 @@ from app.config import Settings, get_settings
 from app.db import SessionLocal
 from app.domain import IST
 from app.models import ScrapeRun
-from app.scraper.client import DataGovClient
+from app.scraper.client import OpenMeteoClient
 from app.scraper.service import run_scrape
 
 logger = logging.getLogger(__name__)
 
 
-def scrape_once(settings: Settings | None = None, force: bool = False) -> ScrapeRun | None:
+def scrape_once(settings: Settings | None = None) -> ScrapeRun | None:
     settings = settings or get_settings()
-    with DataGovClient.from_settings(settings) as client, SessionLocal() as session:
-        return run_scrape(session, client, settings.live_retention_days, force=force)
+    with OpenMeteoClient.from_settings(settings) as client, SessionLocal() as session:
+        return run_scrape(session, client, settings.live_retention_days)
 
 
 def start_scheduler(settings: Settings) -> BackgroundScheduler | None:
     if not settings.scraper_enabled:
         logger.info("Scraper schedule disabled (SCRAPER_ENABLED=false)")
-        return None
-    if not settings.datagov_api_key:
-        logger.warning("DATAGOV_API_KEY is not set, so scheduled scraping is off")
         return None
 
     scheduler = BackgroundScheduler(timezone=IST)
@@ -35,7 +32,7 @@ def start_scheduler(settings: Settings) -> BackgroundScheduler | None:
         scrape_once,
         CronTrigger(minute=settings.scrape_minute, timezone=IST),
         next_run_time=datetime.now(UTC),  # also run once at startup
-        id="datagov-realtime",
+        id="open-meteo-air-quality",
         max_instances=1,
         coalesce=True,
     )

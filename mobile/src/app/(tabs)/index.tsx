@@ -105,7 +105,7 @@ export default function OverviewScreen() {
       <DemoDataBanner screen="overview" />
       <FilterSummaryBar />
       <DataFreshness query={overview} />
-      <LiveCitiesCard state={filters.state} />
+      <LiveCitiesCard state={filters.state} group={filters.group} />
       <SegmentedControl
         label="Period"
         options={periodViewOptions(periods?.base ?? PLACEHOLDER_PERIODS.base, periods?.comparison ?? PLACEHOLDER_PERIODS.comparison)}
