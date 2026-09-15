@@ -403,8 +403,9 @@ linked.
     put Delhi and most of north India in "Poor" on 15 Sep 2026.
 
 **How it runs:**
-- Hourly at :05 IST inside the API process (APScheduler), and once at startup. The model publishes
-  hours ahead, so a run just after the hour already has that hour.
+- Hourly at :35 IST inside the API process (APScheduler), and once at startup. The model's values
+  fall on the UTC hour, which is :30 in India, and are published ahead of time, so each run stores
+  the hour that began five minutes earlier.
 - On demand with `python -m app.scraper` or `POST /v1/admin/scrape`.
 
 **Being a polite client:** it asks for 50 cities per request (`OPENMETEO_BATCH_SIZE`), waits

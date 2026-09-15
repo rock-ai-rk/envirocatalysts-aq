@@ -26,9 +26,9 @@ class Settings(BaseSettings):
     openmeteo_past_days: int = 1
 
     scraper_enabled: bool = True
-    # The model's hourly values are published ahead of time (it is a forecast), so a run a few
-    # minutes past the hour already has the hour that just started.
-    scrape_minute: int = 5
+    # The model's values fall on the UTC hour, which is :30 in IST, and are published ahead of
+    # time (it is a forecast). A run at :35 IST stores the hour that began five minutes earlier.
+    scrape_minute: int = 35
     scraper_request_delay_seconds: float = 1.0
     # Identifies this client to Open-Meteo. Add a contact (email or repo URL) in .env.
     scraper_user_agent: str = "envirocatalysts-aq-scraper/0.2 (air quality mobile app; hourly)"
