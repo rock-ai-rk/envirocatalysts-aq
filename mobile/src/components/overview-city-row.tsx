@@ -20,6 +20,7 @@ import {
   unitFor,
 } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { describeAqiDays, describeCoverage, describeDominant } from '@/lib/describe';
 import { formatNumber, formatPercent } from '@/lib/format';
@@ -49,6 +50,9 @@ interface Props {
 export const OverviewCityRow = memo(function OverviewCityRow(props: Props) {
   const { item, view, periods, minCoverage, onPress, onCoverage } = props;
   const theme = useTheme();
+  // At large text sizes the headline figure beside the name would squeeze the name to a letter
+  // per line, so it moves below the name.
+  const largeText = useLargeText();
   const { label, content, headline } = describeRow(props, theme);
   // The Change view compares against the base period, whose rules decide the ranking.
   const coveragePeriod = view === 'comparison' ? periods.comparison : periods.base;
@@ -73,8 +77,9 @@ export const OverviewCityRow = memo(function OverviewCityRow(props: Props) {
               {coverageStats ? item.city.state : `${item.city.state} · no data for ${coveragePeriod.label}`}
             </ThemedText>
           </View>
-          {headline}
+          {largeText ? null : headline}
         </View>
+        {largeText ? headline : null}
         {content}
       </FocusablePressable>
       {coverageStats ? (
