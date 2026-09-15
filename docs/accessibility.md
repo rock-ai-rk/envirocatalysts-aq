@@ -9,7 +9,7 @@ The two main screens are covered: Overview & Comparison, and Hourly Analysis.
 |---|---|---|
 | Colour contrast (text 4.5:1, UI parts 3:1) | `npm run check:contrast` ([`mobile/scripts/check-contrast.mjs`](../mobile/scripts/check-contrast.mjs)), which checks every text/background pairing in the light and dark palettes and the label colour on every AQI category and pollutant colour | 59 / 59 pairings pass |
 | Largest text sizes (Dynamic Type) | iPhone 17 simulator at the *Accessibility Large* text size, both screens and the sheets | 8 problems found, all fixed (below) |
-| Small screen, 375 pt wide (iPhone SE width) | The same React Native layout rendered at 375 × 667 in a browser | Fits without truncation. **A check on the iPhone SE simulator itself is still to do.** |
+| Small screen, 375 pt wide (iPhone SE width) | The same React Native layout rendered at 375 × 667 in a browser; on 16 Sep, the Overview on the iPhone SE (3rd gen) simulator | Fits without truncation. On the SE the Overview's verdict is fully visible without scrolling. **The Hourly screen on the SE simulator is still to check.** |
 | Standard phone, 402 pt (iPhone 17) | iOS simulator | Fits |
 | Dark mode | iPhone 17 simulator | All text, chips, badges and the chart stay readable ([screenshot](accessibility/iphone17-dark-hourly.png)) |
 | Nested interactive elements | Dev build in a browser, which rejects a `<button>` inside a `<button>` | 1 problem found and fixed (below) |
@@ -33,6 +33,26 @@ All of these showed up at the largest text sizes unless noted.
 9. **A button inside a button** (at every text size). The coverage pill sat inside the city row's button: touch worked, but VoiceOver couldn't focus the pill on its own. It is now a separate button below the row.
 
 Screenshot after the fixes, at Accessibility Large: [Overview rows](accessibility/iphone17-large-text-overview.png).
+
+### 16 Sep: the Overview's new top half
+
+The verdict card, status capsules, "Right now" capsules and pinned controls were checked on the
+iPhone SE (3rd gen) and iPhone 16 Pro simulators, in light and dark mode, at the default text size
+and at the largest one (*Accessibility XXXL*). Screenshots: [`redesign/`](redesign/).
+
+- **City rows at the largest size.** The headline figure ("319 good days") sat beside the city
+  name and squeezed it to one letter per line. At large text sizes it now moves below the name.
+  This predates the redesign: the earlier pass stopped at *Accessibility Large*.
+- **Pinned controls.** The year toggle and lens chips stay pinned above the list, but not at large
+  text sizes, where they would cover much of the screen. They then scroll with the page.
+- **Rows of capsules.** The status capsules and the "Right now" capsules sit in one sideways row
+  normally. At large text sizes they wrap or stack instead, so nothing is out of reach off-screen.
+  Each tappable capsule has a 44 pt touch target.
+- **Verdict card.** The sentence on the card is the one a screen reader hears, followed by the
+  detail with its units written out ("micrograms per cubic metre"). It keeps the same height when
+  it switches to Change, so the pinned controls below it don't jump.
+- **Good green.** `#00B050` → `#009A47`, so Good and Satisfactory are easier to tell apart (see
+  the README). The contrast check still passes all 59 pairings.
 
 ## Screen reader design
 

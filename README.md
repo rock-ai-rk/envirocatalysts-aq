@@ -76,6 +76,16 @@ the data and the rules, and changes how you reach them.
 - **One year at a time, plus Change.** The panels became a toggle: *FY 24-25 · FY 25-26 · Change*.
   Change states the difference ("▲ +18 good days · better") instead of leaving you to compare two
   bars.
+- **The answer comes first.** The Overview opens with one sentence worked out from the listed
+  cities: "8 of 10 cities had fewer good days in FY 25-26", with the median change and the biggest
+  drop underneath. On the Pollutants lens it counts lower averages as better and says so. The card
+  shows exactly what a screen reader hears, and tapping it switches the list to Change.
+- **Less to scroll past.** Four stacked banners (offline, demo data, data age, cities not ranked)
+  became one row of small capsules, each opening its explanation. The live card became a row of
+  city capsules, with how the estimate is made behind ⓘ and the source credit still visible.
+- **Controls stay in reach.** The year toggle and the lens chips stay pinned while the city list
+  scrolls under them. At large text sizes they would cover much of the screen, so there they
+  scroll with the page.
 - **A list, not a chart that grows.** Each city is a fixed-height row in a virtualised list, so
   "All cities" is just a longer scroll.
 - **Hourly follows one station, its city's current estimate first.** Of the source's 12 charts,
@@ -198,6 +208,10 @@ it land in the same commit.
   to jump to the highest and lowest values.
 - All colour pairings pass WCAG 2.1 AA, and layouts were checked at the largest text sizes, in dark
   mode and at 375 pt wide.
+- CPCB's Good green is `#009A47` rather than the dashboard's `#00B050`. The Good and Satisfactory
+  greens were only ΔE 14.0 apart (OKLab), under the 15 that neighbouring category colours need to
+  be told apart at a glance; now the closest neighbouring pair is ΔE 19.6. The hue is unchanged, so
+  the category is still recognisable, and the label on it stays black, at 5.71:1.
 
 What was checked, what broke and how it was fixed: [docs/accessibility.md](docs/accessibility.md).
 
