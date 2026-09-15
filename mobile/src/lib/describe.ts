@@ -21,7 +21,7 @@ import {
   unitFor,
 } from '../constants/pollutants';
 import { speakDay } from './dates';
-import { formatConcentration, formatIstClock, formatPercent, formatSigned } from './format';
+import { formatConcentration, formatIstClock, formatNumber, formatPercent, formatSigned } from './format';
 
 export type VerdictLens = { kind: 'good_days' } | { kind: 'pollutant'; pollutant: Pollutant };
 
@@ -45,14 +45,24 @@ export function describeVerdict(
   comparisonLabel: string,
 ): Verdict | null {
   const digits = lens.kind === 'pollutant' && lens.pollutant === 'CO' ? 2 : lens.kind === 'pollutant' ? 1 : 0;
-  const changes = cities.flatMap(({ city, base, comparison, change }) => {
+  const changes = cities.flatMap(({ city, base, comparison, change }): ListedChange[] => {
     if (!change || !comparison) return [];
-    if (lens.kind === 'good_days') return [{ name: city.name, delta: change.aqi_days.good }];
+    if (lens.kind === 'good_days') {
+      return [
+        { name: city.name, delta: change.aqi_days.good, before: base.aqi_days.good, after: comparison.aqi_days.good },
+      ];
+    }
     const delta = change.pollutant_means[lens.pollutant];
+    const before = base.pollutant_means[lens.pollutant];
+    const after = comparison.pollutant_means[lens.pollutant];
     const hidden = lens.pollutant === 'PM2.5' && (base.pm25_below_floor || comparison.pm25_below_floor);
-    return delta === undefined || hidden ? [] : [{ name: city.name, delta: Number(delta.toFixed(digits)) }];
+    return delta === undefined || before === undefined || after === undefined || hidden
+      ? []
+      : [{ name: city.name, delta: Number(delta.toFixed(digits)), before, after }];
   });
   if (!changes.length) return null;
+  // "Median" and "of 1 city" mean nothing for one city, so it gets a sentence of its own.
+  if (changes.length === 1) return describeOneCity(changes[0], lens, comparisonLabel, digits);
 
   const n = changes.length;
   const ofN = (count: number) => `${count} of ${n} ${n === 1 ? 'city' : 'cities'}`;
@@ -93,6 +103,47 @@ export function describeVerdict(
     }
     return parts;
   };
+  return {
+    sentence,
+    detail: shown(unitFor(pollutant)).join(' · '),
+    spokenDetail: `${shown(spokenUnitFor(pollutant)).join('. ')}.`,
+  };
+}
+
+interface ListedChange {
+  name: string;
+  /** Comparison minus base, rounded as it is shown. */
+  delta: number;
+  before: number;
+  after: number;
+}
+
+/** "Delhi had 4 fewer good days in FY 25-26", with the two values underneath. */
+function describeOneCity(
+  { name, delta, before, after }: ListedChange,
+  lens: VerdictLens,
+  comparisonLabel: string,
+  digits: number,
+): Verdict {
+  if (lens.kind === 'good_days') {
+    const amount = Math.abs(delta);
+    const sentence =
+      delta === 0
+        ? `${name} had the same number of good days in ${comparisonLabel}`
+        : `${name} had ${amount} ${delta > 0 ? 'more' : 'fewer'} good ${amount === 1 ? 'day' : 'days'} in ${comparisonLabel}`;
+    const detail = `From ${before} to ${after} good days`;
+    return { sentence, detail, spokenDetail: `${detail}.` };
+  }
+
+  const { pollutant } = lens;
+  const sentence =
+    delta === 0
+      ? `${name}'s average ${pollutant} didn't change in ${comparisonLabel}`
+      : `${name} had ${delta < 0 ? 'lower' : 'higher'} ${pollutant} in ${comparisonLabel}`;
+  const shown = (unit: string) => [
+    'Lower is better',
+    `From ${formatNumber(before, digits)} to ${formatNumber(after, digits)} ${unit}`,
+  ];
   return {
     sentence,
     detail: shown(unitFor(pollutant)).join(' · '),
