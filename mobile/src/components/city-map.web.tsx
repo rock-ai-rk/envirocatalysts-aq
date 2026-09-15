@@ -1,4 +1,5 @@
 import type { OverviewCity } from '@/api/types';
+import type { MapColour } from '@/components/city-map';
 import { SectionCard } from '@/components/section-card';
 import { StatusMessage } from '@/components/status-message';
 import type { PeriodView } from '@/constants/periods';
@@ -6,6 +7,7 @@ import type { PeriodView } from '@/constants/periods';
 interface Props {
   cities: OverviewCity[];
   view: PeriodView;
+  colour: MapColour;
   onSelect: (cityId: number) => void;
 }
 

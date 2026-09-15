@@ -62,6 +62,8 @@ simplest to explain. The README has the longer reasoning.
 - **Category checkboxes that hide bar segments were skipped.** A legend that is also a filter is hard to use by touch and to explain to a screen reader.
 - **CSV download was skipped.** It isn't a phone task, and the API serves the same data as JSON.
 - **Apple Maps on iOS.** It needs no key, and the source's map was covered by an "API KEY REQUIRED" watermark.
+- **The map colours cities by category or by one pollutant's average, chosen in one chip row.** With a pollutant chosen, the rows and the verdict switch to it too, and the legend gives each CPCB band's range, so the map, the rows and the key always agree.
+- **A hollow dot means no value for that year.** The map doesn't fall back to the other year's data.
 - **Haptics only confirm a change.** A tick marks a changed choice or a crossed chart point, and the screen always changes too.
 - **System font and Expo's icon.** A brand typeface and a custom icon need a development build.
 

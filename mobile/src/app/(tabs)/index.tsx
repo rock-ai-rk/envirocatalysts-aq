@@ -6,12 +6,12 @@ import { useMeta, useOverview } from '@/api/history';
 import type { Pollutant } from '@/api/live';
 import type { OverviewCity } from '@/api/types';
 import { Legend } from '@/components/charts/legend';
-import { CityMap } from '@/components/city-map';
+import { CityMap, type MapColour } from '@/components/city-map';
 import { useScreenDataset } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
-import { OverviewDeck, type OverviewMetric } from '@/components/overview-deck';
+import { OverviewDeck, type MapColourBy, type OverviewMetric } from '@/components/overview-deck';
 import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
 import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
 import { StatusCapsules } from '@/components/status-capsules';
@@ -21,7 +21,7 @@ import { VerdictCard } from '@/components/verdict-card';
 import { AQI_CATEGORIES } from '@/constants/aqi';
 import { DEFAULT_MIN_COVERAGE } from '@/constants/coverage';
 import { PLACEHOLDER_PERIODS, shortPeriodLabel, type PeriodView } from '@/constants/periods';
-import { POLLUTANT_ORDER, pollutantColor } from '@/constants/pollutants';
+import { concentrationBands, POLLUTANT_ORDER, pollutantColor, unitFor } from '@/constants/pollutants';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
@@ -55,6 +55,7 @@ export default function OverviewScreen() {
   const [view, setView] = useState<PeriodView>('base');
   const [metric, setMetric] = useState<OverviewMetric>('aqi_days');
   const [pollutant, setPollutant] = useState<Pollutant>('PM2.5');
+  const [mapColourBy, setMapColourBy] = useState<MapColourBy>('category');
   // At large text sizes the controls take up much of the screen, so they scroll away instead.
   const largeText = useLargeText();
   const refresh = usePullToRefresh();
@@ -62,7 +63,11 @@ export default function OverviewScreen() {
   const data = overview.data;
   const cities = useMemo(() => data?.cities ?? [], [data]);
   const periods = data ? { base: data.base, comparison: data.comparison } : null;
-  const rowMetric: RowMetric = metric === 'map' ? 'aqi_days' : metric;
+  // Under the map, the rows show what the dots are coloured by.
+  const rowMetric: RowMetric =
+    metric === 'map' ? (mapColourBy === 'concentration' ? 'pollutants' : 'aqi_days') : metric;
+  const mapColour: MapColour =
+    mapColourBy === 'concentration' ? { kind: 'concentration', pollutant } : { kind: 'category' };
   const { base, comparison } = periods ?? PLACEHOLDER_PERIODS;
 
   const verdict = useMemo(
@@ -70,11 +75,11 @@ export default function OverviewScreen() {
       data
         ? describeVerdict(
             data.cities,
-            metric === 'pollutants' ? { kind: 'pollutant', pollutant } : { kind: 'good_days' },
+            rowMetric === 'pollutants' ? { kind: 'pollutant', pollutant } : { kind: 'good_days' },
             shortPeriodLabel(data.comparison.label),
           )
         : null,
-    [data, metric, pollutant],
+    [data, rowMetric, pollutant],
   );
 
   const scaleMax = useMemo(
@@ -109,6 +114,8 @@ export default function OverviewScreen() {
       onMetric={setMetric}
       pollutant={pollutant}
       onPollutant={setPollutant}
+      mapColourBy={mapColourBy}
+      onMapColourBy={setMapColourBy}
     />
   );
 
@@ -130,9 +137,22 @@ export default function OverviewScreen() {
       case 'deck':
         return deck;
       case 'map':
-        return <CityMap cities={cities} view={view} onSelect={openCity} />;
+        return <CityMap cities={cities} view={view} colour={mapColour} onSelect={openCity} />;
       case 'legend':
-        return <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />;
+        // Concentrations are coloured by the CPCB band they fall in, so the key gives each band's range.
+        return rowMetric === 'pollutants' ? (
+          <Legend
+            title={`Yearly average ${pollutant} (${unitFor(pollutant)}), by CPCB band`}
+            items={concentrationBands(pollutant).map(({ category, range }) => ({
+              key: category.key,
+              label: `${category.label} ${range}`,
+              color: category.color,
+              category,
+            }))}
+          />
+        ) : (
+          <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
+        );
       case 'city':
         return periods ? (
           <OverviewCityRow

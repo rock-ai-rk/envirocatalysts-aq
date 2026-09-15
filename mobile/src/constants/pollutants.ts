@@ -43,3 +43,23 @@ export function categoryForConcentration(pollutant: Pollutant, value: number): A
   const index = BREAKPOINTS[pollutant].findIndex((upper) => value <= upper);
   return AQI_CATEGORIES[index === -1 ? AQI_CATEGORIES.length - 1 : index];
 }
+
+/**
+ * Each category's concentration range for one pollutant, written as CPCB writes them:
+ * PM2.5 is "0–30", "31–60" … ">250" µg/m³, and CO "0–1.0", "1.1–2.0" … mg/m³.
+ */
+export function concentrationBands(pollutant: Pollutant): { category: AqiCategory; range: string }[] {
+  const bounds = BREAKPOINTS[pollutant];
+  const decimals = pollutant === 'CO' ? 1 : 0;
+  const step = pollutant === 'CO' ? 0.1 : 1;
+  const format = (value: number) => value.toFixed(decimals);
+  return AQI_CATEGORIES.map((category, i) => ({
+    category,
+    range:
+      i === 0
+        ? `0–${format(bounds[0])}`
+        : i < bounds.length
+          ? `${format(bounds[i - 1] + step)}–${format(bounds[i])}`
+          : `>${format(bounds[bounds.length - 1])}`,
+  }));
+}

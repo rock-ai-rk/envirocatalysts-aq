@@ -221,7 +221,7 @@ it land in the same commit.
 | Rank by (11 options) | Metric (good days, PM2.5, PM10, NO2, O3, CO) plus best or worst first | Same 11 outcomes, two controls |
 | AQI days, concentration, dominant-pollutant charts, both periods side by side | One list, with tabs for AQI days, pollutant levels and dominant pollutant; toggle for FY 24-25, FY 25-26 or Change | Readable at 375 pt; Change is new |
 | Category checkboxes that hide bar segments | Skipped | A legend that is also a filter is hard to use by touch and to explain to a screen reader. Each row speaks all its categories instead. |
-| Map with category buttons | Map tab: dots coloured by each city's most common category | The source map was broken |
+| Map with category buttons | Map tab: dots coloured by each city's most common category, or by the CPCB band of its average PM2.5, PM10, NO2, O3 or CO; the legend gives each band's range | The source map was broken |
 | CSV download per panel | Skipped | Not a phone task; the API serves the same data as JSON |
 | Calendars, overshoot, FY trend, multi-city series (lower on the page) | Skipped | Outside the two screens in the brief |
 | Hourly: state → city → station dropdowns, "City average" | One searchable station list with favourites and recents; the city average was dropped | The hourly series belongs to a station (the live estimate above it is for the station's city) |
