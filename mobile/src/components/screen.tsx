@@ -1,16 +1,40 @@
 import type { ReactNode } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 
-/** Scrollable tab screen with a heading, safe-area padding and a readable max width on tablets. */
-export function Screen({ title, children }: { title: string; children: ReactNode }) {
+/**
+ * Scrollable tab screen with a heading, safe-area padding and a readable max width on tablets.
+ * Pass `refresh` (from usePullToRefresh) for pull to refresh.
+ */
+export function Screen({
+  title,
+  refresh,
+  children,
+}: {
+  title: string;
+  refresh?: { refreshing: boolean; onRefresh: () => void };
+  children: ReactNode;
+}) {
+  const theme = useTheme();
   return (
     <ScreenFrame>
-      <ScrollView contentContainerStyle={screenStyles.content}>
+      <ScrollView
+        contentContainerStyle={screenStyles.content}
+        refreshControl={
+          refresh ? (
+            <RefreshControl
+              refreshing={refresh.refreshing}
+              onRefresh={refresh.onRefresh}
+              tintColor={theme.accent}
+              colors={[theme.accent]}
+            />
+          ) : undefined
+        }>
         <ScreenTitle>{title}</ScreenTitle>
         {children}
       </ScrollView>

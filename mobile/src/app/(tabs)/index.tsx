@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 
 import { useMeta, useOverview } from '@/api/history';
 import type { Pollutant } from '@/api/live';
@@ -24,6 +24,7 @@ import { PLACEHOLDER_PERIODS, shortPeriodLabel, type PeriodView } from '@/consta
 import { POLLUTANT_ORDER, pollutantColor } from '@/constants/pollutants';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import { useTheme } from '@/hooks/use-theme';
 import { describeVerdict } from '@/lib/describe';
 import { toOverviewParams, useOverviewFilters } from '@/state/overview-filters';
@@ -56,6 +57,7 @@ export default function OverviewScreen() {
   const [pollutant, setPollutant] = useState<Pollutant>('PM2.5');
   // At large text sizes the controls take up much of the screen, so they scroll away instead.
   const largeText = useLargeText();
+  const refresh = usePullToRefresh();
 
   const data = overview.data;
   const cities = useMemo(() => data?.cities ?? [], [data]);
@@ -225,6 +227,14 @@ export default function OverviewScreen() {
         keyExtractor={(item) => (item.kind === 'city' ? String(item.city.city.id) : item.kind)}
         renderItem={renderItem}
         stickyHeaderIndices={items.length && !largeText ? [DECK_INDEX] : undefined}
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh.refreshing}
+            onRefresh={refresh.onRefresh}
+            tintColor={theme.accent}
+            colors={[theme.accent]}
+          />
+        }
         ListHeaderComponent={header}
         ListEmptyComponent={empty}
         ListFooterComponent={footer}

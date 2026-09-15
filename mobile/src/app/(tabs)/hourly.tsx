@@ -28,6 +28,7 @@ import {
   type PeriodView,
 } from '@/constants/periods';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import { useTheme } from '@/hooks/use-theme';
 import { describeExceedance, describeHourProfile } from '@/lib/describe';
 import { formatDay } from '@/lib/format';
@@ -46,6 +47,7 @@ export default function HourlyScreen() {
   const { selection, select } = useHourlySelection();
   const [view, setView] = useState<PeriodView>('base');
   const cities = useHourlyCities();
+  const refresh = usePullToRefresh();
   const meta = useMeta();
 
   const resolved = resolveStation(cities.data, selection);
@@ -73,7 +75,7 @@ export default function HourlyScreen() {
   const baseline = data && view === 'change' ? data.base : undefined;
 
   return (
-    <Screen title="Hourly analysis">
+    <Screen title="Hourly analysis" refresh={refresh}>
       <OfflineBanner />
       <DemoDataBanner screen="hourly" />
 
