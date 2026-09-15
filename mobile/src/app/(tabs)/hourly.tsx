@@ -77,23 +77,22 @@ export default function HourlyScreen() {
       <OfflineBanner />
       <DemoDataBanner screen="hourly" />
 
+      {/* The station is the screen's subject, so it reads as a title; tapping it changes it. */}
       <FocusablePressable
         role="button"
         aria-label={`Showing ${entry && station ? `${station.name}, ${entry.city.name}` : 'no station'}. Change station`}
         onPress={() => router.push('/station-picker')}
         disabled={!entry}
-        style={[styles.place, { borderColor: theme.border }]}>
-        <View style={styles.placeText}>
-          <ThemedText type="small" themeColor="textSecondary">
-            Station
-          </ThemedText>
-          <ThemedText type="sectionTitle" numberOfLines={2}>
-            {entry && station ? `${station.name} · ${entry.city.name}` : 'No stations yet'}
-          </ThemedText>
-        </View>
-        <ThemedText type="smallBold" style={{ color: theme.accent }}>
-          Change
+        style={styles.place}>
+        <ThemedText type="smallBold" themeColor="textSecondary" style={styles.eyebrow}>
+          Station
         </ThemedText>
+        <ThemedText style={styles.placeName}>{station ? station.name : 'No stations yet'}</ThemedText>
+        {entry ? (
+          <ThemedText type="smallBold" style={{ color: theme.accent }}>
+            {`${entry.city.name} · Change station ⌄`}
+          </ThemedText>
+        ) : null}
       </FocusablePressable>
 
       {entry && station ? <LiveReadingCard cityId={entry.city.id} cityName={entry.city.name} /> : null}
@@ -270,15 +269,17 @@ function describeMonths(
 const styles = StyleSheet.create({
   place: {
     minHeight: MinTouchTarget,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.two,
-    padding: Spacing.three,
-    borderRadius: Spacing.three,
-    borderWidth: 1,
+    gap: Spacing.half,
+    borderRadius: Spacing.two,
   },
-  placeText: {
-    flex: 1,
+  eyebrow: {
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  placeName: {
+    fontSize: 24,
+    lineHeight: 30,
+    fontWeight: 700,
   },
   historyHeading: {
     marginTop: Spacing.two,
@@ -292,7 +293,8 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Spacing.three,
+    paddingHorizontal: Spacing.three,
+    borderRadius: 999,
     borderWidth: 1,
   },
 });

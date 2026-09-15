@@ -1,13 +1,15 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { useCityLive, type CityLive } from '@/api/live';
 import { AqiBadge } from '@/components/aqi-badge';
+import { AqiScale } from '@/components/aqi-scale';
 import { SourceCredit } from '@/components/source-credit';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { categoryByKey } from '@/constants/aqi';
 import { POLLUTANT_ORDER, spokenUnitFor } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useNow } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 import { formatAge, formatConcentration, formatIstClock, formatIstTimestamp } from '@/lib/format';
@@ -23,10 +25,11 @@ export function LiveReadingCard({ cityId, cityName }: { cityId: number; cityName
   const theme = useTheme();
   const query = useCityLive(cityId);
   const data = query.data;
+  const largeText = useLargeText();
 
   return (
     <View style={[styles.card, { borderColor: theme.accent, backgroundColor: theme.background }]}>
-      <View style={styles.header}>
+      <View style={[styles.header, largeText && styles.headerStacked]}>
         <View style={[styles.tag, { backgroundColor: theme.accent }]}>
           <View style={[styles.dot, { backgroundColor: theme.onAccent }]} />
           <ThemedText type="smallBold" style={{ color: theme.onAccent }}>
@@ -66,6 +69,9 @@ export function LiveReadingCard({ cityId, cityName }: { cityId: number; cityName
 function LiveBody({ data }: { data: CityLive }) {
   const theme = useTheme();
   const now = useNow();
+  // Side by side, the big figure squeezes the badge and "Driven by" to a word per line at large
+  // text sizes, so they stack.
+  const largeText = useLargeText();
 
   if (data.status === 'not_in_feed') {
     return (
@@ -108,9 +114,13 @@ function LiveBody({ data }: { data: CityLive }) {
             `Estimated air quality index ${data.aqi.value}, ${category.label}, driven by ${data.aqi.dominant}. ` +
             `For ${when}${stale ? `, out of date, ${formatAge(data.observed_at, true)}` : ''}.`
           }
-          style={styles.headline}>
-          <View style={styles.aqiNumber}>
-            <ThemedText style={styles.aqiValue}>{data.aqi.value}</ThemedText>
+          style={[styles.headline, largeText && styles.headlineStacked]}>
+          <View style={[styles.aqiNumber, largeText && styles.aqiNumberStacked]}>
+            {/* 44pt is already large text, so it grows at most 1.5x; the value is also in the spoken
+                label. A plain Text, so no default line height clips it. */}
+            <Text style={[styles.aqiValue, { color: theme.text }]} maxFontSizeMultiplier={1.5}>
+              {data.aqi.value}
+            </Text>
             <ThemedText type="small" themeColor="textSecondary">
               AQI (est.)
             </ThemedText>
@@ -128,6 +138,7 @@ function LiveBody({ data }: { data: CityLive }) {
           {`No AQI yet for ${formatIstClock(data.observed_at)}: CPCB’s formula needs a day of values for three pollutants, including PM2.5 or PM10.`}
         </ThemedText>
       )}
+      {data.aqi ? <AqiScale value={data.aqi.value} /> : null}
 
       {stale ? (
         <ThemedText type="smallBold" style={{ color: theme.worse }}>
@@ -177,6 +188,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.two,
   },
+  headerStacked: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
   title: {
     flex: 1,
   },
@@ -201,15 +216,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.three,
   },
+  headlineStacked: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
   aqiNumber: {
     alignItems: 'center',
     minWidth: 72,
   },
+  aqiNumberStacked: {
+    alignItems: 'flex-start',
+  },
+  // No fixed line height: one would keep growing with the text size while the figure is capped.
   aqiValue: {
     fontSize: 44,
-    lineHeight: 50,
     fontWeight: 700,
-    fontVariant: ['tabular-nums'],
   },
   headlineText: {
     flex: 1,
