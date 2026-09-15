@@ -47,12 +47,14 @@ export function KpiGrid({ period, from, pollutant, unit, thresholds }: Props) {
           <Card
             label={`Hours above NAAQS (${thresholds.naaqs})`}
             value={`${formatNumber(k.above_naaqs_pct, 1)}%`}
+            share={k.above_naaqs_pct}
             spoken={`${formatNumber(k.above_naaqs_pct, 1)} percent of hours above the Indian standard of ${thresholds.naaqs}`}
             delta={deltaOf(k.above_naaqs_pct, from?.kpis.above_naaqs_pct, 'pts', 1, 'percentage points')}
           />
           <Card
             label={`Hours above WHO (${thresholds.who})`}
             value={`${formatNumber(k.above_who_pct, 1)}%`}
+            share={k.above_who_pct}
             spoken={`${formatNumber(k.above_who_pct, 1)} percent of hours above the WHO guideline of ${thresholds.who}`}
             delta={deltaOf(k.above_who_pct, from?.kpis.above_who_pct, 'pts', 1, 'percentage points')}
           />
@@ -81,12 +83,15 @@ function Card({
   label,
   value,
   detail,
+  share,
   spoken,
   delta,
 }: {
   label: string;
   value: string;
   detail?: string | null;
+  /** A percentage, drawn as a meter under the value so the share of hours reads at a glance. */
+  share?: number | null;
   spoken: string;
   delta: { node: ReactNode; spoken: string } | null;
 }) {
@@ -100,6 +105,16 @@ function Card({
         {label}
       </ThemedText>
       <ThemedText type="sectionTitle">{value}</ThemedText>
+      {share !== undefined && share !== null ? (
+        <View aria-hidden style={[styles.meter, { backgroundColor: theme.backgroundSelected }]}>
+          <View
+            style={[
+              styles.meterFill,
+              { width: `${Math.min(Math.max(share, 0), 100)}%`, backgroundColor: theme.textSecondary },
+            ]}
+          />
+        </View>
+      ) : null}
       {detail ? (
         <ThemedText type="small" themeColor="textSecondary">
           {detail}
@@ -122,5 +137,15 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.three,
     padding: Spacing.three,
     gap: Spacing.half,
+  },
+  meter: {
+    height: 6,
+    borderRadius: 3,
+    overflow: 'hidden',
+    marginVertical: Spacing.one,
+  },
+  meterFill: {
+    height: '100%',
+    borderRadius: 3,
   },
 });
