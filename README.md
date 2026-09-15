@@ -58,6 +58,21 @@ npm start               # press i for the iOS simulator, or scan the QR code wit
 A phone on the same Wi-Fi works too, because the app finds the API on the machine running
 `npm start`.
 
+**Android APK** (installs without Expo Go; needs Android Studio's JDK and SDK):
+
+```bash
+cd mobile
+npx expo prebuild -p android            # generates android/ (not in git)
+cd android
+EXPO_PUBLIC_API_URL=http://<your-computer's-wifi-ip>:8000 \
+  ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a
+# -> android/app/build/outputs/apk/release/app-release.apk
+```
+
+The phone reaches the API over plain http on your Wi-Fi, which `app.json` allows through
+`expo-build-properties`. On an 8 GB machine, raise Gradle's metaspace in
+`android/gradle.properties` (`-XX:MaxMetaspaceSize=1024m`), or the build runs out of memory.
+
 **3. Checks:**
 - `pytest` in `backend/`: 152 tests. They also run on PostgreSQL if you set `TEST_DATABASE_URL`.
 - `npm run typecheck` in `mobile/`.
