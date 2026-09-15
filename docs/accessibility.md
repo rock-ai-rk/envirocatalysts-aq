@@ -38,7 +38,8 @@ Screenshot after the fixes, at Accessibility Large: [Overview rows](accessibilit
 
 The verdict card, status capsules, "Right now" capsules and pinned controls were checked on the
 iPhone SE (3rd gen) and iPhone 16 Pro simulators, in light and dark mode, at the default text size
-and at the largest one (*Accessibility XXXL*). Screenshots: [`redesign/`](redesign/).
+and at the largest one (*Accessibility XXXL*). Screenshots, retaken on the SE after the switch to the
+Halogen blue palette: [`redesign/`](redesign/).
 
 - **City rows at the largest size.** The headline figure ("319 good days") sat beside the city
   name and squeezed it to one letter per line. At large text sizes it now moves below the name.
@@ -86,7 +87,7 @@ New elements and how they reach screen readers:
 
 Screenshots: [Hourly on the SE](redesign/hourly-iphonese-light.png),
 [night hours shaded](redesign/hourly-night-hours-iphonese.png),
-[the year in days](redesign/city-year-in-days-iphone16pro.png).
+[the year in days](redesign/city-year-in-days-iphonese.png).
 
 ## Screen reader design
 
