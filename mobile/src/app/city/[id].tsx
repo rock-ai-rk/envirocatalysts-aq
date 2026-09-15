@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useCityDetail, useMeta } from '@/api/history';
 import type { AqiCategoryKey, CityChange, CityPeriodStats } from '@/api/types';
+import { AirYear } from '@/components/charts/air-year';
 import { ComparisonTable, type ComparisonRow } from '@/components/comparison-table';
 import { CoverageChip } from '@/components/coverage-chip';
 import { DeltaChip, describeDelta } from '@/components/delta-chip';
@@ -24,6 +25,7 @@ import {
   unitFor,
 } from '@/constants/pollutants';
 import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber } from '@/lib/format';
 import { useHourlySelection } from '@/state/hourly-selection';
@@ -56,6 +58,7 @@ export default function CityDetailScreen() {
     filters.comparison,
   );
   const minCoverage = useMeta().data?.rules.min_coverage ?? DEFAULT_MIN_COVERAGE;
+  const largeText = useLargeText();
 
   if (isPending) return <Frame title="City"><StatusMessage kind="loading" /></Frame>;
   if (isError) {
@@ -106,6 +109,26 @@ export default function CityDetailScreen() {
               </ThemedText>
             ),
           )}
+        </View>
+      </SectionCard>
+
+      {/* The two years as pictures first; the table below has the exact numbers and changes. */}
+      <SectionCard
+        title="The year in days"
+        subtitle="Each square is one day, grouped by category (not in date order). Empty squares: no data.">
+        <View style={[styles.years, largeText && styles.yearsStacked]}>
+          <AirYear
+            label={baseLabel}
+            spokenLabel={data.base.label}
+            aqiDays={base?.aqi_days ?? null}
+            daysInPeriod={data.base.days}
+          />
+          <AirYear
+            label={comparisonLabel}
+            spokenLabel={data.comparison.label}
+            aqiDays={comparison?.aqi_days ?? null}
+            daysInPeriod={data.comparison.days}
+          />
         </View>
       </SectionCard>
 
@@ -254,6 +277,14 @@ function Frame({ title, children }: { title: string; children: ReactNode }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  years: {
+    flexDirection: 'row',
+    gap: Spacing.three,
+  },
+  // At large text sizes the labels need the width, so the years sit one above the other.
+  yearsStacked: {
+    flexDirection: 'column',
   },
   content: {
     width: '100%',
