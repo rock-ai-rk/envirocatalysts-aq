@@ -9,13 +9,96 @@ import type {
   CityPeriodStats,
   HourBin,
   HourlyPeriod,
+  OverviewCity,
   SeriesPoint,
   StationSeries,
 } from '../api/types';
 import { AQI_CATEGORIES } from '../constants/aqi';
-import { POLLUTANT_ORDER, categoryForConcentration, spokenUnitFor } from '../constants/pollutants';
+import {
+  POLLUTANT_ORDER,
+  categoryForConcentration,
+  spokenUnitFor,
+  unitFor,
+} from '../constants/pollutants';
 import { speakDay } from './dates';
-import { formatConcentration, formatIstClock, formatPercent } from './format';
+import { formatConcentration, formatIstClock, formatPercent, formatSigned } from './format';
+
+export type VerdictLens = { kind: 'good_days' } | { kind: 'pollutant'; pollutant: Pollutant };
+
+export interface Verdict {
+  /** "7 of 10 cities had more good days in FY 25-26". */
+  sentence: string;
+  /** "Median +12 good days · Biggest drop: Delhi (−18)". */
+  detail: string;
+  /** The detail with units written out, for screen readers. */
+  spokenDetail: string;
+}
+
+/**
+ * The Overview's answer to "did the air get better or worse?", from the listed cities that have
+ * data for both periods. Good days: more is better. A pollutant: a lower average is better, and
+ * PM2.5 averages under the sensor-fault floor are left out, as the list leaves them out.
+ */
+export function describeVerdict(
+  cities: OverviewCity[],
+  lens: VerdictLens,
+  comparisonLabel: string,
+): Verdict | null {
+  const digits = lens.kind === 'pollutant' && lens.pollutant === 'CO' ? 2 : lens.kind === 'pollutant' ? 1 : 0;
+  const changes = cities.flatMap(({ city, base, comparison, change }) => {
+    if (!change || !comparison) return [];
+    if (lens.kind === 'good_days') return [{ name: city.name, delta: change.aqi_days.good }];
+    const delta = change.pollutant_means[lens.pollutant];
+    const hidden = lens.pollutant === 'PM2.5' && (base.pm25_below_floor || comparison.pm25_below_floor);
+    return delta === undefined || hidden ? [] : [{ name: city.name, delta: Number(delta.toFixed(digits)) }];
+  });
+  if (!changes.length) return null;
+
+  const n = changes.length;
+  const ofN = (count: number) => `${count} of ${n} ${n === 1 ? 'city' : 'cities'}`;
+  const up = changes.filter((c) => c.delta > 0).length;
+  const down = changes.filter((c) => c.delta < 0).length;
+  const sorted = [...changes].sort((a, b) => a.delta - b.delta);
+  const middle = Math.floor(n / 2);
+  const median = n % 2 ? sorted[middle].delta : (sorted[middle - 1].delta + sorted[middle].delta) / 2;
+
+  if (lens.kind === 'good_days') {
+    const sentence =
+      up === 0 && down === 0
+        ? `None of the ${n} cities changed their number of good days in ${comparisonLabel}`
+        : up >= down
+          ? `${ofN(up)} had more good days in ${comparisonLabel}`
+          : `${ofN(down)} had fewer good days in ${comparisonLabel}`;
+    // The city that lost the most good days, or if none lost any, the one that gained the most.
+    const standout = down ? { word: 'drop', ...sorted[0] } : up ? { word: 'gain', ...sorted[n - 1] } : null;
+    const parts = [`Median ${formatSigned(median)} good days`];
+    if (standout) parts.push(`Biggest ${standout.word}: ${standout.name} (${formatSigned(standout.delta)})`);
+    const detail = parts.join(' · ');
+    return { sentence, detail, spokenDetail: `${detail.replaceAll(' · ', '. ')}.` };
+  }
+
+  const { pollutant } = lens;
+  const sentence =
+    up === 0 && down === 0
+      ? `None of the ${n} cities changed their average ${pollutant} in ${comparisonLabel}`
+      : down >= up
+        ? `${ofN(down)} had lower ${pollutant} in ${comparisonLabel}`
+        : `${ofN(up)} had higher ${pollutant} in ${comparisonLabel}`;
+  // For a pollutant the worst change is the biggest rise.
+  const standout = up ? { word: 'rise', ...sorted[n - 1] } : down ? { word: 'fall', ...sorted[0] } : null;
+  const shown = (unit: string) => {
+    const parts = ['Lower is better', `Median ${formatSigned(median, digits)} ${unit}`];
+    if (standout) {
+      parts.push(`Biggest ${standout.word}: ${standout.name} (${formatSigned(standout.delta, digits)})`);
+    }
+    return parts;
+  };
+  return {
+    sentence,
+    detail: shown(unitFor(pollutant)).join(' · '),
+    spokenDetail: `${shown(spokenUnitFor(pollutant)).join('. ')}.`,
+  };
+}
 
 /** "320 good, 30 satisfactory and 5 moderate days" (categories with zero days are skipped). */
 export function describeAqiDays(aqiDays: Record<AqiCategoryKey, number>): string {

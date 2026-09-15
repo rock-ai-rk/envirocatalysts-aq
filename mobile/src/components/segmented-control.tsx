@@ -64,9 +64,10 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
 }
 
 const styles = StyleSheet.create({
+  // Capsule-shaped, like the other controls.
   track: {
     flexDirection: 'row',
-    borderRadius: Spacing.three,
+    borderRadius: 999,
     borderWidth: 1,
     padding: Spacing.half,
     gap: Spacing.half,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: Spacing.two,
-    borderRadius: Spacing.three - Spacing.half,
+    borderRadius: 999,
   },
   segmentStacked: {
     flex: 0,
