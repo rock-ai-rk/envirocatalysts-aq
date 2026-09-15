@@ -12,10 +12,11 @@ import { useScreenDataset } from '@/components/demo-data-banner';
 import { FilterSummaryBar } from '@/components/filter-summary-bar';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { LiveCitiesCard } from '@/components/live-cities-card';
-import { OverviewDeck, type MapColourBy, type OverviewMetric } from '@/components/overview-deck';
 import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
+import { OverviewDeck, type MapColourBy, type OverviewMetric } from '@/components/overview-deck';
 import { OverviewTable } from '@/components/overview-table';
 import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
+import { SkeletonCityRows } from '@/components/skeleton';
 import { StatusCapsules } from '@/components/status-capsules';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
@@ -223,7 +224,7 @@ export default function OverviewScreen() {
   );
 
   const empty = overview.isPending ? (
-    <StatusMessage kind="loading" message="Loading cities…" />
+    <SkeletonCityRows />
   ) : overview.isError ? (
     meta.data && meta.data.periods.length === 0 ? (
       <StatusMessage

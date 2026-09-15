@@ -11,6 +11,7 @@ import { DeltaChip, describeDelta } from '@/components/delta-chip';
 import { DemoDataBanner } from '@/components/demo-data-banner';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SectionCard } from '@/components/section-card';
+import { SkeletonChart, SkeletonLines } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -60,7 +61,14 @@ export default function CityDetailScreen() {
   const minCoverage = useMeta().data?.rules.min_coverage ?? DEFAULT_MIN_COVERAGE;
   const largeText = useLargeText();
 
-  if (isPending) return <Frame title="City"><StatusMessage kind="loading" /></Frame>;
+  if (isPending) {
+    return (
+      <Frame title="City">
+        <SkeletonLines label="Loading this city" lines={2} />
+        <SkeletonChart label="Loading the year in days" height={200} />
+      </Frame>
+    );
+  }
   if (isError) {
     return (
       <Frame title="City">

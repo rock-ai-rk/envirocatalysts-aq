@@ -134,7 +134,8 @@ Five additions, and why each matters to someone checking air quality on a phone:
    points with a swipe.
 3. **Works offline, says how old the data is.** Air quality gets checked on the move, on weak
    connections. The app opens on its last data, says "Updated 2 h ago" or "Offline", and never
-   spins forever.
+   spins forever. A first load shows grey shapes of the content that's coming, so nothing jumps
+   when it arrives.
 4. **Colour is never the only signal.** The source's yellow "Moderate" was 1.07:1 on white, and
    about 1 in 12 men can't tell its greens apart. Every category now also has its name and a level
    meter, and every colour pairing passes WCAG AA.
@@ -309,8 +310,7 @@ What was checked, what broke and how it was fixed: [docs/accessibility.md](docs/
   development build, not Expo Go.
 - **A daily calendar per station:** the "year in days" in date order. It needs a daily endpoint
   built from `station_hourly`, using CPCB's 16-valid-hours rule.
-- **A peek card on the map** in place of the callout, and loading skeletons shaped like the
-  content.
+- **A peek card on the map** in place of the callout.
 - **A CPCB monitor feed** for the live card, if a data.gov.in key becomes available. The first
   version of the scraper is in the git history.
 

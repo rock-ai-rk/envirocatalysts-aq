@@ -22,6 +22,9 @@ export const palette = {
     noticeText: '#7A2E0E',
     // Behind the night hours of the hour-of-day chart; drawn on backgroundElement.
     nightBand: '#E3EAF2',
+    // Loading placeholders. Decorative, so not held to a contrast ratio, but visible on both the
+    // page and a card.
+    skeleton: '#CBD8E6',
   },
   dark: {
     text: '#EAF2FA',
@@ -37,6 +40,7 @@ export const palette = {
     noticeBackground: '#3A2A05',
     noticeText: '#FCD34D',
     nightBand: '#0C1826',
+    skeleton: '#243B54',
   },
 } as const;
 

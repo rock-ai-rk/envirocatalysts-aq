@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { useDayHeatmap } from '@/api/history';
 import type { HourlyPollutant } from '@/api/types';
 import { HeatmapGrid } from '@/components/charts/heatmap-grid';
+import { SkeletonChart } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -24,7 +25,7 @@ export default function HourlyDayScreen() {
       <Stack.Screen options={{ title: formatDay(params.day) }} />
       <ScrollView contentContainerStyle={styles.content}>
         {isPending ? (
-          <StatusMessage kind="loading" />
+          <SkeletonChart label="Loading every station's hours" height={240} />
         ) : isError ? (
           <StatusMessage kind="error" message={error.message} onRetry={() => refetch()} />
         ) : (

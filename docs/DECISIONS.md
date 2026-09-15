@@ -68,6 +68,9 @@ simplest to explain. The README has the longer reasoning.
 - **Apple Maps on iOS.** It needs no key, and the source's map was covered by an "API KEY REQUIRED" watermark.
 - **The map colours cities by category or by one pollutant's average, chosen in one chip row.** With a pollutant chosen, the rows and the verdict switch to it too, and the legend gives each CPCB band's range, so the map, the rows and the key always agree.
 - **A hollow dot means no value for that year.** The map doesn't fall back to the other year's data.
+- **Skeletons shaped like the content, not spinners.** The screen keeps its layout while it loads, so nothing jumps when the data arrives. They pulse gently, hold still under Reduce Motion, and each is one screen-reader element that says what is loading.
+- **Offline, a skeleton becomes a message.** Requests pause without a connection, so a pulsing placeholder would wait forever; it says "Waiting for a connection" instead.
+- **Only the first load shows a skeleton.** A new filter combination keeps the previous list on screen until the new one arrives.
 - **Haptics only confirm a change.** A tick marks a changed choice or a crossed chart point, and the screen always changes too.
 - **System font and Expo's icon.** A brand typeface and a custom icon need a development build.
 

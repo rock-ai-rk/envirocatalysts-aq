@@ -6,6 +6,7 @@ import type { CityGroup } from '@/api/types';
 import { CategorySwatch } from '@/components/aqi-badge';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SectionCard } from '@/components/section-card';
+import { SkeletonCapsules } from '@/components/skeleton';
 import { SourceCredit } from '@/components/source-credit';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
@@ -59,7 +60,7 @@ export function LiveCitiesCard({ state, group }: { state: string | null; group: 
         </>
       }>
       {query.isPending ? (
-        <StatusMessage kind="loading" message="Loading the latest estimates…" />
+        <SkeletonCapsules label="Loading the latest estimates" />
       ) : query.isError ? (
         <StatusMessage kind="error" message={query.error.message} onRetry={() => query.refetch()} />
       ) : cities.length === 0 ? (

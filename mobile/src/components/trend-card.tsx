@@ -9,6 +9,7 @@ import { WindowStrip } from '@/components/charts/window-strip';
 import { ChoiceChip } from '@/components/choice-chip';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SectionCard } from '@/components/section-card';
+import { SkeletonChart } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { shortPeriodLabel, type PeriodView } from '@/constants/periods';
@@ -140,7 +141,7 @@ export function TrendCard({ station, pollutant, view, base, comparison }: Props)
       {series.isError && !data ? (
         <StatusMessage kind="error" message={series.error.message} onRetry={() => series.refetch()} />
       ) : !data ? (
-        <StatusMessage kind="loading" message="Loading hourly values…" />
+        <SkeletonChart label="Loading hourly values" />
       ) : data.stats.hours_with_data === 0 ? (
         <StatusMessage
           kind="empty"

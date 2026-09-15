@@ -6,6 +6,7 @@ import { useCoverage, useOverview } from '@/api/history';
 import type { CityCoverage, ExcludedCity } from '@/api/types';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SectionCard } from '@/components/section-card';
+import { SkeletonLines } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -37,7 +38,7 @@ export default function CoverageScreen() {
       ) : null}
 
       {isPending ? (
-        <StatusMessage kind="loading" />
+        <SkeletonLines label="Loading the coverage rules" lines={4} />
       ) : isError ? (
         <StatusMessage kind="error" message={error.message} onRetry={() => refetch()} />
       ) : (
@@ -86,7 +87,7 @@ function CityCoverageCard({
 }) {
   const { data, isPending, isError, error, refetch } = useCoverage(cityId, period);
 
-  if (isPending) return <StatusMessage kind="loading" message="Checking this city’s data…" />;
+  if (isPending) return <SkeletonLines label="Checking this city’s data" lines={3} />;
   if (isError) return <StatusMessage kind="error" message={error.message} onRetry={() => refetch()} />;
 
   const { rules } = data;

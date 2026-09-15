@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useCityLive, type CityLive } from '@/api/live';
 import { AqiBadge } from '@/components/aqi-badge';
 import { AqiScale } from '@/components/aqi-scale';
+import { SkeletonEstimate } from '@/components/skeleton';
 import { SourceCredit } from '@/components/source-credit';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
@@ -45,7 +46,7 @@ export function LiveReadingCard({ cityId, cityName }: { cityId: number; cityName
       </ThemedText>
 
       {query.isPending ? (
-        <StatusMessage kind="loading" message="Loading the latest estimate…" />
+        <SkeletonEstimate />
       ) : !data ? (
         <StatusMessage
           kind="error"

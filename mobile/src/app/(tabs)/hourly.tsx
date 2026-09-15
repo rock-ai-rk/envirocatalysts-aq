@@ -18,6 +18,7 @@ import { OfflineBanner } from '@/components/offline-banner';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { SegmentedControl } from '@/components/segmented-control';
+import { Bone, SkeletonChart } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { TrendCard } from '@/components/trend-card';
@@ -82,14 +83,31 @@ export default function HourlyScreen() {
       {/* The station is the screen's subject, so it reads as a title; tapping it changes it. */}
       <FocusablePressable
         role="button"
-        aria-label={`Showing ${entry && station ? `${station.name}, ${entry.city.name}` : 'no station'}. Change station`}
+        aria-label={
+          entry && station
+            ? `Showing ${station.name}, ${entry.city.name}. Change station`
+            : cities.isPending
+              ? 'Loading stations'
+              : cities.isError
+                ? 'Stations unavailable'
+                : 'No stations yet'
+        }
         onPress={() => router.push('/station-picker')}
         disabled={!entry}
         style={styles.place}>
         <ThemedText type="smallBold" themeColor="textSecondary" style={styles.eyebrow}>
           Station
         </ThemedText>
-        <ThemedText style={styles.placeName}>{station ? station.name : 'No stations yet'}</ThemedText>
+        {/* Until the list arrives there is no station to name; if it fails, the error below says why. */}
+        {station ? (
+          <ThemedText style={styles.placeName}>{station.name}</ThemedText>
+        ) : cities.isPending ? (
+          <Bone width="60%" height={28} />
+        ) : (
+          <ThemedText style={styles.placeName}>
+            {cities.isError ? 'Stations unavailable' : 'No stations yet'}
+          </ThemedText>
+        )}
         {entry ? (
           <ThemedText type="smallBold" style={{ color: theme.accent }}>
             {`${entry.city.name} · Change station ⌄`}
@@ -138,7 +156,10 @@ export default function HourlyScreen() {
       ) : summary.isError ? (
         <StatusMessage kind="error" message={summary.error.message} onRetry={() => summary.refetch()} />
       ) : !data || !shown ? (
-        <StatusMessage kind="loading" message="Loading hourly data…" />
+        <>
+          <SkeletonChart label="Loading hourly data" height={96} />
+          <SkeletonChart label="Loading the hour-of-day chart" />
+        </>
       ) : (
         <>
           <KpiGrid
@@ -184,7 +205,7 @@ export default function HourlyScreen() {
             ) : heatmap.isError ? (
               <StatusMessage kind="error" message={heatmap.error.message} onRetry={() => heatmap.refetch()} />
             ) : (
-              <StatusMessage kind="loading" />
+              <SkeletonChart label="Loading stations by hour" height={140} />
             )}
           </SectionCard>
 

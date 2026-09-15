@@ -5,6 +5,7 @@ import { SectionList, StyleSheet, TextInput, View } from 'react-native';
 import { useHourlyCities } from '@/api/history';
 import type { City, Station } from '@/api/types';
 import { FocusablePressable } from '@/components/focusable-pressable';
+import { SkeletonLines } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -112,7 +113,7 @@ export default function StationPickerScreen() {
         }
         ListEmptyComponent={
           cities.isPending ? (
-            <StatusMessage kind="loading" />
+            <SkeletonLines label="Loading stations" lines={6} />
           ) : cities.isError ? (
             <StatusMessage kind="error" message={cities.error.message} onRetry={() => cities.refetch()} />
           ) : (
