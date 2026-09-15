@@ -29,9 +29,13 @@ export function ScreenFrame({ children }: { children: ReactNode }) {
   );
 }
 
+// At 28pt a title is already large text; beyond 2x a word like "analysis" no longer fits a phone
+// and breaks mid-word.
+const TITLE_MAX_SCALE = 2;
+
 export function ScreenTitle({ children }: { children: string }) {
   return (
-    <ThemedText type="screenTitle" role="heading">
+    <ThemedText type="screenTitle" role="heading" maxFontSizeMultiplier={TITLE_MAX_SCALE}>
       {children}
     </ThemedText>
   );

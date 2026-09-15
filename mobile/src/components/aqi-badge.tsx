@@ -26,7 +26,12 @@ export function AqiBadge({ category, accessibilityLabel }: Props) {
       aria-label={accessibilityLabel ?? `${category.label}, level ${level} of 6`}
       style={[styles.badge, { backgroundColor: category.color, borderColor: theme.border }]}>
       <LevelMeter level={level} color={category.textColor} />
-      <ThemedText type="smallBold" style={{ color: category.textColor }}>
+      {/* Capped at 2x so "Satisfactory" stays on one line inside a phone-width card; the name is
+          also in the spoken label and next to most badges. */}
+      <ThemedText
+        type="smallBold"
+        maxFontSizeMultiplier={2}
+        style={[styles.label, { color: category.textColor }]}>
         {category.label}
       </ThemedText>
     </View>
@@ -75,6 +80,9 @@ export function CategorySwatch({ category }: { category: AqiCategory }) {
 }
 
 const styles = StyleSheet.create({
+  label: {
+    flexShrink: 1,
+  },
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -84,6 +92,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.one,
     borderRadius: Spacing.two,
     borderWidth: 1,
+    maxWidth: '100%',
   },
   meter: {
     flexDirection: 'row',
