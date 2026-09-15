@@ -23,7 +23,10 @@ export function VerdictCard({ verdict, showingChange, onShowChange }: Props) {
   const spoken = `${verdict.sentence}. ${verdict.spokenDetail}`;
   const body = (
     <>
-      <ThemedText style={styles.sentence}>{verdict.sentence}</ThemedText>
+      {/* 22pt is already large text; like the screen titles it grows at most 2x. */}
+      <ThemedText style={styles.sentence} maxFontSizeMultiplier={2}>
+        {verdict.sentence}
+      </ThemedText>
       <ThemedText type="small" themeColor="textSecondary">
         {verdict.detail}
       </ThemedText>
