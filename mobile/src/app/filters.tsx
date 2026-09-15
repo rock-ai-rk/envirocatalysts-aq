@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useMeta } from '@/api/history';
 import type { CityGroup } from '@/api/types';
+import { ChoiceCard } from '@/components/choice-card';
 import { ChoiceChip } from '@/components/choice-chip';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { SegmentedControl } from '@/components/segmented-control';
@@ -119,17 +120,18 @@ export default function FiltersScreen() {
           ))}
         </FilterSection>
 
-        <FilterSection title="City group">
-          <ChoiceChip
+        {/* Cards rather than chips: "IGP" or "MPC" mean nothing without their one-line explanation. */}
+        <FilterSection title="City group" stacked>
+          <ChoiceCard
             label="All groups"
             selected={draft.group === null}
             onPress={() => update({ group: null })}
           />
           {groups.map((group) => (
-            <ChoiceChip
+            <ChoiceCard
               key={group.code}
               label={group.label}
-              accessibilityHint={group.description || undefined}
+              description={group.description || undefined}
               selected={draft.group === group.code}
               onPress={() => update({ group: group.code })}
             />
@@ -196,11 +198,14 @@ export default function FiltersScreen() {
 function FilterSection({
   title,
   above,
+  stacked = false,
   children,
 }: {
   title: string;
   /** Rendered between the heading and the options, e.g. a search field. */
   above?: ReactNode;
+  /** Options one per line (cards) rather than wrapping side by side (chips). */
+  stacked?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -209,7 +214,7 @@ function FilterSection({
         {title}
       </ThemedText>
       {above}
-      <View role="radiogroup" aria-label={title} style={styles.chips}>
+      <View role="radiogroup" aria-label={title} style={stacked ? styles.cards : styles.chips}>
         {children}
       </View>
     </View>
@@ -250,6 +255,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: Spacing.two,
   },
+  cards: {
+    gap: Spacing.two,
+  },
   search: {
     minHeight: MinTouchTarget,
     borderWidth: 1,
@@ -266,7 +274,7 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget + 4,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Spacing.three,
+    borderRadius: 999,
     marginBottom: Spacing.three,
   },
   headerButton: {
