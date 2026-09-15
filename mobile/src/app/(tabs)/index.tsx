@@ -227,6 +227,10 @@ export default function OverviewScreen() {
         keyExtractor={(item) => (item.kind === 'city' ? String(item.city.city.id) : item.kind)}
         renderItem={renderItem}
         stickyHeaderIndices={items.length && !largeText ? [DECK_INDEX] : undefined}
+        // Android clips off-screen rows by default, and together with the pinned deck that crashes
+        // Fabric ("addViewAt: failed to insert view") when the rows arrive. The list is still
+        // virtualised, so keeping the rows attached costs little.
+        removeClippedSubviews={false}
         refreshControl={
           <RefreshControl
             refreshing={refresh.refreshing}
