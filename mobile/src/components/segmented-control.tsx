@@ -5,6 +5,7 @@ import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
+import { selectionTick } from '@/lib/haptics';
 
 export interface SegmentOption<T extends string> {
   value: T;
@@ -48,7 +49,10 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
             role="radio"
             aria-checked={selected}
             aria-label={option.accessibilityLabel ?? option.label}
-            onPress={() => onChange(option.value)}
+            onPress={() => {
+              if (!selected) selectionTick();
+              onChange(option.value);
+            }}
             style={[styles.segment, stacked && styles.segmentStacked, selected && { backgroundColor: theme.accent }]}>
             <ThemedText
               type={selected ? 'smallBold' : 'small'}

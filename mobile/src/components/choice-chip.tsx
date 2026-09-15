@@ -4,6 +4,7 @@ import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { selectionTick } from '@/lib/haptics';
 
 interface Props {
   label: string;
@@ -33,7 +34,11 @@ export function ChoiceChip({
       aria-checked={selected}
       aria-label={accessibilityLabel ?? label}
       accessibilityHint={accessibilityHint}
-      onPress={onPress}
+      onPress={() => {
+        // A radio chip that's already chosen changes nothing, so it doesn't tick.
+        if (kind === 'checkbox' || !selected) selectionTick();
+        onPress();
+      }}
       style={[
         styles.chip,
         {

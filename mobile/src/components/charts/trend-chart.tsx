@@ -15,6 +15,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { monthInitial, shortDay } from '@/lib/dates';
 import { describePoint } from '@/lib/describe';
 import { formatConcentration, formatDay, formatIstTimestamp } from '@/lib/format';
+import { selectionTick } from '@/lib/haptics';
 
 interface Props {
   series: StationSeries;
@@ -96,11 +97,16 @@ export function TrendChart({ series, comparison, seriesLabel, comparisonLabel, s
     .onUpdate((event) => cursor.set(indexAt(event.x)));
   const tap = Gesture.Tap().onEnd((event) => cursor.set(indexAt(event.x)));
 
-  // Only re-render React (for the readout) when the finger crosses into a different point.
+  // Only re-render React (for the readout) when the finger crosses into a different point, with a
+  // haptic tick for each point crossed.
+  const crossTo = (index: number) => {
+    if (index >= 0) selectionTick();
+    setSelected(index < 0 ? null : index);
+  };
   useAnimatedReaction(
     () => cursor.get(),
     (index, previous) => {
-      if (index !== previous) scheduleOnRN(setSelected, index < 0 ? null : index);
+      if (index !== previous) scheduleOnRN(crossTo, index);
     },
   );
 

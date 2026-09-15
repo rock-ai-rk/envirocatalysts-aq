@@ -13,6 +13,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { lightImpact } from '@/lib/haptics';
 import {
   DEFAULT_FILTERS,
   GROUP_LABELS,
@@ -182,6 +183,7 @@ export default function FiltersScreen() {
           role="button"
           aria-label="Show results"
           onPress={() => {
+            lightImpact();
             setFilters(draft);
             router.back();
           }}

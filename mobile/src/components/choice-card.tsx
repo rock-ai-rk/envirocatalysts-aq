@@ -4,6 +4,7 @@ import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { selectionTick } from '@/lib/haptics';
 
 interface Props {
   label: string;
@@ -25,7 +26,10 @@ export function ChoiceCard({ label, description, selected, onPress }: Props) {
       role="radio"
       aria-checked={selected}
       aria-label={description ? `${label}: ${description}` : label}
-      onPress={onPress}
+      onPress={() => {
+        if (!selected) selectionTick();
+        onPress();
+      }}
       style={[
         styles.card,
         {
