@@ -229,9 +229,9 @@ function HourPatternCard({
     <SectionCard
       title="Hour of day"
       subtitle={
-        overlay
+        (overlay
           ? `Bars: ${shortPeriodLabel(primary.period.label)}. Marks: ${shortPeriodLabel(overlay.period.label)}.`
-          : `Average for each hour, ${primary.period.label}`
+          : `Average for each hour, ${primary.period.label}.`) + ' Night hours (19:00–06:00) are shaded.'
       }>
       <ThemedText type="small">{summary}</ThemedText>
       <HourBars

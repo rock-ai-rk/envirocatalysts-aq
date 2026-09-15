@@ -21,7 +21,19 @@ interface Props {
 
 const AXIS_LABELS = new Set(['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00']);
 
-/** Average for each hour of the day: 24 bars coloured by CPCB band, with limit lines. */
+/**
+ * Whether an hour is at night (19:00-06:00). Labels mark the end of the hour, so "20:00" is
+ * 19:00-20:00 and "06:00" is the last night hour.
+ */
+export function isNightHour(label: string): boolean {
+  const end = Number(label.slice(0, 2));
+  return end >= 20 || end <= 6;
+}
+
+/**
+ * Average for each hour of the day: 24 bars coloured by CPCB band, with limit lines. Night hours
+ * are shaded behind the bars, so a night-time peak (common with winter smog) reads at once.
+ */
 export function HourBars({ hours, comparison, pollutant, thresholds, summary, height = 160 }: Props) {
   const theme = useTheme();
   const values = [...hours, ...(comparison ?? [])].flatMap((h) => (h.mean === null ? [] : [h.mean]));
@@ -37,6 +49,18 @@ export function HourBars({ hours, comparison, pollutant, thresholds, summary, he
   return (
     <View accessible role="img" aria-label={summary}>
       <View style={[styles.plot, { height }]}>
+        {/* The shading: one cell per hour, without the bars' gaps so the band is continuous. */}
+        <View style={styles.bands}>
+          {hours.map((bin) => (
+            <View
+              key={bin.hour}
+              style={[styles.band, isNightHour(bin.label) && { backgroundColor: theme.nightBand }]}
+            />
+          ))}
+        </View>
+        <ThemedText type="small" themeColor="textSecondary" style={styles.moon}>
+          ☾
+        </ThemedText>
         {lines.map((line) => (
           <View
             key={line.label}
@@ -96,6 +120,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 2,
+  },
+  bands: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    flexDirection: 'row',
+  },
+  band: {
+    flex: 1,
+  },
+  // Over the evening hours, top left of that shaded block.
+  moon: {
+    position: 'absolute',
+    top: 0,
+    left: `${(19 / 24) * 100}%`,
+    paddingHorizontal: Spacing.one,
+    fontSize: 12,
+    lineHeight: 16,
   },
   column: {
     flex: 1,

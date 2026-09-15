@@ -17,6 +17,7 @@ for (const [theme, c] of Object.entries(palette)) {
   }
   add(theme, 'onAccent text on accent', c.onAccent, c.accent, TEXT);
   add(theme, 'noticeText on noticeBackground', c.noticeText, c.noticeBackground, TEXT);
+  add(theme, 'textSecondary text on nightBand', c.textSecondary, c.nightBand, TEXT);
   for (const bg of ['background', 'backgroundElement']) {
     add(theme, `border vs ${bg}`, c.border, c[bg], GRAPHIC);
     add(theme, `selected fill (accent) vs ${bg}`, c.accent, c[bg], GRAPHIC);

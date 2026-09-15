@@ -17,6 +17,8 @@ export const palette = {
     worse: '#B42318',
     noticeBackground: '#FEF3C7',
     noticeText: '#7A2E0E',
+    // Behind the night hours of the hour-of-day chart; drawn on backgroundElement.
+    nightBand: '#DFE3ED',
   },
   dark: {
     text: '#FFFFFF',
@@ -31,6 +33,7 @@ export const palette = {
     worse: '#FF9B8F',
     noticeBackground: '#3A2A05',
     noticeText: '#FCD34D',
+    nightBand: '#141C2B',
   },
 } as const;
 
