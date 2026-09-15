@@ -3,37 +3,40 @@
  * with plain Node.
  */
 
+// "Halogen blue": icy silver-blue pages, white cards and a steel-blue accent (deep navy in the dark).
+// Blue is the one hue no CPCB category uses, so buttons and selections never look like an air
+// quality reading; the category colours stay the only warm, saturated things on screen.
 export const palette = {
   light: {
-    text: '#000000',
-    textSecondary: '#60646C',
-    background: '#FFFFFF',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    border: '#7C7F88',
-    accent: '#1D4ED8',
+    text: '#0F1B26',
+    textSecondary: '#4B5C6D',
+    background: '#EEF3F8',
+    backgroundElement: '#FFFFFF',
+    backgroundSelected: '#DCE7F2',
+    border: '#6F8294',
+    accent: '#1F5A8C',
     onAccent: '#FFFFFF',
     better: '#05603A',
     worse: '#B42318',
     noticeBackground: '#FEF3C7',
     noticeText: '#7A2E0E',
     // Behind the night hours of the hour-of-day chart; drawn on backgroundElement.
-    nightBand: '#DFE3ED',
+    nightBand: '#E3EAF2',
   },
   dark: {
-    text: '#FFFFFF',
-    textSecondary: '#B0B4BA',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    border: '#7C7F88',
-    accent: '#8AB4FF',
-    onAccent: '#000000',
+    text: '#EAF2FA',
+    textSecondary: '#A9B8C7',
+    background: '#0B1622',
+    backgroundElement: '#132233',
+    backgroundSelected: '#1E3247',
+    border: '#6E8397',
+    accent: '#8FC2F0',
+    onAccent: '#0B1622',
     better: '#5EE09A',
     worse: '#FF9B8F',
     noticeBackground: '#3A2A05',
     noticeText: '#FCD34D',
-    nightBand: '#141C2B',
+    nightBand: '#0C1826',
   },
 } as const;
 
