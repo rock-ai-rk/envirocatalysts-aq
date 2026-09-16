@@ -81,6 +81,8 @@ simplest to explain. The README has the longer reasoning.
 - **Moderate stays `#FFFF00`.** It is 1.07:1 on white, so badges and swatches get an outline that passes 3:1, and every category also shows its name and a level meter.
 - **Halogen blue for the app's own colours** (accent `#1F5A8C` light, `#8FC2F0` dark). No CPCB category is blue, so buttons and selections never look like an air-quality reading.
 - **Pollutant colours are the Okabe-Ito palette,** which stays distinguishable with colour-vision deficiencies.
+- **Mobile tests cover the words and the behaviour, not pixels.** Jest with React Native Testing Library: the sentences built from the numbers, the filters sheet against a faked API (draft, count, apply), and the loading, offline and error states.
+- **Reanimated gets a small hand-written mock in tests.** Its own Jest mock loads the native worklets runtime, which isn't there under Jest, and these tests check what renders, not the animation.
 - **Contrast is checked by a script.** `npm run check:contrast` tests all 61 pairings, light and dark, against WCAG 2.1 AA.
 - **Every chart has a generated sentence** that is both its caption and its spoken label.
 - **The hourly trend is an adjustable element,** with actions that jump to the highest and lowest values.

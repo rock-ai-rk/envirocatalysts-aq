@@ -76,6 +76,8 @@ The phone reaches the API over plain http on your Wi-Fi, which `app.json` allows
 
 **3. Checks:**
 - `pytest` in `backend/`: 152 tests. They also run on PostgreSQL if you set `TEST_DATABASE_URL`.
+- `npm test` in `mobile/`: 12 tests (Jest and React Native Testing Library) covering the sentences
+  built from the numbers, the filters sheet, and the loading, offline and error states.
 - `npm run typecheck` in `mobile/`.
 - `npm run check:contrast` in `mobile/`: every colour pairing against WCAG AA.
 
