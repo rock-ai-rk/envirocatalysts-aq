@@ -68,6 +68,9 @@ export default function RootLayout() {
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   {/* The filters sheet has its own Cancel and Reset buttons. */}
                   <Stack.Screen name="filters" options={{ presentation: 'modal', title: 'Filters' }} />
+                  {/* A lens is pushed, not presented: it is the same data one level in, and the
+                      card it came from carries into it. */}
+                  <Stack.Screen name="lens/[metric]" options={{ title: 'View', headerBackTitle: 'Overview' }} />
                   <Stack.Screen name="coverage" options={modal('Why some cities aren’t ranked')} />
                   <Stack.Screen name="city/[id]" options={modal('City')} />
                   <Stack.Screen name="station-picker" options={modal('Choose a station')} />

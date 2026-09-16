@@ -1,0 +1,351 @@
+import { useRouter } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import Animated, { useReducedMotion } from 'react-native-reanimated';
+
+import { useMeta, useOverview } from '@/api/history';
+import type { Pollutant } from '@/api/live';
+import type { OverviewCity } from '@/api/types';
+import { Legend } from '@/components/charts/legend';
+import { ChoiceChip } from '@/components/choice-chip';
+import { CityMap, type MapColour } from '@/components/city-map';
+import { useScreenDataset } from '@/components/demo-data-banner';
+import { Entrance } from '@/components/entrance';
+import { FilterSummaryBar } from '@/components/filter-summary-bar';
+import { FocusablePressable } from '@/components/focusable-pressable';
+import { LensCards } from '@/components/lens-cards';
+import { LiveCitiesCard } from '@/components/live-cities-card';
+import { OverviewCityRow, type RowMetric } from '@/components/overview-city-row';
+import { OverviewDeck, type MapColourBy, type OverviewMetric } from '@/components/overview-deck';
+import { OverviewTable } from '@/components/overview-table';
+import { ScreenFrame, ScreenTitle, screenStyles } from '@/components/screen';
+import { SkeletonCityRows } from '@/components/skeleton';
+import { StatusCapsules } from '@/components/status-capsules';
+import { StatusMessage } from '@/components/status-message';
+import { ThemedText } from '@/components/themed-text';
+import { VerdictCard } from '@/components/verdict-card';
+import { AQI_CATEGORIES } from '@/constants/aqi';
+import { DEFAULT_MIN_COVERAGE } from '@/constants/coverage';
+import { lensByKey, sharedTagFor } from '@/constants/lenses';
+import { PLACEHOLDER_PERIODS, shortPeriodLabel, type PeriodView } from '@/constants/periods';
+import { concentrationBands, POLLUTANT_ORDER, pollutantColor, unitFor } from '@/constants/pollutants';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
+import { useTheme } from '@/hooks/use-theme';
+import { describeVerdict } from '@/lib/describe';
+import { toOverviewParams, useOverviewFilters } from '@/state/overview-filters';
+
+/**
+ * The list's items: the controls deck (pinned while scrolling), the map for the Map lens, the
+ * colour key with the table switch, then one row per city, or the whole table.
+ */
+type ListItem =
+  | { kind: 'deck' }
+  | { kind: 'map' }
+  | { kind: 'legend' }
+  | { kind: 'city'; city: OverviewCity }
+  | { kind: 'table' };
+
+// The deck is the first item; index 0 is the list header.
+const DECK_INDEX = 1;
+
+const AQI_LEGEND = AQI_CATEGORIES.map((c) => ({ key: c.key, label: c.label, color: c.color, category: c }));
+const POLLUTANT_LEGEND = POLLUTANT_ORDER.map((p) => ({ key: p, label: p, color: pollutantColor(p).color }));
+
+/**
+ * One lens over the same filtered cities. `aqi_days` is the Overview itself, which opens with the
+ * verdict and what's happening now, and lists the other lenses at the foot; the rest are screens
+ * of their own, each reached from one of those cards, so a chart gets the whole width and its own
+ * colour key instead of four lenses sharing one layout.
+ */
+export function LensScreen({ lens }: { lens: OverviewMetric }) {
+  const isOverview = lens === 'aqi_days';
+  const router = useRouter();
+  const theme = useTheme();
+  const { filters, setFilters } = useOverviewFilters();
+  const meta = useMeta();
+  const dataset = useScreenDataset('overview');
+  const overview = useOverview(toOverviewParams(filters));
+  const [view, setView] = useState<PeriodView>('base');
+  const [pollutant, setPollutant] = useState<Pollutant>('PM2.5');
+  const [mapColourBy, setMapColourBy] = useState<MapColourBy>('category');
+  const [asTable, setAsTable] = useState(false);
+  // At large text sizes the controls take up much of the screen, so they scroll away instead.
+  const largeText = useLargeText();
+  const refresh = usePullToRefresh();
+  const reduceMotion = useReducedMotion();
+
+  const data = overview.data;
+  const cities = useMemo(() => data?.cities ?? [], [data]);
+  const periods = data ? { base: data.base, comparison: data.comparison } : null;
+  // Under the map, the rows show what the dots are coloured by.
+  const rowMetric: RowMetric = lens === 'map' ? (mapColourBy === 'concentration' ? 'pollutants' : 'aqi_days') : lens;
+  const mapColour: MapColour =
+    mapColourBy === 'concentration' ? { kind: 'concentration', pollutant } : { kind: 'category' };
+  const { base, comparison } = periods ?? PLACEHOLDER_PERIODS;
+
+  const verdict = useMemo(
+    () =>
+      data
+        ? describeVerdict(
+            data.cities,
+            rowMetric === 'pollutants' ? { kind: 'pollutant', pollutant } : { kind: 'good_days' },
+            shortPeriodLabel(data.comparison.label),
+          )
+        : null,
+    [data, rowMetric, pollutant],
+  );
+
+  const scaleMax = useMemo(
+    () =>
+      Math.max(
+        1,
+        ...(data?.cities ?? []).flatMap((c) => [
+          c.base.pollutant_means[pollutant] ?? 0,
+          c.comparison?.pollutant_means[pollutant] ?? 0,
+        ]),
+      ),
+    [data, pollutant],
+  );
+
+  const openCity = useCallback(
+    (cityId: number) => router.push({ pathname: '/city/[id]', params: { id: String(cityId) } }),
+    [router],
+  );
+  const openCoverage = useCallback(
+    (cityId: number, period: string) =>
+      router.push({ pathname: '/coverage', params: { cityId: String(cityId), period } }),
+    [router],
+  );
+  const minCoverage = data?.rules.min_coverage ?? DEFAULT_MIN_COVERAGE;
+
+  const deck = (
+    <OverviewDeck
+      periods={periods}
+      view={view}
+      onView={setView}
+      metric={lens}
+      pollutant={pollutant}
+      onPollutant={setPollutant}
+      mapColourBy={mapColourBy}
+      onMapColourBy={setMapColourBy}
+    />
+  );
+
+  const items = useMemo<ListItem[]>(
+    () =>
+      cities.length
+        ? [
+            { kind: 'deck' },
+            ...(lens === 'map' ? [{ kind: 'map' as const }] : []),
+            { kind: 'legend' },
+            ...(asTable ? [{ kind: 'table' as const }] : cities.map((city) => ({ kind: 'city' as const, city }))),
+          ]
+        : [],
+    [cities, lens, asTable],
+  );
+
+  // Concentrations are coloured by the CPCB band they fall in, so their key gives each band's range.
+  const legend =
+    rowMetric === 'pollutants' ? (
+      <Legend
+        title={`Yearly average ${pollutant} (${unitFor(pollutant)}), by CPCB band`}
+        items={concentrationBands(pollutant).map(({ category, range }) => ({
+          key: category.key,
+          label: `${category.label} ${range}`,
+          color: category.color,
+          category,
+        }))}
+      />
+    ) : (
+      <Legend items={rowMetric === 'dominant' ? POLLUTANT_LEGEND : AQI_LEGEND} />
+    );
+
+  const renderItem = ({ item, index }: { item: ListItem; index: number }) => {
+    switch (item.kind) {
+      case 'deck':
+        return deck;
+      case 'map':
+        return <CityMap cities={cities} view={view} colour={mapColour} onSelect={openCity} />;
+      case 'legend':
+        return (
+          <View style={styles.listTools}>
+            <View style={styles.tableSwitch}>
+              <ChoiceChip
+                kind="checkbox"
+                label="View as table"
+                selected={asTable}
+                onPress={() => setAsTable((current) => !current)}
+              />
+            </View>
+            {/* The table has its own column headings; only the map still needs a colour key. */}
+            {asTable && lens !== 'map' ? null : legend}
+          </View>
+        );
+      case 'table':
+        return periods ? (
+          <OverviewTable cities={cities} metric={rowMetric} view={view} periods={periods} onPress={openCity} />
+        ) : null;
+      case 'city':
+        return periods ? (
+          <Entrance index={index - DECK_INDEX}>
+            <OverviewCityRow
+              item={item.city}
+              metric={rowMetric}
+              view={view}
+              pollutant={pollutant}
+              scaleMax={scaleMax}
+              periods={periods}
+              minCoverage={minCoverage}
+              onPress={openCity}
+              onCoverage={openCoverage}
+            />
+          </Entrance>
+        ) : null;
+    }
+  };
+
+  // Answer first (the verdict), then what's happening now, then the controls and the list. A lens
+  // of its own says which question it answers instead, since the Overview already gave the verdict.
+  const header = (
+    <View style={styles.header}>
+      {isOverview ? (
+        <View>
+          <ThemedText
+            type="smallBold"
+            themeColor="textSecondary"
+            aria-label={`Comparing ${base.label} with ${comparison.label}`}
+            style={styles.eyebrow}>
+            {`${base.label}  →  ${comparison.label}`}
+          </ThemedText>
+          <ScreenTitle>Air quality</ScreenTitle>
+        </View>
+      ) : (
+        // The other end of the card's transition: the card that opened this screen settles here.
+        <Animated.View
+          sharedTransitionTag={reduceMotion ? undefined : sharedTagFor(lensByKey(lens).slug)}>
+          <ScreenTitle>{lensByKey(lens).title}</ScreenTitle>
+          <ThemedText type="small" themeColor="textSecondary">
+            {lensByKey(lens).question}
+          </ThemedText>
+        </Animated.View>
+      )}
+      <FilterSummaryBar />
+      <StatusCapsules
+        query={overview}
+        demo={Boolean(dataset?.synthetic)}
+        notRanked={data ? { count: data.excluded.length, periodLabel: data.base.label } : null}
+      />
+      {isOverview && verdict ? (
+        <VerdictCard verdict={verdict} showingChange={view === 'change'} onShowChange={() => setView('change')} />
+      ) : null}
+      {isOverview ? <LiveCitiesCard state={filters.state} group={filters.group} /> : null}
+      {/* Without cities there is no list to pin the controls over, so they sit here. */}
+      {cities.length ? null : deck}
+    </View>
+  );
+
+  const empty = overview.isPending ? (
+    <SkeletonCityRows />
+  ) : overview.isError ? (
+    meta.data && meta.data.periods.length === 0 ? (
+      <StatusMessage
+        kind="empty"
+        title="No historical data yet"
+        message="City rankings appear here once the dataset is loaded into the API."
+      />
+    ) : (
+      <StatusMessage kind="error" message={overview.error.message} onRetry={() => overview.refetch()} />
+    )
+  ) : (
+    <StatusMessage kind="empty" title="No cities match these filters" message="Try another state or city group." />
+  );
+
+  const hiddenCount = data && data.top !== null ? data.eligible - data.cities.length : 0;
+  const footer = (
+    <View style={styles.footer}>
+      {hiddenCount > 0 ? (
+        <>
+          <ThemedText type="small" themeColor="textSecondary">
+            {`Showing ${data!.cities.length} of ${data!.eligible} ranked cities`}
+          </ThemedText>
+          <FocusablePressable
+            role="button"
+            aria-label={`Show all ${data!.eligible} cities`}
+            onPress={() => setFilters({ ...filters, top: 'all' })}
+            style={[styles.showAll, { borderColor: theme.border }]}>
+            <ThemedText type="smallBold">Show all</ThemedText>
+          </FocusablePressable>
+        </>
+      ) : null}
+      {/* The other lenses, each previewing the answer it would give. */}
+      {isOverview ? <LensCards cities={cities} pollutant={pollutant} /> : null}
+      {/* Where these numbers come from, as the data's terms of use ask. */}
+      {dataset && data?.cities.length ? (
+        <ThemedText type="small" themeColor="textSecondary" style={styles.source}>
+          {`Source: ${dataset.source}.`}
+        </ThemedText>
+      ) : null}
+    </View>
+  );
+
+  return (
+    <ScreenFrame>
+      <FlatList
+        data={items}
+        keyExtractor={(item) => (item.kind === 'city' ? String(item.city.city.id) : item.kind)}
+        renderItem={renderItem}
+        stickyHeaderIndices={items.length && !largeText ? [DECK_INDEX] : undefined}
+        // Android clips off-screen rows by default, and together with the pinned deck that crashes
+        // Fabric ("addViewAt: failed to insert view") when the rows arrive. The list is still
+        // virtualised, so keeping the rows attached costs little.
+        removeClippedSubviews={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh.refreshing}
+            onRefresh={refresh.onRefresh}
+            tintColor={theme.accent}
+            colors={[theme.accent]}
+          />
+        }
+        ListHeaderComponent={header}
+        ListEmptyComponent={empty}
+        ListFooterComponent={footer}
+        contentContainerStyle={screenStyles.content}
+      />
+    </ScreenFrame>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: {
+    gap: Spacing.three,
+  },
+  listTools: {
+    gap: Spacing.two,
+  },
+  tableSwitch: {
+    alignSelf: 'flex-end',
+  },
+  eyebrow: {
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  footer: {
+    alignItems: 'stretch',
+    gap: Spacing.two,
+    paddingTop: Spacing.two,
+  },
+  showAll: {
+    minHeight: MinTouchTarget,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingHorizontal: Spacing.four,
+    borderRadius: Radius.pill,
+    borderWidth: 1,
+  },
+  source: {
+    textAlign: 'center',
+  },
+});

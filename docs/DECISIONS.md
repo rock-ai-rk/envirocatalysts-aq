@@ -78,12 +78,34 @@ simplest to explain. The README has the longer reasoning.
 
 - **Category colours stay CPCB's,** so people recognise them. The label on each is black or white, whichever contrasts more; the lowest is 5.25:1, on Very Poor.
 - **Good is `#009A47`, not `#00B050`.** Good and Satisfactory were ΔE 14.0 apart (OKLab), and now the closest neighbouring pair is 19.6. The label on Good is black, at 5.71:1.
-- **Moderate stays `#FFFF00`.** It is 1.07:1 on white, so badges and swatches get an outline that passes 3:1, and every category also shows its name and a level meter.
-- **Halogen blue for the app's own colours** (accent `#1F5A8C` light, `#8FC2F0` dark). No CPCB category is blue, so buttons and selections never look like an air-quality reading.
+- **Moderate stays `#FFFF00`.** It is 1.07:1 on white, so badges, swatches and every stacked-bar segment get an outline that passes 3:1, and each category also shows its name and a level meter.
+- **Halogen blue for the app's own colours** (accent `#0A5197` light, `#93C9FA` dark). No CPCB category is blue, so buttons and selections never look like an air-quality reading.
 - **Pollutant colours are the Okabe-Ito palette,** which stays distinguishable with colour-vision deficiencies.
 - **Mobile tests cover the words and the behaviour, not pixels.** Jest with React Native Testing Library: the sentences built from the numbers, the filters sheet against a faked API (draft, count, apply), and the loading, offline and error states.
 - **Reanimated gets a small hand-written mock in tests.** Its own Jest mock loads the native worklets runtime, which isn't there under Jest, and these tests check what renders, not the animation.
-- **Contrast is checked by a script.** `npm run check:contrast` tests all 61 pairings, light and dark, against WCAG 2.1 AA.
+- **Contrast is checked by a script.** `npm run check:contrast` tests all 75 pairings, light and dark, against WCAG 2.1 AA. It covers the text pairings and, for 1.4.11, each AQI category against the card it is drawn on, counting the segment's outline where the fill alone is under 3:1.
+- **A lens is a screen, not a chip.** Four lenses sharing one layout forced the worst case on all of
+  them: a colour key that changed under you, a table switch that applied to whichever was showing,
+  and the map wedged between the controls and the list. Three are routes now, so each gets the whole
+  width. The lens lives in the path, which makes it deep-linkable and keeps the screen's state out of
+  a chip.
+- **The entry points preview their answer.** Each card at the foot of the Overview draws the real
+  numbers it would show — a pollutant's spread, the share of days each pollutant led, the map's dots.
+  Material calls the pattern a container transform: the card is the destination one level out, not a
+  picture of it. Both ends carry the same `sharedTransitionTag`, so the card keeps its bounds across
+  the push and grows into the lens screen's header instead of sliding away under a new screen. The
+  tag is dropped under Reduce Motion, which leaves the navigator's plain push.
+- **Bento grid was considered and rejected.** It is the current fashion for this kind of landing
+  surface, but an asymmetric tile grid breaks the uniform scanning a ranked list depends on, and it
+  would have put the ranking two taps away. The cards are a single column, in the order the questions
+  get asked.
+- **Liquid Glass where the OS has it.** `expo-glass-effect` draws the pinned bar as glass on iOS 26
+  and falls back to an opaque `View` everywhere else, which is what the contrast check measures. The
+  glass is an addition on top; it is never what makes the controls legible.
+- **Plus Jakarta Sans, not the system face.** Every type size keeps the `fontSize` and `lineHeight` it was checked at, so the Dynamic Type work still holds; only the glyphs change. Android does not synthesise weights for a custom family, so each weight is its own family name (`FontFamily`) and no style sets a `fontWeight`.
+- **Cards lift with a shadow instead of only a colour change.** Three `elevation()` steps: list rows and section cards at 1, the verdict at 2, and 3 for anything over the page. Shadows are decorative, so nothing depends on seeing them.
+- **Radii are named** (`Radius`), one step per surface size, with `medium` set to the 16pt that most surfaces already used so naming them reshaped nothing.
+- **Rows fade in and lift as they arrive,** staggered 45ms for the first eight. Opacity and transform only, so a row holds its final space from the first frame and the list scrolls to the same offsets either way; `ReduceMotion.System` hands the choice to the OS setting.
 - **Every chart has a generated sentence** that is both its caption and its spoken label.
 - **The hourly trend is an adjustable element,** with actions that jump to the highest and lowest values.
 - **Text scaling is capped only where it would break the layout** (titles at 2×, the AQI figure at 1.5×). Everything else follows the system size.

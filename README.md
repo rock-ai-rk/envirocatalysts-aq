@@ -109,9 +109,19 @@ the data and the rules, and changes how you reach them.
 - **Less to scroll past.** Four stacked banners (offline, demo data, data age, cities not ranked)
   became one row of small capsules, each opening its explanation. The live card became a row of
   city capsules, with how the estimate is made behind ⓘ and the source credit still visible.
-- **Controls stay in reach.** The year toggle and the lens chips stay pinned while the city list
-  scrolls under them. At large text sizes they would cover much of the screen, so there they
-  scroll with the page.
+- **One question per screen.** The four lenses answered different questions — how many days fell in
+  each category, what each pollutant averaged, which pollutant led, and where the cities are — while
+  sharing one layout and taking turns behind a row of chips. Three of them are screens of their own
+  now (`/lens/pollutants`, `/lens/dominant`, `/lens/map`), so each gets the full width and its own
+  colour key, and the Overview keeps the ranking, the verdict and the live estimates. The lens is in
+  the path rather than in a chip's state, so each one is deep-linkable.
+- **The other lenses are previewed, not just listed.** At the foot of the Overview each one is a card
+  showing the answer it would give, worked out from the same cities: the spread of a pollutant's
+  averages, the share of days each pollutant led, the dots the map would place. A card that shows
+  nothing until you open it is a button wearing a chart's clothes.
+- **Controls stay in reach.** The year toggle stays pinned while the city list scrolls under it, on
+  iOS 26 as Liquid Glass so the rows refract through it. At large text sizes the controls would cover
+  much of the screen, so there they scroll with the page.
 - **A list, not a chart that grows.** Each city is a fixed-height row in a virtualised list, so
   "All cities" is just a longer scroll.
 - **Every lens as a table.** *View as table* swaps the bars for the numbers: each category or

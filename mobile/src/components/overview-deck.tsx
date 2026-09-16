@@ -1,3 +1,4 @@
+import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
@@ -17,20 +18,12 @@ export type OverviewMetric = 'aqi_days' | 'pollutants' | 'dominant' | 'map';
 /** What the map's dots are coloured by: each city's most common category, or a pollutant's average. */
 export type MapColourBy = 'category' | 'concentration';
 
-// Short visible labels keep the lenses on one line on a 375pt screen; the spoken labels are full.
-const METRIC_OPTIONS: { value: OverviewMetric; label: string; spoken: string }[] = [
-  { value: 'aqi_days', label: 'AQI days', spoken: 'AQI days' },
-  { value: 'pollutants', label: 'Pollutants', spoken: 'Pollutant levels' },
-  { value: 'dominant', label: 'Dominant', spoken: 'Dominant pollutant' },
-  { value: 'map', label: 'Map', spoken: 'Map' },
-];
-
 interface Props {
   periods: { base: Pick<Period, 'label'>; comparison: Pick<Period, 'label'> } | null;
   view: PeriodView;
   onView: (view: PeriodView) => void;
+  /** Which lens this screen shows. It decides which of the extra chip rows apply. */
   metric: OverviewMetric;
-  onMetric: (metric: OverviewMetric) => void;
   pollutant: Pollutant;
   onPollutant: (pollutant: Pollutant) => void;
   mapColourBy: MapColourBy;
@@ -38,35 +31,31 @@ interface Props {
 }
 
 /**
- * The Overview's controls: which year (or the change between them), which lens, for Pollutants
- * which pollutant, and for the Map what the dots are coloured by. The screen pins it above the
- * city list, so the choice stays in reach while scrolling; it has its own background so rows can
- * pass under it.
+ * A lens screen's controls: which year (or the change between them), for Pollutants which
+ * pollutant, and for the Map what the dots are coloured by. The screen pins it above the city
+ * list, so the choice stays in reach while scrolling; it has its own background so rows can pass
+ * under it. Choosing the lens itself is navigation now, not a chip here.
  */
 export function OverviewDeck(props: Props) {
-  const { periods, view, onView, metric, onMetric, pollutant, onPollutant, mapColourBy, onMapColourBy } = props;
+  const { periods, view, onView, metric, pollutant, onPollutant, mapColourBy, onMapColourBy } = props;
   const theme = useTheme();
   const { base, comparison } = periods ?? PLACEHOLDER_PERIODS;
 
+  // iOS 26 draws the pinned bar as Liquid Glass, so the rows refract through it as they scroll
+  // under. Everywhere else — Android, older iOS, the web — it stays an opaque bar, which is what
+  // the contrast check measures; the glass is an addition on top, never the thing that makes the
+  // controls legible.
+  const Bar = isLiquidGlassAvailable() ? GlassView : View;
+  const barColour = isLiquidGlassAvailable() ? undefined : { backgroundColor: theme.background };
+
   return (
-    <View style={[styles.deck, { backgroundColor: theme.background, borderBottomColor: theme.border }]}>
+    <Bar style={[styles.deck, barColour, { borderBottomColor: theme.border }]}>
       <SegmentedControl
         label="Period"
         options={periodViewOptions(base, comparison)}
         value={view}
         onChange={onView}
       />
-      <ChipRow label="Metric">
-        {METRIC_OPTIONS.map((option) => (
-          <ChoiceChip
-            key={option.value}
-            label={option.label}
-            accessibilityLabel={option.spoken}
-            selected={metric === option.value}
-            onPress={() => onMetric(option.value)}
-          />
-        ))}
-      </ChipRow>
       {metric === 'pollutants' ? (
         <ChipRow label="Pollutant">
           {CONCENTRATION_POLLUTANTS.map((p) => (
@@ -97,7 +86,7 @@ export function OverviewDeck(props: Props) {
           ))}
         </ChipRow>
       ) : null}
-    </View>
+    </Bar>
   );
 }
 
