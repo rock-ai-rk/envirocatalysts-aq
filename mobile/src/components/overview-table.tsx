@@ -11,6 +11,7 @@ import { AQI_CATEGORIES, type AqiCategory } from '@/constants/aqi';
 import type { PeriodView } from '@/constants/periods';
 import { CONCENTRATION_POLLUTANTS, POLLUTANT_ORDER, spokenUnitFor } from '@/constants/pollutants';
 import { Spacing } from '@/constants/theme';
+import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber, formatPercent, formatSigned } from '@/lib/format';
 
@@ -63,6 +64,7 @@ interface Props {
  */
 export function OverviewTable({ cities, metric, view, periods, onPress }: Props) {
   const theme = useTheme();
+  const largeText = useLargeText();
   const scale = Math.min(useWindowDimensions().fontScale, MAX_SCALE);
   const columns = useMemo(() => columnsFor(metric, cities), [metric, cities]);
   const size = {
@@ -112,11 +114,44 @@ export function OverviewTable({ cities, metric, view, periods, onPress }: Props)
     return `${intro} ${scope}: ${cells.join(', ')}.`;
   };
 
+  const caption = (
+    <ThemedText type="small" themeColor="textSecondary" style={styles.caption}>
+      {captionFor(metric, view, periods)}
+    </ThemedText>
+  );
+
+  // At large text sizes one column already fills the screen, so the table becomes a block per
+  // city: the name, then each column as a label and its value.
+  if (largeText) {
+    return (
+      <View style={[styles.card, { backgroundColor: theme.backgroundElement }]}>
+        {caption}
+        {cities.map((item, index) => (
+          <FocusablePressable
+            key={item.city.id}
+            role="button"
+            aria-label={spokenRow(item)}
+            accessibilityHint="Opens this city's details"
+            onPress={() => onPress(item.city.id)}
+            style={[styles.block, { backgroundColor: stripe(index) }]}>
+            <ThemedText type="smallBold">{`${item.rank}. ${item.city.name}`}</ThemedText>
+            {shown.map((column) => (
+              <View key={column.key} style={styles.blockLine}>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.blockLabel}>
+                  {column.header}
+                </ThemedText>
+                <ThemedText type="smallBold">{cellText(item, column)}</ThemedText>
+              </View>
+            ))}
+          </FocusablePressable>
+        ))}
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.card, { backgroundColor: theme.backgroundElement }]}>
-      <ThemedText type="small" themeColor="textSecondary" style={styles.caption}>
-        {captionFor(metric, view, periods)}
-      </ThemedText>
+      {caption}
       <View style={styles.table}>
         <View style={{ width: size.name }}>
           <View aria-hidden style={[styles.nameHeader, { height: size.header }]}>
@@ -303,5 +338,18 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.7,
+  },
+  block: {
+    padding: Spacing.three,
+    gap: Spacing.one,
+  },
+  blockLine: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    gap: Spacing.three,
+  },
+  blockLabel: {
+    flexShrink: 1,
   },
 });

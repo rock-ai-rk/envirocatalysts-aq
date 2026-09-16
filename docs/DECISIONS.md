@@ -57,7 +57,7 @@ simplest to explain. The README has the longer reasoning.
 - **"View as table" is a checkbox chip beside the legend, not a separate screen.** The table keeps the same filters, year and lens, and shows every category or pollutant as a column instead of only the ranked one.
 - **The table's city column stays put while the numbers scroll sideways.** Seven columns don't fit 375 pt, and a row is useless once its name has scrolled away.
 - **Screen readers get one element per table row.** The city cell reads the whole row ("Good 319 days, Satisfactory 23 days…") and the number cells are hidden, so no one has to swipe through 8 cells per city.
-- **Table cells stop growing at 2× text.** Beyond that a single number would need the whole screen width; the chart rows keep scaling fully.
+- **Table cells stop growing at 2× text, and past 1.3× the table stacks.** At large text sizes one column fills the screen, so each city becomes a block of label-and-value lines with nothing hidden off to the side.
 - **Hourly follows one station, and the station's name is the title.** Tapping it opens a searchable picker with favourites and recents.
 - **Hourly opens on the latest 7 days of hours.** A week shows the daily cycle clearly, and 30 days or the full year is one tap away.
 - **The estimated AQI sits on CPCB's 0–500 bands,** so "80" reads as low Satisfactory.
