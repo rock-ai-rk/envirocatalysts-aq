@@ -29,7 +29,8 @@ Both compare **FY 2024-25** (base) with **FY 2025-26** (comparison), as the brie
 
 ## Quick start
 
-You need Python 3.12+, Node 20+ and, for the iOS simulator, Xcode.
+You need Python 3.12+, Node 22.18+ (the contrast check runs TypeScript files directly) and, for
+the iOS simulator, Xcode.
 
 **1. Start the API** (terminal 1):
 
