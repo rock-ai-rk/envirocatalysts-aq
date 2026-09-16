@@ -341,7 +341,8 @@ export DATABASE_URL=postgresql+psycopg://aq:aq@localhost:5433/aq
 pip install -e ".[postgres]" && alembic upgrade head
 ```
 
-CI runs the test suite on both SQLite and PostgreSQL, so neither path goes stale.
+The test suite passes on both, so neither path goes stale
+(`TEST_DATABASE_URL=postgresql+psycopg://aq:aq@localhost:5433/aq_test pytest`).
 
 ```bash
 cd backend
