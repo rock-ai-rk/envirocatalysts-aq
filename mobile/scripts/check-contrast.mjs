@@ -28,6 +28,22 @@ for (const [theme, c] of Object.entries(palette)) {
 for (const [category, color] of Object.entries(aqiColors)) {
   add('aqi', `label on ${category}`, readableTextOn(color), color, TEXT);
 }
+
+// A stacked-bar segment sits on the card, not on its neighbour: StackedBar leaves a 2pt gap
+// between segments, so the card is the adjacent colour for every one of them. Three category
+// colours are under 3:1 there (Moderate's yellow is 1.07:1 on white), so those segments are
+// outlined and it is the outline that has to carry 1.4.11.
+for (const [theme, c] of Object.entries(palette)) {
+  for (const [category, color] of Object.entries(aqiColors)) {
+    const fill = contrastRatio(color, c.backgroundElement);
+    if (fill >= GRAPHIC) {
+      add(theme, `${category} fill vs card`, color, c.backgroundElement, GRAPHIC);
+    } else {
+      add(theme, `${category} outline vs card (fill only ${fill.toFixed(2)}:1)`, c.border, c.backgroundElement, GRAPHIC);
+    }
+  }
+  add(theme, 'no-data track outline vs card', c.border, c.backgroundElement, GRAPHIC);
+}
 for (const [pollutant, color] of Object.entries(pollutantColors)) {
   add('pol', `label on ${pollutant}`, readableTextOn(color), color, TEXT);
 }

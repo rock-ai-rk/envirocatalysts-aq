@@ -20,8 +20,11 @@ interface Props {
 /**
  * A horizontal stacked bar. Segments are separated by a 2pt gap so neighbouring colours never
  * need to contrast with each other (the source dashboard's segments bled together at under 3:1),
- * and a remainder (e.g. days with no data) is drawn as an empty track. Hidden from screen readers:
- * the row that contains it carries the spoken summary.
+ * and a remainder (e.g. days with no data) is drawn as an empty track. The gap makes the card the
+ * colour every segment sits against, and three category colours are under 3:1 on it (Moderate's
+ * yellow is 1.07:1), so each segment is outlined in the theme's border colour, which clears 3:1
+ * on the card in both themes. Hidden from screen readers: the row that contains it carries the
+ * spoken summary.
  */
 export function StackedBar({ segments, total, height = 22, showValues = true }: Props) {
   const theme = useTheme();
@@ -39,7 +42,7 @@ export function StackedBar({ segments, total, height = 22, showValues = true }: 
           // as a misused shared value and logs a warning on every render.
           const flex = s.value;
           return (
-            <View key={s.key} style={[styles.segment, { flex, backgroundColor: s.color }]}>
+            <View key={s.key} style={[styles.segment, { flex, backgroundColor: s.color, borderColor: theme.border }]}>
               {showValues && s.value / length >= 0.09 ? (
                 // Capped: the same numbers are in the row's headline and spoken summary, which scale fully.
                 <Text numberOfLines={1} maxFontSizeMultiplier={1.6} style={[styles.value, { color: s.textColor }]}>
@@ -50,7 +53,9 @@ export function StackedBar({ segments, total, height = 22, showValues = true }: 
           );
         })}
       {remainder > 0 ? (
-        <View style={[styles.segment, { flex: remainder, backgroundColor: theme.backgroundSelected }]} />
+        <View
+          style={[styles.segment, { flex: remainder, backgroundColor: theme.backgroundSelected, borderColor: theme.border }]}
+        />
       ) : null}
     </View>
   );
@@ -66,6 +71,8 @@ const styles = StyleSheet.create({
   segment: {
     justifyContent: 'center',
     alignItems: 'center',
+    // Outlines the segment against the card. Inside the box, so it does not shift the proportions.
+    borderWidth: 1,
   },
   value: {
     fontSize: 11,
