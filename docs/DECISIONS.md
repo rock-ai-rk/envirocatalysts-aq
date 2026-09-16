@@ -92,4 +92,5 @@ simplest to explain. The README has the longer reasoning.
 
 - **`removeClippedSubviews={false}` on the Overview list.** With the pinned controls, Android's default clipping crashed Fabric ("addViewAt: failed to insert view") when the rows arrived.
 - **The release build allows plain http** (`usesCleartextTraffic`), so a phone can reach the API over the same Wi-Fi. A deployed API would use https and drop this setting.
+- **No Google Maps key, so the Android build says so instead of crashing.** Google Maps needs a key and a billing account; the Map lens checks for one and falls back to a card explaining it, with the same cities in the list below. iOS keeps Apple Maps, which needs no key.
 - **The APK is built for arm64 only.** Current Android phones are arm64, and one architecture keeps the build within an 8 GB machine's memory.

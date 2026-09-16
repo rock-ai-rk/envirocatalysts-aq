@@ -1,8 +1,11 @@
-import { StyleSheet, View } from 'react-native';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { Platform, StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 import type { Pollutant } from '@/api/live';
 import type { CityPeriodStats, OverviewCity } from '@/api/types';
+import { SectionCard } from '@/components/section-card';
+import { StatusMessage } from '@/components/status-message';
 import { AQI_CATEGORIES, type AqiCategory } from '@/constants/aqi';
 import type { PeriodView } from '@/constants/periods';
 import { categoryForConcentration, unitFor } from '@/constants/pollutants';
@@ -12,6 +15,16 @@ import { formatNumber } from '@/lib/format';
 
 // Frames mainland India.
 const INDIA = { latitude: 22.5, longitude: 82.5, latitudeDelta: 28, longitudeDelta: 28 };
+
+/**
+ * iOS uses Apple Maps, which needs no key. On Android the same library uses Google Maps, which
+ * needs an API key in the build: Expo Go supplies its own, but a release build without one crashes
+ * as soon as the map mounts. Without a key the app says so instead of showing a broken map.
+ */
+const MAP_WORKS =
+  Platform.OS !== 'android' ||
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient ||
+  Boolean(Constants.expoConfig?.android?.config?.googleMaps?.apiKey);
 
 /** What a dot's colour means: the category a city had most days in, or a pollutant's average. */
 export type MapColour = { kind: 'category' } | { kind: 'concentration'; pollutant: Pollutant };
@@ -32,6 +45,19 @@ interface Props {
 export function CityMap({ cities, view, colour, onSelect }: Props) {
   const theme = useTheme();
   const placed = cities.filter((c) => c.city.latitude !== null && c.city.longitude !== null);
+
+  if (!MAP_WORKS) {
+    return (
+      <SectionCard title="City map">
+        <StatusMessage
+          kind="empty"
+          title="The map needs a Google Maps key on this Android build"
+          message={`It works on iOS, which uses Apple Maps, and in Expo Go. The list below has the same ${placed.length} cities, with the same colours.`}
+        />
+      </SectionCard>
+    );
+  }
+
   const meaning =
     colour.kind === 'category'
       ? 'each coloured by the AQI category it had most days in'

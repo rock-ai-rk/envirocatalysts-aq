@@ -75,6 +75,12 @@ The phone reaches the API over plain http on your Wi-Fi, which `app.json` allows
 `expo-build-properties`. On an 8 GB machine, raise Gradle's metaspace in
 `android/gradle.properties` (`-XX:MaxMetaspaceSize=1024m`), or the build runs out of memory.
 
+**The map in an Android build.** iOS uses Apple Maps, which needs no key. The same library uses
+Google Maps on Android, which needs an API key in the build; Expo Go supplies its own, and a
+release build without one used to crash the moment the map appeared. The Map lens now checks for a
+key first and, without one, says so and leaves the city list to carry the same information. To get
+a real map there, put a key in `app.json` under `android.config.googleMaps.apiKey` and rebuild.
+
 **3. Checks:**
 - `pytest` in `backend/`: 152 tests. They also run on PostgreSQL if you set `TEST_DATABASE_URL`.
 - `npm test` in `mobile/`: 12 tests (Jest and React Native Testing Library) covering the sentences
