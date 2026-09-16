@@ -111,7 +111,11 @@ function Capsules({ data }: { data: LiveCitiesResponse }) {
 
   if (wrap) return <View style={styles.column}>{capsules}</View>;
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.scroller}
+      contentContainerStyle={[styles.row, styles.scrollContent]}>
       {capsules}
     </ScrollView>
   );
@@ -123,6 +127,15 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  // A sideways scroller has to reach the screen edge, or its last item is sliced at the
+  // gutter. It spans the full width and carries the gutter as content padding instead, so the
+  // first item still lines up with everything above it.
+  scroller: {
+    marginHorizontal: -Spacing.three,
+  },
+  scrollContent: {
+    paddingHorizontal: Spacing.three,
   },
   row: {
     gap: Spacing.two,

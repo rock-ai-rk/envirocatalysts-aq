@@ -112,7 +112,11 @@ export function StatusCapsules({ query, demo, notRanked }: Props) {
   if (!capsules.length) return null;
   if (wrap) return <View style={[styles.row, styles.wrap]}>{capsules}</View>;
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.scroller}
+      contentContainerStyle={[styles.row, styles.scrollContent]}>
       {capsules}
     </ScrollView>
   );
@@ -169,6 +173,15 @@ function Capsule({ label, spoken, hint, notice = false, live = false, onPress }:
 }
 
 const styles = StyleSheet.create({
+  // A sideways scroller has to reach the screen edge, or its last item is sliced at the
+  // gutter. It spans the full width and carries the gutter as content padding instead, so the
+  // first item still lines up with everything above it.
+  scroller: {
+    marginHorizontal: -Spacing.three,
+  },
+  scrollContent: {
+    paddingHorizontal: Spacing.three,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
