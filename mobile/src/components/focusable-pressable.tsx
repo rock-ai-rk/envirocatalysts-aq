@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 
+import { useReducedMotion } from 'react-native-reanimated';
+
 import { useTheme } from '@/hooks/use-theme';
 
 type Props = Omit<PressableProps, 'style'> & { style?: StyleProp<ViewStyle> };
@@ -11,6 +13,7 @@ type Props = Omit<PressableProps, 'style'> & { style?: StyleProp<ViewStyle> };
  */
 export function FocusablePressable({ style, onFocus, onBlur, ...props }: Props) {
   const theme = useTheme();
+  const reduceMotion = useReducedMotion();
   const [focused, setFocused] = useState(false);
 
   return (
@@ -29,6 +32,7 @@ export function FocusablePressable({ style, onFocus, onBlur, ...props }: Props) 
         style,
         focused && { borderColor: theme.text },
         pressed && styles.pressed,
+        pressed && !reduceMotion && styles.pressedScale,
       ]}
     />
   );
@@ -40,6 +44,10 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.85,
+  },
+  // Transform only, so a press never moves anything around it. Skipped under Reduce Motion.
+  pressedScale: {
+    transform: [{ scale: 0.97 }],
   },
 });
