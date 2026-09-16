@@ -70,7 +70,9 @@ export default function RootLayout() {
                   <Stack.Screen name="filters" options={{ presentation: 'modal', title: 'Filters' }} />
                   {/* A lens is pushed, not presented: it is the same data one level in, and the
                       card it came from carries into it. */}
-                  <Stack.Screen name="lens/[metric]" options={{ title: 'View', headerBackTitle: 'Overview' }} />
+                  {/* No title in the bar: the screen carries its own, the size of a heading, and the
+                      card that opened it grows into that. The bar is here for the way back. */}
+                  <Stack.Screen name="lens/[metric]" options={{ title: '', headerBackTitle: 'Overview' }} />
                   <Stack.Screen name="coverage" options={modal('Why some cities aren’t ranked')} />
                   <Stack.Screen name="city/[id]" options={modal('City')} />
                   <Stack.Screen name="station-picker" options={modal('Choose a station')} />

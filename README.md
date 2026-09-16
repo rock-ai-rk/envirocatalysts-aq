@@ -27,6 +27,13 @@ Both compare **FY 2024-25** (base) with **FY 2025-26** (comparison), as the brie
 > - **Right now:** hourly estimates from the CAMS air-quality model, fetched from Open-Meteo with
 >   no key or sign-up, and labelled as estimates wherever they appear (see [Scraper](#scraper)).
 
+> **How the work was paced.** The commits run 13–16 September, but not evenly: the backend, the
+> data import and the API landed on the 13th, and the mobile rebuild, the accessibility work and
+> the redesign on the 16th, in two long sessions. The two days between them went mostly on reading
+> the source dashboard and working out its coverage rules, which is written up in
+> [`docs/discovery.md`](docs/discovery.md) rather than committed as code. The commits follow the
+> steps of the work rather than the clock, and each one says what changed and why.
+
 ## Quick start
 
 You need Python 3.12+, Node 22.18+ (the contrast check runs TypeScript files directly) and, for
@@ -59,6 +66,14 @@ npm start               # press i for the iOS simulator, or scan the QR code wit
 
 A phone on the same Wi-Fi works too, because the app finds the API on the machine running
 `npm start`.
+
+**A native iOS build** (`npx expo run:ios`) needs CocoaPods, and on Ruby 3.4 `pod install` aborts
+with `Unicode Normalization not appropriate for ASCII-8BIT` unless the locale is set. Export it
+first:
+
+```bash
+export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+```
 
 **Android APK** (installs without Expo Go; needs Android Studio's JDK and SDK):
 
