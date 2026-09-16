@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { FlatList, type NativeScrollEvent, type NativeSyntheticEvent, RefreshControl, StyleSheet, View } from 'react-native';
 import Animated, { useReducedMotion } from 'react-native-reanimated';
 
 import { useMeta, useOverview } from '@/api/history';
@@ -50,6 +50,9 @@ type ListItem =
 // The deck is the first item; index 0 is the list header.
 const DECK_INDEX = 1;
 
+/** How far the list travels before the pinned bar lifts. */
+const RAISE_AT = 8;
+
 const AQI_LEGEND = AQI_CATEGORIES.map((c) => ({ key: c.key, label: c.label, color: c.color, category: c }));
 const POLLUTANT_LEGEND = POLLUTANT_ORDER.map((p) => ({ key: p, label: p, color: pollutantColor(p).color }));
 
@@ -75,6 +78,17 @@ export function LensScreen({ lens }: { lens: OverviewMetric }) {
   const largeText = useLargeText();
   const refresh = usePullToRefresh();
   const reduceMotion = useReducedMotion();
+
+  // Whether rows have begun passing under the pinned bar, which decides its raised state. Set at
+  // a threshold rather than per offset, so a scroll re-renders this twice rather than every frame.
+  const [raised, setRaised] = useState(false);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const next = event.nativeEvent.contentOffset.y > RAISE_AT;
+      setRaised((current) => (current === next ? current : next));
+    },
+    [],
+  );
 
   const data = overview.data;
   const cities = useMemo(() => data?.cities ?? [], [data]);
@@ -130,6 +144,7 @@ export function LensScreen({ lens }: { lens: OverviewMetric }) {
       onPollutant={setPollutant}
       mapColourBy={mapColourBy}
       onMapColourBy={setMapColourBy}
+      raised={raised}
     />
   );
 
@@ -294,6 +309,8 @@ export function LensScreen({ lens }: { lens: OverviewMetric }) {
     <ScreenFrame>
       <FlatList
         data={items}
+        onScroll={onScroll}
+        scrollEventThrottle={32}
         keyExtractor={(item) => (item.kind === 'city' ? String(item.city.city.id) : item.kind)}
         renderItem={renderItem}
         stickyHeaderIndices={items.length && !largeText ? [DECK_INDEX] : undefined}

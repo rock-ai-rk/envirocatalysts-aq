@@ -9,7 +9,7 @@ import { SegmentedControl } from '@/components/segmented-control';
 import { ThemedText } from '@/components/themed-text';
 import { PLACEHOLDER_PERIODS, periodViewOptions, type PeriodView } from '@/constants/periods';
 import { CONCENTRATION_POLLUTANTS } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { elevation, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -28,6 +28,8 @@ interface Props {
   onPollutant: (pollutant: Pollutant) => void;
   mapColourBy: MapColourBy;
   onMapColourBy: (by: MapColourBy) => void;
+  /** True once rows have begun passing under the bar, for its raised state. */
+  raised: boolean;
 }
 
 /**
@@ -37,7 +39,7 @@ interface Props {
  * under it. Choosing the lens itself is navigation now, not a chip here.
  */
 export function OverviewDeck(props: Props) {
-  const { periods, view, onView, metric, pollutant, onPollutant, mapColourBy, onMapColourBy } = props;
+  const { periods, view, onView, metric, pollutant, onPollutant, mapColourBy, onMapColourBy, raised } = props;
   const theme = useTheme();
   const { base, comparison } = periods ?? PLACEHOLDER_PERIODS;
 
@@ -45,11 +47,37 @@ export function OverviewDeck(props: Props) {
   // under. Everywhere else — Android, older iOS, the web — it stays an opaque bar, which is what
   // the contrast check measures; the glass is an addition on top, never the thing that makes the
   // controls legible.
-  const Bar = isLiquidGlassAvailable() ? GlassView : View;
-  const barColour = isLiquidGlassAvailable() ? undefined : { backgroundColor: theme.background };
+  if (isLiquidGlassAvailable()) {
+    return (
+      <GlassView style={[styles.deck, { borderBottomColor: theme.border }]}>
+        <Controls {...props} base={base} comparison={comparison} />
+      </GlassView>
+    );
+  }
+
+  // Material's scrolled state, for the platforms with no glass to refract through: at rest the bar
+  // is flat with a hairline under it, and once rows begin passing beneath it the hairline gives way
+  // to a shadow, so the bar reads as raised over them rather than painted on. The screen flips
+  // `raised` at a threshold, so this re-renders twice a scroll rather than every frame.
+  return (
+    <View
+      style={[
+        styles.deck,
+        { backgroundColor: theme.background },
+        raised ? [styles.raised, { borderBottomColor: 'transparent' }] : { borderBottomColor: theme.border },
+      ]}>
+      <Controls {...props} base={base} comparison={comparison} />
+    </View>
+  );
+}
+
+function Controls(
+  props: Props & { base: Pick<Period, 'label'>; comparison: Pick<Period, 'label'> },
+) {
+  const { view, onView, metric, pollutant, onPollutant, mapColourBy, onMapColourBy, base, comparison } = props;
 
   return (
-    <Bar style={[styles.deck, barColour, { borderBottomColor: theme.border }]}>
+    <>
       <SegmentedControl
         label="Period"
         options={periodViewOptions(base, comparison)}
@@ -86,7 +114,7 @@ export function OverviewDeck(props: Props) {
           ))}
         </ChipRow>
       ) : null}
-    </Bar>
+    </>
   );
 }
 
@@ -130,6 +158,9 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.two,
     gap: Spacing.two,
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  raised: {
+    ...elevation(2),
   },
   // A sideways scroller has to reach the screen edge, or its last item is sliced at the
   // gutter. It spans the full width and carries the gutter as content padding instead, so the

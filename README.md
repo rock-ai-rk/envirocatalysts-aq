@@ -119,9 +119,11 @@ the data and the rules, and changes how you reach them.
   showing the answer it would give, worked out from the same cities: the spread of a pollutant's
   averages, the share of days each pollutant led, the dots the map would place. A card that shows
   nothing until you open it is a button wearing a chart's clothes.
-- **Controls stay in reach.** The year toggle stays pinned while the city list scrolls under it, on
-  iOS 26 as Liquid Glass so the rows refract through it. At large text sizes the controls would cover
-  much of the screen, so there they scroll with the page.
+- **Controls stay in reach, in each platform's own material.** The year toggle stays pinned while the
+  city list scrolls under it: on iOS 26 as Liquid Glass, so the rows refract through it, and on
+  Android as Material's scrolled state, flat with a hairline at rest and raised on a shadow once rows
+  pass beneath. At large text sizes the controls would cover much of the screen, so there they scroll
+  with the page.
 - **A list, not a chart that grows.** Each city is a fixed-height row in a virtualised list, so
   "All cities" is just a longer scroll.
 - **Every lens as a table.** *View as table* swaps the bars for the numbers: each category or

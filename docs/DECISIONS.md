@@ -99,9 +99,15 @@ simplest to explain. The README has the longer reasoning.
   surface, but an asymmetric tile grid breaks the uniform scanning a ranked list depends on, and it
   would have put the ranking two taps away. The cards are a single column, in the order the questions
   get asked.
-- **Liquid Glass where the OS has it.** `expo-glass-effect` draws the pinned bar as glass on iOS 26
-  and falls back to an opaque `View` everywhere else, which is what the contrast check measures. The
-  glass is an addition on top; it is never what makes the controls legible.
+- **Each platform's own material for the pinned bar.** On iOS 26 `expo-glass-effect` draws it as
+  Liquid Glass, so rows refract through it. Android has no glass, and chasing it with a blur would
+  have meant a new dependency, wrapping the virtualised list in a `BlurTarget`, and the most
+  expensive case there is — a blur behind a scrolling list — with no blur at all below Android 12.
+  So Android gets Material's own answer instead: the bar is flat with a hairline at rest, and once
+  rows pass under it the hairline gives way to elevation. The raised state flips at a threshold, so
+  a scroll re-renders the bar twice rather than every frame. Either way the bar stays opaque, which
+  is what the contrast check measures; the glass and the shadow are both additions on top, never
+  what makes the controls legible.
 - **Plus Jakarta Sans, not the system face.** Every type size keeps the `fontSize` and `lineHeight` it was checked at, so the Dynamic Type work still holds; only the glyphs change. Android does not synthesise weights for a custom family, so each weight is its own family name (`FontFamily`) and no style sets a `fontWeight`.
 - **Cards lift with a shadow instead of only a colour change.** Three `elevation()` steps: list rows and section cards at 1, the verdict at 2, and 3 for anything over the page. Shadows are decorative, so nothing depends on seeing them.
 - **Radii are named** (`Radius`), one step per surface size, with `medium` set to the 16pt that most surfaces already used so naming them reshaped nothing.
