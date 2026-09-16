@@ -4,7 +4,7 @@ import { useMeta } from '@/api/history';
 import type { Dataset } from '@/api/types';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 
 type Screen = 'overview' | 'hourly';
 
@@ -34,7 +34,7 @@ export function DemoDataBanner({ screen }: { screen: Screen }) {
 
 const styles = StyleSheet.create({
   banner: {
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
   },

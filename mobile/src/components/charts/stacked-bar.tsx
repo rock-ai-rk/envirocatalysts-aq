@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { FontFamily } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export interface Segment {
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 11,
-    fontWeight: '700',
+    fontFamily: FontFamily[700],
     paddingVertical: 2,
   },
 });

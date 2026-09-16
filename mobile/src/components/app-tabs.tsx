@@ -10,7 +10,9 @@ export default function AppTabs() {
 
   return (
     <NativeTabs
-      backgroundColor={colors.background}
+      // The card colour, not the page colour: the bar reads as its own surface, so a row scrolling
+      // under it is covered rather than sliced along an invisible edge.
+      backgroundColor={colors.backgroundElement}
       // iOS otherwise makes the bar transparent over scrolled content, and the tab labels end up
       // drawn on top of list text, unreadable.
       disableTransparentOnScrollEdge

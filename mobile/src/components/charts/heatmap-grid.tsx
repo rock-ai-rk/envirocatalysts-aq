@@ -4,7 +4,7 @@ import type { Pollutant } from '@/api/live';
 import type { HeatmapRow } from '@/api/types';
 import { ThemedText } from '@/components/themed-text';
 import { categoryForConcentration, spokenUnitFor } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { FontFamily, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 interface Props {
@@ -112,6 +112,6 @@ const styles = StyleSheet.create({
   },
   cellText: {
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: FontFamily[600],
   },
 });

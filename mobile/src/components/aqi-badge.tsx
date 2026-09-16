@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { AQI_CATEGORIES, type AqiCategory } from '@/constants/aqi';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 interface Props {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.one,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     borderWidth: 1,
     maxWidth: '100%',
   },

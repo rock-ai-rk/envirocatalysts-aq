@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { StatusMessage } from '@/components/status-message';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useOnline } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -141,7 +141,8 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
   },
   card: {
-    borderRadius: Spacing.three,
+    // The same radius as the cards it stands in for, so nothing reshapes when the data lands.
+    borderRadius: Radius.large,
     padding: Spacing.three,
     gap: Spacing.two,
   },

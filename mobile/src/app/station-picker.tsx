@@ -9,7 +9,7 @@ import { SkeletonLines } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { MaxContentWidth, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { resolveStation, useHourlySelection } from '@/state/hourly-selection';
 import { useStationPrefs } from '@/state/station-prefs';
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   search: {
     minHeight: MinTouchTarget,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     paddingHorizontal: Spacing.three,
     fontSize: 16,
     marginBottom: Spacing.two,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   choice: {
     flex: 1,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.two,
     paddingHorizontal: Spacing.two,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   rowLabel: {
     flex: 1,

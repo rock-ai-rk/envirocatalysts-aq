@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { elevation, FontFamily, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import type { Verdict } from '@/lib/describe';
 
@@ -65,9 +65,10 @@ export function VerdictCard({ verdict, showingChange, onShowChange }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three + Spacing.one,
-    padding: Spacing.three,
+    borderRadius: Radius.xlarge,
+    padding: Spacing.four,
     gap: Spacing.two,
+    ...elevation(2),
   },
   // FocusablePressable always carries a 2pt transparent border for its focus ring; match it.
   focusRingSpace: {
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   sentence: {
     fontSize: 22,
     lineHeight: 28,
-    fontWeight: 700,
+    fontFamily: FontFamily[800],
+    letterSpacing: -0.3,
   },
 });

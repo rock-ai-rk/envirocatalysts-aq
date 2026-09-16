@@ -9,7 +9,7 @@ import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { categoryByKey } from '@/constants/aqi';
 import { POLLUTANT_ORDER, spokenUnitFor } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { FontFamily, Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useNow } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
@@ -179,7 +179,7 @@ function LiveBody({ data }: { data: CityLive }) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     borderWidth: 2,
     padding: Spacing.three,
     gap: Spacing.two,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     gap: Spacing.one,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.half,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   dot: {
     width: 8,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   // No fixed line height: one would keep growing with the text size while the figure is capped.
   aqiValue: {
     fontSize: 44,
-    fontWeight: 700,
+    fontFamily: FontFamily[700],
   },
   headlineText: {
     flex: 1,
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   reading: {
     minWidth: 64,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.one,
   },

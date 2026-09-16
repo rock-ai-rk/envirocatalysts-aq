@@ -10,7 +10,7 @@ import { ThemedText } from '@/components/themed-text';
 import { AQI_CATEGORIES, type AqiCategory } from '@/constants/aqi';
 import type { PeriodView } from '@/constants/periods';
 import { CONCENTRATION_POLLUTANTS, POLLUTANT_ORDER, spokenUnitFor } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber, formatPercent, formatSigned } from '@/lib/format';
@@ -287,7 +287,7 @@ function captionFor(metric: RowMetric, view: PeriodView, periods: { base: Period
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     paddingVertical: Spacing.two,
     overflow: 'hidden',
   },

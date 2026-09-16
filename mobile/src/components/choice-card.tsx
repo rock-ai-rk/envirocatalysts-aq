@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { selectionTick } from '@/lib/haptics';
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     borderWidth: 1,
   },
   // A thicker outline when selected, so the choice doesn't rest on the fill colour alone.

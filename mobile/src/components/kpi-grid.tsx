@@ -6,7 +6,7 @@ import type { HourlyPeriod } from '@/api/types';
 import { DeltaChip, describeDelta } from '@/components/delta-chip';
 import { ThemedText } from '@/components/themed-text';
 import { spokenUnitFor } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { formatIstTimestamp, formatNumber } from '@/lib/format';
 
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   card: {
     flexGrow: 1,
     flexBasis: '45%',
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     padding: Spacing.three,
     gap: Spacing.half,
   },

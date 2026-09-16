@@ -11,7 +11,7 @@ import { StyleSheet, View } from 'react-native';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { MaxContentWidth, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 
 /** Web has no native tab bar, so render a simple accessible one above the content. */
 export default function AppTabs() {
@@ -81,18 +81,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.two,
     paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
   },
   brand: {
     marginRight: 'auto',
   },
   tabButton: {
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
   },
   tabPill: {
     minHeight: MinTouchTarget - 4,
     justifyContent: 'center',
     paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
   },
 });

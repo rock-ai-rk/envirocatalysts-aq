@@ -19,7 +19,7 @@ import {
   spokenUnitFor,
   unitFor,
 } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { elevation, Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { describeAqiDays, describeCoverage, describeDominant } from '@/lib/describe';
@@ -327,10 +327,11 @@ function NoData({ text }: { text: string }) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
+    borderRadius: Radius.large,
+    ...elevation(1),
   },
   row: {
-    borderRadius: Spacing.three,
+    borderRadius: Radius.large,
     padding: Spacing.three,
     gap: Spacing.two,
   },

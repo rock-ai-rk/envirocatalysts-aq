@@ -2,7 +2,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useOnline } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget,
     justifyContent: 'center',
     paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
 });

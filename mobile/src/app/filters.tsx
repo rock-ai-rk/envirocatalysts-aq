@@ -11,7 +11,7 @@ import { FocusablePressable } from '@/components/focusable-pressable';
 import { SegmentedControl } from '@/components/segmented-control';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { MaxContentWidth, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { lightImpact } from '@/lib/haptics';
 import {
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   search: {
     minHeight: MinTouchTarget,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     paddingHorizontal: Spacing.three,
     fontSize: 16,
   },
@@ -298,6 +298,6 @@ const styles = StyleSheet.create({
     minWidth: MinTouchTarget,
     justifyContent: 'center',
     paddingHorizontal: Spacing.two,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
 });

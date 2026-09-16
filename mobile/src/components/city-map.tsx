@@ -9,7 +9,7 @@ import { StatusMessage } from '@/components/status-message';
 import { AQI_CATEGORIES, type AqiCategory } from '@/constants/aqi';
 import type { PeriodView } from '@/constants/periods';
 import { categoryForConcentration, unitFor } from '@/constants/pollutants';
-import { Spacing } from '@/constants/theme';
+import { Radius } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber } from '@/lib/format';
 
@@ -127,7 +127,7 @@ function describeDot(
 const styles = StyleSheet.create({
   frame: {
     height: 320,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     borderWidth: 1,
     overflow: 'hidden',
   },

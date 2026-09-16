@@ -1,5 +1,15 @@
+import {
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
+  useFonts,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -21,8 +31,27 @@ function modal(title: string) {
   };
 }
 
+// Held until the type is ready, so text never draws in the system font and reflows a frame later.
+SplashScreen.preventAutoHideAsync().catch(() => {});
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [fontsLoaded, fontError] = useFonts({
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_800ExtraBold,
+  });
+  const typeReady = fontsLoaded || Boolean(fontError);
+
+  useEffect(() => {
+    if (typeReady) SplashScreen.hideAsync().catch(() => {});
+  }, [typeReady]);
+
+  // A font that fails to load still lets the app through, on the system face rather than a
+  // permanent splash.
+  if (!typeReady) return null;
 
   return (
     // The trend chart's scrub and the window strip's drag are Gesture Handler gestures.

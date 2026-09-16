@@ -13,7 +13,7 @@ import { SkeletonChart } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { shortPeriodLabel, type PeriodView } from '@/constants/periods';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { describeSeries } from '@/lib/describe';
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: Spacing.two,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   legend: {
     flexDirection: 'row',

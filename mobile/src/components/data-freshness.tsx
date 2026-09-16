@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useNow, useOnline } from '@/hooks/use-online';
 import { useTheme } from '@/hooks/use-theme';
 import { formatAge } from '@/lib/format';
@@ -62,7 +62,7 @@ export function DataFreshness({ query }: { query: QueryState }) {
 const styles = StyleSheet.create({
   notice: {
     alignSelf: 'flex-start',
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.one,
   },

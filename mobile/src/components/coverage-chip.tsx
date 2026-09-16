@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { formatPercent } from '@/lib/format';
 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   chip: {
     alignSelf: 'flex-start',
     borderWidth: 1,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     paddingHorizontal: Spacing.two,
   },
 });

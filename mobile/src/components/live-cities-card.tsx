@@ -11,7 +11,7 @@ import { SourceCredit } from '@/components/source-credit';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { categoryByKey } from '@/constants/aqi';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatClock } from '@/lib/format';
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     minWidth: 120,
     minHeight: MinTouchTarget,
     borderWidth: 1,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
     gap: Spacing.half,

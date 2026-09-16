@@ -5,7 +5,7 @@ import Svg, { Path, Rect } from 'react-native-svg';
 
 import type { StationSeries } from '@/api/types';
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { formatDayRange } from '@/lib/dates';
 import type { SeriesWindow } from '@/lib/series-window';
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   strip: {
     height: HEIGHT + 2,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
     overflow: 'hidden',
   },
   ends: {

@@ -10,7 +10,7 @@ import { SkeletonLines } from '@/components/skeleton';
 import { StatusMessage } from '@/components/status-message';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { MaxContentWidth, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber, formatPercent } from '@/lib/format';
 import { toOverviewParams, useOverviewFilters } from '@/state/overview-filters';
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.two,
     paddingVertical: Spacing.one,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   rowText: {
     flex: 1,

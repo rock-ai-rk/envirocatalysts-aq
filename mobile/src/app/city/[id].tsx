@@ -25,7 +25,7 @@ import {
   spokenUnitFor,
   unitFor,
 } from '@/constants/pollutants';
-import { MaxContentWidth, MinTouchTarget, Spacing } from '@/constants/theme';
+import { MaxContentWidth, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useLargeText } from '@/hooks/use-large-text';
 import { useTheme } from '@/hooks/use-theme';
 import { formatNumber } from '@/lib/format';
@@ -310,6 +310,6 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget + 4,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Spacing.three,
+    borderRadius: Radius.medium,
   },
 });

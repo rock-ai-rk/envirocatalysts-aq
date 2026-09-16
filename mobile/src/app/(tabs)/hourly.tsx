@@ -28,7 +28,7 @@ import {
   shortPeriodLabel,
   type PeriodView,
 } from '@/constants/periods';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { FontFamily, MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import { useTheme } from '@/hooks/use-theme';
 import { describeExceedance, describeHourProfile } from '@/lib/describe';
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   place: {
     minHeight: MinTouchTarget,
     gap: Spacing.half,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
   eyebrow: {
     textTransform: 'uppercase',
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   placeName: {
     fontSize: 24,
     lineHeight: 30,
-    fontWeight: 700,
+    fontFamily: FontFamily[700],
   },
   historyHeading: {
     marginTop: Spacing.two,
