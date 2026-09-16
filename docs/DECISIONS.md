@@ -91,10 +91,13 @@ simplest to explain. The README has the longer reasoning.
   a chip.
 - **The entry points preview their answer.** Each card at the foot of the Overview draws the real
   numbers it would show — a pollutant's spread, the share of days each pollutant led, the map's dots.
-  Material calls the pattern a container transform: the card is the destination one level out, not a
-  picture of it. Both ends carry the same `sharedTransitionTag`, so the card keeps its bounds across
-  the push and grows into the lens screen's header instead of sliding away under a new screen. The
-  tag is dropped under Reduce Motion, which leaves the navigator's plain push.
+  A card that shows nothing until you open it is a button wearing a chart's clothes.
+- **The card does not morph into the screen, and the code no longer pretends it does.** The intent
+  was Material's container transform, with the card keeping its bounds across the push. Reanimated's
+  `sharedTransitionTag` was wired on both ends, but on a release build on iOS 26 it never fired: a
+  frame-by-frame look at the push shows the standard native slide, not a morph. Rather than leave a
+  tag in the tree that reads as a feature and does nothing, it is removed. The navigation is a plain
+  push, which is what the app actually does.
 - **Bento grid was considered and rejected.** It is the current fashion for this kind of landing
   surface, but an asymmetric tile grid breaks the uniform scanning a ranked list depends on, and it
   would have put the ranking two taps away. The cards are a single column, in the order the questions

@@ -99,5 +99,10 @@ export const Spacing = {
 /** Apple and Material both recommend at least 44pt/48dp touch targets. */
 export const MinTouchTarget = 44;
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
+/**
+ * How much room a scrolling screen leaves at its foot for the tab bar. iOS 26's bar floats clear of
+ * the screen edge rather than sitting on it, so it needs more than the 50pt that cleared the older
+ * opaque bar — at 50 the last line of a footer stayed under the glass however far you scrolled.
+ */
+export const BottomTabInset = Platform.select({ ios: 96, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;

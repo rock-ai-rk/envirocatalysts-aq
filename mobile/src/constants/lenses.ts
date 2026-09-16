@@ -48,14 +48,6 @@ export type LinkedLens = Lens & { slug: NonNullable<Lens['slug']> };
 /** The three that are screens of their own, in the order the Overview lists them. */
 export const LINKED_LENSES: LinkedLens[] = LENSES.filter((lens): lens is LinkedLens => lens.slug !== null);
 
-/**
- * The tag that carries a lens card into the screen it opens: both ends wear it, so the navigator
- * keeps the card's bounds across the push instead of sliding one screen over another.
- */
-export function sharedTagFor(slug: string | null): string | undefined {
-  return slug ? `lens-${slug}` : undefined;
-}
-
 export function lensBySlug(slug: string | undefined): Lens {
   return LENSES.find((lens) => lens.slug === slug) ?? LENSES[0];
 }

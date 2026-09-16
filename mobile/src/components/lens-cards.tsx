@@ -1,13 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { useReducedMotion } from 'react-native-reanimated';
 
 import type { Pollutant } from '@/api/live';
 import type { OverviewCity } from '@/api/types';
 import { FocusablePressable } from '@/components/focusable-pressable';
 import { ThemedText } from '@/components/themed-text';
-import { LINKED_LENSES, sharedTagFor, type LinkedLens } from '@/constants/lenses';
+import { LINKED_LENSES, type LinkedLens } from '@/constants/lenses';
 import { CONCENTRATION_POLLUTANTS, pollutantColor, unitFor } from '@/constants/pollutants';
 import { elevation, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -56,34 +55,28 @@ function LensCard({
 }) {
   const router = useRouter();
   const preview = usePreview(lens, cities, pollutant);
-  const reduceMotion = useReducedMotion();
 
   return (
-    // The card is the destination one level out: it keeps its bounds across the push, so it grows
-    // into the lens screen's header instead of sliding away while a new screen slides in. Under
-    // Reduce Motion the tag is dropped and the navigator does its plain push.
-    <Animated.View sharedTransitionTag={reduceMotion ? undefined : sharedTagFor(lens.slug)}>
-      <FocusablePressable
-        role="link"
-        aria-label={`${lens.title}. ${preview.spoken}`}
-        accessibilityHint="Opens this view"
-        onPress={() => router.push(`/lens/${lens.slug}`)}
-        style={[styles.card, { backgroundColor: theme.backgroundElement }]}>
-        <View style={styles.titleRow}>
-          <ThemedText type="sectionTitle" style={styles.title}>
-            {lens.title}
-          </ThemedText>
-          <ThemedText type="sectionTitle" themeColor="textSecondary" aria-hidden>
-            →
-          </ThemedText>
-        </View>
-        <ThemedText type="small" themeColor="textSecondary">
-          {lens.question}
+    <FocusablePressable
+      role="link"
+      aria-label={`${lens.title}. ${preview.spoken}`}
+      accessibilityHint="Opens this view"
+      onPress={() => router.push(`/lens/${lens.slug}`)}
+      style={[styles.card, { backgroundColor: theme.backgroundElement }]}>
+      <View style={styles.titleRow}>
+        <ThemedText type="sectionTitle" style={styles.title}>
+          {lens.title}
         </ThemedText>
-        <View aria-hidden>{preview.chart}</View>
-        <ThemedText type="smallBold">{preview.summary}</ThemedText>
-      </FocusablePressable>
-    </Animated.View>
+        <ThemedText type="sectionTitle" themeColor="textSecondary" aria-hidden>
+          →
+        </ThemedText>
+      </View>
+      <ThemedText type="small" themeColor="textSecondary">
+        {lens.question}
+      </ThemedText>
+      <View aria-hidden>{preview.chart}</View>
+      <ThemedText type="smallBold">{preview.summary}</ThemedText>
+    </FocusablePressable>
   );
 }
 

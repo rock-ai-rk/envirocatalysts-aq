@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { FlatList, type NativeScrollEvent, type NativeSyntheticEvent, RefreshControl, StyleSheet, View } from 'react-native';
-import Animated, { useReducedMotion } from 'react-native-reanimated';
 
 import { useMeta, useOverview } from '@/api/history';
 import type { Pollutant } from '@/api/live';
@@ -26,7 +25,7 @@ import { ThemedText } from '@/components/themed-text';
 import { VerdictCard } from '@/components/verdict-card';
 import { AQI_CATEGORIES } from '@/constants/aqi';
 import { DEFAULT_MIN_COVERAGE } from '@/constants/coverage';
-import { lensByKey, sharedTagFor } from '@/constants/lenses';
+import { lensByKey } from '@/constants/lenses';
 import { PLACEHOLDER_PERIODS, shortPeriodLabel, type PeriodView } from '@/constants/periods';
 import { concentrationBands, POLLUTANT_ORDER, pollutantColor, unitFor } from '@/constants/pollutants';
 import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
@@ -77,7 +76,6 @@ export function LensScreen({ lens }: { lens: OverviewMetric }) {
   // At large text sizes the controls take up much of the screen, so they scroll away instead.
   const largeText = useLargeText();
   const refresh = usePullToRefresh();
-  const reduceMotion = useReducedMotion();
 
   // Whether rows have begun passing under the pinned bar, which decides its raised state. Set at
   // a threshold rather than per offset, so a scroll re-renders this twice rather than every frame.
@@ -237,14 +235,12 @@ export function LensScreen({ lens }: { lens: OverviewMetric }) {
           <ScreenTitle>Air quality</ScreenTitle>
         </View>
       ) : (
-        // The other end of the card's transition: the card that opened this screen settles here.
-        <Animated.View
-          sharedTransitionTag={reduceMotion ? undefined : sharedTagFor(lensByKey(lens).slug)}>
+        <View>
           <ScreenTitle>{lensByKey(lens).title}</ScreenTitle>
           <ThemedText type="small" themeColor="textSecondary">
             {lensByKey(lens).question}
           </ThemedText>
-        </Animated.View>
+        </View>
       )}
       <FilterSummaryBar />
       <StatusCapsules
