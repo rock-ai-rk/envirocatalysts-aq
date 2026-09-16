@@ -331,6 +331,18 @@ Requires Python 3.12+. No database server is needed: by default the API uses a S
 `backend/data/aq.db`. The same code runs on PostgreSQL if you set `DATABASE_URL`
 (install with `pip install -e ".[postgres]"`).
 
+To run it on PostgreSQL instead, [`backend/docker-compose.yml`](backend/docker-compose.yml) starts
+one on port 5433, clear of any PostgreSQL already on the machine:
+
+```bash
+cd backend
+docker compose up -d
+export DATABASE_URL=postgresql+psycopg://aq:aq@localhost:5433/aq
+pip install -e ".[postgres]" && alembic upgrade head
+```
+
+CI runs the test suite on both SQLite and PostgreSQL, so neither path goes stale.
+
 ```bash
 cd backend
 python3 -m venv .venv

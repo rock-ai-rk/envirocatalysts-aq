@@ -178,5 +178,7 @@ Turn VoiceOver on (Settings → Accessibility → VoiceOver), open the app in Ex
 - **iPhone SE simulator.** Done on 16 Sep: both screens, the sheets, the table and the map, in
   light and dark mode, at the default text size and at *Accessibility XXXL*.
 - **Android.** The release APK was installed and used on a Pixel 9 Pro emulator on 16 Sep: the
-  layout holds and the app reads the API over the local network. **TalkBack itself is still
-  untested**, so the Android screen-reader behaviour is designed for but unverified.
+  layout holds, the list and the table scroll without the earlier Fabric crash, and the app reads
+  the API over the local network. Opening the map crashed that build, because Google Maps needs an
+  API key on Android; the Map lens now says so instead. **TalkBack itself is still untested**, so
+  the Android screen-reader behaviour is designed for but unverified.

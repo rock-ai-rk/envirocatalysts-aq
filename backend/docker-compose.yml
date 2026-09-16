@@ -1,0 +1,27 @@
+# PostgreSQL for anyone who would rather not run the API on SQLite. The app's own default is the
+# SQLite file at backend/data/aq.db, so this is optional.
+#
+#   docker compose up -d
+#   export DATABASE_URL=postgresql+psycopg://aq:aq@localhost:5433/aq
+#   pip install -e ".[postgres]" && alembic upgrade head
+#
+# Port 5433, so it can't clash with a PostgreSQL already running on the machine.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: aq
+      POSTGRES_PASSWORD: aq
+      POSTGRES_DB: aq
+    ports:
+      - "5433:5432"
+    volumes:
+      - aq-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aq -d aq"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  aq-postgres:
