@@ -53,7 +53,7 @@ Halogen blue palette: [`redesign/`](redesign/).
   detail with its units written out ("micrograms per cubic metre"). It keeps the same height when
   it switches to Change, so the pinned controls below it don't jump.
 - **Good green.** `#00B050` → `#009A47`, so Good and Satisfactory are easier to tell apart (see
-  the README). The contrast check still passes all 59 pairings.
+  the README). The contrast check still passes every pairing.
 
 ### 16 Sep: Hourly and the rest, on the iPhone SE
 
@@ -88,6 +88,35 @@ New elements and how they reach screen readers:
 Screenshots: [Hourly on the SE](redesign/hourly-iphonese-light.png),
 [night hours shaded](redesign/hourly-night-hours-iphonese.png),
 [the year in days](redesign/city-year-in-days-iphonese.png).
+
+### 16 Sep: the table view, the map's colours and the loading states
+
+Checked on the iPhone SE (3rd gen), light and dark, at the default text size and at
+*Accessibility XXXL*.
+
+- **"View as table".** A checkbox chip beside the colour key swaps the bars for the numbers: every
+  AQI category (or pollutant) in its own column, for either year or as the change. It is there for
+  anyone who would rather read figures than compare bar lengths.
+  - Each row is **one** screen-reader element that reads the whole row ("1. Chamarajanagar,
+    Karnataka. FY 2024-25: Good 319 days, Satisfactory 23 days, … data on 94% of days.") and opens
+    the city, so nobody has to swipe through eight cells per city. The number cells are hidden from
+    screen readers, because the row already says everything.
+  - The city column stays put while the numbers scroll sideways, so a row never loses its name.
+  - **What broke at the largest size:** the city column filled the screen and the numbers sat
+    off to the right with nothing to show they were there. Above a 1.3× text scale the table now
+    stacks: each city is a block of label-and-value lines.
+- **Map colours.** The dots can be coloured by the category a city had most days in, or by the CPCB
+  band of its average PM2.5, PM10, NO2, O3 or CO. The key names every band and gives its range
+  ("Good 0–30"), each with its outlined swatch and level meter, so the colour is never the only
+  signal. A city with no value for that year gets a hollow dot, and its pin says "No data for this
+  year". The rows below the map switch to the same measure, so the map and the list always agree.
+- **The filters' count.** The sheet's button says what it will show before it is pressed ("Show top
+  10 of 218 cities"), which is also its spoken label; on Android it is a polite live region, so
+  TalkBack reads the new count when it arrives.
+- **Loading states.** Spinners were replaced by grey shapes of the content that is coming, so the
+  layout doesn't jump. Each one is a single element that says what is loading ("Loading cities"),
+  they pulse gently and hold still when Reduce Motion is on, and offline they are replaced by
+  "Waiting for a connection", since requests are paused until the phone is back online.
 
 ## Screen reader design
 
@@ -141,5 +170,8 @@ Turn VoiceOver on (Settings → Accessibility → VoiceOver), open the app in Ex
 
 ### 3. The other screen sizes
 
-- **iPhone SE simulator.** The native 375 pt check still needs the simulator access permission.
-- **Android (TalkBack).** Not tested: no Android emulator is set up on this machine.
+- **iPhone SE simulator.** Done on 16 Sep: both screens, the sheets, the table and the map, in
+  light and dark mode, at the default text size and at *Accessibility XXXL*.
+- **Android.** The release APK was installed and used on a Pixel 9 Pro emulator on 16 Sep: the
+  layout holds and the app reads the API over the local network. **TalkBack itself is still
+  untested**, so the Android screen-reader behaviour is designed for but unverified.

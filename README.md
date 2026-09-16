@@ -301,8 +301,10 @@ What was checked, what broke and how it was fixed: [docs/accessibility.md](docs/
   neither, so anyone can run the scraper as it is. The cost: the values are estimates for a
   ~45 km square rather than station readings, and the model's ozone is too far off over India to
   use. The first version, a data.gov.in scraper with station matching, is in the git history.
-- **Tested on iOS only.** Android and TalkBack haven't been tried. The code uses cross-platform
-  APIs, and TalkBack gets explicit announcements where it behaves differently.
+- **TalkBack hasn't been tried.** The app itself runs on Android: the release APK was installed and
+  used on a Pixel 9 Pro emulator, which is also where the list's Fabric crash was found and fixed.
+  But the screen-reader pass there is still outstanding, so TalkBack's explicit announcements are
+  designed for and unverified.
 - **System font and Expo's icon.** The app keeps the system font, and Expo Go shows its own icon
   and splash, so a brand typeface and a custom icon were left for a development build.
 
