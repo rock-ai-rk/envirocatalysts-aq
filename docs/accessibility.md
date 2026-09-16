@@ -118,6 +118,11 @@ Checked on the iPhone SE (3rd gen), light and dark, at the default text size and
   they pulse gently and hold still when Reduce Motion is on, and offline they are replaced by
   "Waiting for a connection", since requests are paused until the phone is back online.
 
+Screenshots: [the table](redesign/overview-table-iphonese.png),
+[in dark mode](redesign/overview-table-iphonese-dark.png),
+[stacked at Accessibility XXXL](redesign/overview-table-large-text-iphonese.png),
+[the map by average PM2.5](redesign/overview-map-pm25-iphonese.png).
+
 ## Screen reader design
 
 - **City rows.** Each row is one element that speaks everything its bars show, e.g. "1. Aizawl, Mizoram. FY 2024-25: 320 good and 32 satisfactory days, data on 96% of days". It has a hint that it opens the city's details. The coverage pill that follows is its own button: "data on 96% of days, meets the 70% rule".
